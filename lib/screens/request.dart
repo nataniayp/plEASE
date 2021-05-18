@@ -15,37 +15,6 @@ class _RequestState extends State<Request> {
       body: SafeArea(
         child: Container()
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'icons/interview.png',
-              color: Colors.teal[900],
-              height: 23,
-            ),
-            label: "Respond",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'icons/reply.png',
-              color: Colors.teal[900],
-              height: 23,
-            ),
-            label: "Request",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'icons/user.png',
-              color: Colors.teal[900],
-              height: 23,
-            ),
-            label: "Profile",
-          ),
-        ],
-      ),
     );
   }
 }
