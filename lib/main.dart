@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Home(),
         '/request': (context) => Request(),
-        '/profile': (context) => Profile(),
         '/respond': (context) => Respond(),
+        '/profile': (context) => Profile(),
       },
     );
   }
