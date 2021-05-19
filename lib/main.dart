@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
       title: 'Please',
       routes: {
         '/': (context) => Home(),
-        '/request': (context) => Request(),
-        '/respond': (context) => Respond(),
-        '/profile': (context) => Profile(),
+        // '/request': (context) => Request(),
+        // '/respond': (context) => Respond(),
+        // '/profile': (context) => Profile(),
       },
     );
   }
