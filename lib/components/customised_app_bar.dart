@@ -16,7 +16,7 @@ class _CustomisedAppBarState extends State<CustomisedAppBar> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      height: size.height * 0.25,
+      height: size.height * 0.23,
       child: Stack(
         children: <Widget>[
           Container(
