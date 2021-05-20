@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomisedAppBar extends StatefulWidget {
-  const CustomisedAppBar({Key key, @required this.name}) : super(key: key);
+  const CustomisedAppBar({
+    Key key,
+    @required this.name,
+    this.withBackArrow,
+  }) : super(key: key);
 
   final String name;
+  final bool withBackArrow;
 
   @override
   _CustomisedAppBarState createState() => _CustomisedAppBarState();
@@ -34,20 +39,41 @@ class _CustomisedAppBarState extends State<CustomisedAppBar> {
                   blurRadius: 10,
                   color: Colors.black.withOpacity(0.25),
                 ),
-              ]
+              ],
             ),
           ),
-          Positioned(
-            top: size.height * 0.06,
-            left: size.height * 0.06,
-            child: Text(
-              "Hello,\n${widget.name}",
-              style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 3.0,
-                fontWeight: FontWeight.bold,
-                fontSize: size.height * 0.042,
-              ),
+          Align(
+            // padding: EdgeInsets.only(
+            alignment: Alignment.center,
+            // ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: (widget.withBackArrow != null
+                      && widget.withBackArrow) ? FlatButton(
+                    child: Icon(Icons.arrow_back, color: Colors.white,),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ) : Text(""),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: Container(
+                    child: Text(
+                      "Hello,\n${widget.name}",
+                      style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing: 3.0,
+                        fontWeight: FontWeight.bold,
+                        fontSize: size.height * 0.042,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
