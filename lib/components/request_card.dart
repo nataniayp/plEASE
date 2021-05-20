@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+
 class RequestCard extends StatefulWidget {
   const RequestCard({
     Key key,
@@ -18,12 +19,12 @@ class RequestCard extends StatefulWidget {
   final int quantity;
   final DateTime time;
 
+
   @override
   _RequestCardState createState() => _RequestCardState();
 }
 
 class _RequestCardState extends State<RequestCard> {
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -55,9 +56,14 @@ class _RequestCardState extends State<RequestCard> {
         children: [
           Expanded(
             flex: 2,
-            child: Icon(
-              Icons.fastfood,
+            child: Image.asset(
+              'icons/${widget.category}.png',
+              color: Colors.teal[900],
+              height: 0.5 * size.height,
             ),
+            // child: Icon(
+            //   Icons.fastfood,
+            // ),
           ),
           Expanded(
             flex: 6,
