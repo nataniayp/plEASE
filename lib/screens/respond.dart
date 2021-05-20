@@ -38,11 +38,13 @@ class _RespondState extends State<Respond> {
               CustomisedAppBar(name: "Natania"),
               ScreenHeader(name: "Respond", withSortBy: true),
               Expanded(
-                child: ListView.builder(
-                  itemCount: myList.length,
-                  itemBuilder: (context, index) {
-                    return myList[index];
-                  }
+                child: Scrollbar(
+                  child: ListView.builder(
+                    itemCount: myList.length,
+                    itemBuilder: (context, index) {
+                      return myList[index];
+                    }
+                  ),
                 ),
               )
             ],
