@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 
@@ -11,6 +12,11 @@ class RequestInput extends StatefulWidget {
 class _RequestInputState extends State<RequestInput> {
   
   List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
+  int year = 2021;
+  // var month = [for(var i = 1; i < 13; i+=1) i];
+  // var day = [for(var i = 1; i < 32; i+=1) i];
+  // var hr = [for(var i = 0; i < 24; i+=1) i];
+  // var min = [for(var i = 0; i < 60; i+=1) i];
   String selectedCategory;
 
   @override
@@ -53,7 +59,6 @@ class _RequestInputState extends State<RequestInput> {
                   ),
                 );
               }).toList(),
-
             ),
           ),
           Padding(
@@ -76,11 +81,44 @@ class _RequestInputState extends State<RequestInput> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter time',
+            child: FlatButton.icon(
+              onPressed: () {
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2021),
+                  lastDate: DateTime(2030)
+                );
+              },
+              icon: Icon(Icons.calendar_today),
+              label: Text(
+                'Select date',
+                style: TextStyle(
+                  fontSize: 20.0,
               ),
+              ),
+              height: 50.0,
+              minWidth: 200.0,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+            child: FlatButton.icon(
+              onPressed: () {
+                showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now()
+                );
+              },
+              icon: Icon(Icons.lock_clock),
+              label: Text(
+                'Select time',
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+              height: 50.0,
+              minWidth: 200.0,
             ),
           ),
           Padding(
