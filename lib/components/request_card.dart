@@ -46,21 +46,21 @@ class _RequestCardState extends State<RequestCard> {
         bottom: 0.02 * size.height,
       ),
       margin: EdgeInsets.only(
-        left: 0.045 * size.height,
-        right: 0.045 * size.height,
+        left: 0.1 * size.width,
+        right: 0.1 * size.width,
         bottom: 0.02 * size.height,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Icon(
               Icons.fastfood,
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
