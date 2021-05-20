@@ -56,10 +56,12 @@ class _RequestCardState extends State<RequestCard> {
         children: [
           Expanded(
             flex: 2,
-            child: Image.asset(
-              'icons/${widget.category}.png',
-              color: Colors.teal[900],
-              height: 0.5 * size.height,
+            child: Padding(
+              padding: EdgeInsets.all(0.01 * size.height),
+              child: Image.asset(
+                'icons/${widget.category}.png',
+                color: Colors.teal[900],
+              ),
             ),
             // child: Icon(
             //   Icons.fastfood,
