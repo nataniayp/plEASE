@@ -29,6 +29,7 @@ class _RequestCardState extends State<RequestCard> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
+      height: 0.105 * size.height,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -50,6 +51,7 @@ class _RequestCardState extends State<RequestCard> {
         bottom: 0.02 * size.height,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             flex: 1,
