@@ -73,17 +73,23 @@ class _RequestCardState extends State<RequestCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  "${widget.userName} wants"
-                ),
-                Text(
-                  "${widget.itemName} (${widget.quantity})",
-                  style: TextStyle(
-                    color: Colors.teal[900],
+                Expanded(
+                  child: Text(
+                    "${widget.userName} wants"
                   ),
                 ),
-                Text(
-                  "by ${DateFormat('EEE, d/M/y, HH:mm').format(widget.time)}",
+                Expanded(
+                  child: Text(
+                    "${widget.itemName} (${widget.quantity})",
+                    style: TextStyle(
+                      color: Colors.teal[900],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    "by ${DateFormat('EEE, d/M/y, HH:mm').format(widget.time)}",
+                  ),
                 ),
               ],
             ),
