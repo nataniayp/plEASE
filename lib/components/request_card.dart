@@ -69,6 +69,7 @@ class _RequestCardState extends State<RequestCard> {
             flex: 6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
                   "${widget.userName} wants"
