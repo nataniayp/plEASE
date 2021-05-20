@@ -18,6 +18,7 @@ class _RequestInputState extends State<RequestInput> {
   // var hr = [for(var i = 0; i < 24; i+=1) i];
   // var min = [for(var i = 0; i < 60; i+=1) i];
   String selectedCategory;
+  DateTime selectedDate, selectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +37,10 @@ class _RequestInputState extends State<RequestInput> {
             ],
           ),
           CustomisedAppBar(name: 'Request'),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 50, 30, 0),
+          Padding( // Category
+            padding: const EdgeInsets.fromLTRB(100, 50, 100, 0),
             child: DropdownButton(
+              isExpanded: true,
               hint: Text(selectedCategory == null? 'Category': selectedCategory),
               onChanged: (val) {
                 setState(() {
@@ -61,25 +63,33 @@ class _RequestInputState extends State<RequestInput> {
               }).toList(),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+          Padding( // Item Name
+            padding: const EdgeInsets.fromLTRB(100, 20, 100, 0),
             child: TextField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.teal[900],
+                  ),
+                ),
                 hintText: 'Enter item name',
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+          Padding( // Quantity
+            padding: const EdgeInsets.fromLTRB(100, 20, 100, 0),
             child: TextField(
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Colors.teal[900],
+                  ),
+                ),
                 hintText: 'Enter quantity',
               ),
             ),
           ),
-          Padding(
+          Padding( // Date
             padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
             child: FlatButton.icon(
               onPressed: () {
@@ -92,16 +102,16 @@ class _RequestInputState extends State<RequestInput> {
               },
               icon: Icon(Icons.calendar_today),
               label: Text(
-                'Select date',
+                selectedDate == null? 'Select time': selectedDate,
                 style: TextStyle(
                   fontSize: 20.0,
-              ),
+                ),
               ),
               height: 50.0,
               minWidth: 200.0,
             ),
           ),
-          Padding(
+          Padding( // Time
             padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
             child: FlatButton.icon(
               onPressed: () {
@@ -112,7 +122,7 @@ class _RequestInputState extends State<RequestInput> {
               },
               icon: Icon(Icons.lock_clock),
               label: Text(
-                'Select time',
+                selectedTime == null? 'Select time': selectedTime,
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -122,17 +132,20 @@ class _RequestInputState extends State<RequestInput> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: FlatButton(
-              onPressed: () {},
-              color: Colors.teal[900],
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              color: Colors.white,
               height: 50.0,
-              minWidth: 300.0,
+              minWidth: 200.0,
               child: Text(
                 'Submit',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.teal[900],
                   fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
