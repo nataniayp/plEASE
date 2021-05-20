@@ -10,6 +10,8 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.teal[900],
       body: SafeArea(
@@ -20,24 +22,25 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.only(
-                top: 200.0,
-                bottom: 150.0),
+            padding: EdgeInsets.only(
+                top: 0.25 * size.height,
+                // bottom: 0.1 * size.height,
+            ),
             child: Column(
                 children: <Widget>[
-                  // SizedBox(
-                  //   height: 200.0,
-                  // ),
                   CircleAvatar(
-                    radius: 75.0,
+                    radius: 0.1 * size.height,
                     backgroundColor: Colors.grey,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 100.0,
-                        vertical: 20.0),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 0.25 * size.width,
+                        vertical: 0.025 * size.height,
+                    ),
                     child: Divider(
-                      height: 20.0,
+                      // height: 0.025 * size.height,
+                      indent: 0.02 * size.width,
+                      endIndent: 0.02 * size.width,
                       color: Colors.white,
                     ),
                   ),
@@ -52,7 +55,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   SizedBox(
-                    height: 10.0,
+                    height: 0.0125 * size.height,
                   ),
                   TextButton(
                     onPressed: () {},
@@ -65,7 +68,7 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   SizedBox(
-                    height: 130.0,
+                    height: 0.1 * size.height,
                   ),
                   TextButton(
                     onPressed: () {},
