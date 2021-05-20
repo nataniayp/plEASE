@@ -16,6 +16,13 @@ class _RequestState extends State<Request> {
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Container(
+            child: Column(
+              children: <Widget>[
+                CustomisedAppBar(name: "Natania"),
+              ],
+            )
+        ),
+        child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
