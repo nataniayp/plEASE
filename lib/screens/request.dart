@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/screens/request_input.dart';
+import 'package:please/components/customised_app_bar.dart';
 
 class Request extends StatefulWidget {
   const Request({Key key}) : super(key: key);
@@ -13,28 +14,22 @@ class _RequestState extends State<Request> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-            child: Column(
-              children: <Widget>[
-                CustomisedAppBar(name: "Natania"),
-              ],
-            )
-        ),
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              CustomisedAppBar(name: 'Natania'),
               Text('Request'),
-              SizedBox(height: 50.0),
+              SizedBox(height: 40.0),
               Row (
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.grey[200],
+                        color: Colors.white,
                         border: Border.all(width: 5.0, color: Colors.teal[900])
                     ),
                     height: 200.0,
@@ -62,7 +57,7 @@ class _RequestState extends State<Request> {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.grey[200],
+                        color: Colors.white,
                         border: Border.all(width: 5.0, color: Colors.teal[900])
                     ),
                     height: 200.0,
@@ -95,7 +90,7 @@ class _RequestState extends State<Request> {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Colors.grey[200],
+                      color: Colors.white,
                       border: Border.all(width: 5.0, color: Colors.teal[900])
                     ),
                     height: 200.0,
@@ -124,7 +119,7 @@ class _RequestState extends State<Request> {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
-                        color: Colors.grey[200],
+                        color: Colors.white,
                         border: Border.all(width: 5.0, color: Colors.teal[900])
                     ),
                     height: 200.0,
@@ -150,6 +145,20 @@ class _RequestState extends State<Request> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(height: 20.0),
+              FlatButton(
+                onPressed: () {},
+                color: Colors.teal[900],
+                height: 50.0,
+                minWidth: 300.0,
+                child: Text(
+                  'My Requests',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
+                ),
               ),
             ],
           ),
