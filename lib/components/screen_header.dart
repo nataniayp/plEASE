@@ -4,7 +4,8 @@ class ScreenHeader extends StatefulWidget {
   const ScreenHeader({
     Key key,
     @required this.name,
-    this.withSortBy}) : super(key: key);
+    this.withSortBy,
+  }) : super(key: key);
 
   final String name;
   final bool withSortBy;
