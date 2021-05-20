@@ -4,8 +4,6 @@ import 'package:please/components/request_card.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/screens/request.dart';
 
-
-
 class Respond extends StatefulWidget {
   const Respond({Key key}) : super(key: key);
 
