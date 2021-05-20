@@ -26,6 +26,8 @@ class _ScreenHeaderState extends State<ScreenHeader> {
             widget.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
+              fontSize: 0.02 * size.height,
+              letterSpacing: 1.0,
             ),
           ),
          Spacer(),
@@ -37,6 +39,8 @@ class _ScreenHeaderState extends State<ScreenHeader> {
                style: TextStyle(
                  color: Colors.teal[900],
                  fontWeight: FontWeight.bold,
+                 fontSize: 0.02 * size.height,
+                 letterSpacing: 1.0,
                ),
              ),
            ),
