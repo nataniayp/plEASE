@@ -127,7 +127,7 @@ class _RequestInputState extends State<RequestInput> {
                   selectedTime = picked;
                 });
               },
-              icon: Icon(Icons.lock_clock),
+              icon: Icon(Icons.schedule),
               label: Text(
                 selectedTime == null? 'Select time': '${selectedTime.toString()}',
                 style: TextStyle(
