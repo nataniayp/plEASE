@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:please/screens/home.dart';
-import 'package:please/screens/request.dart';
-import 'package:please/screens/respond.dart';
-import 'package:please/screens/profile.dart';
+import 'package:please/screens/request_input.dart';
 
 
 void main() {
@@ -17,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Please',
       routes: {
         '/': (context) => Home(),
+        '/request': (context) => RequestInput(),
         // '/request': (context) => Request(),
         // '/respond': (context) => Respond(),
         // '/profile': (context) => Profile(),

@@ -32,7 +32,7 @@ class _ScreenHeaderState extends State<ScreenHeader> {
             ),
           ),
          Spacer(),
-         if (widget.withSortBy)
+         if (widget.withSortBy != null && widget.withSortBy)
            TextButton(
              onPressed: () {},
              child: Text(
