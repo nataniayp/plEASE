@@ -18,7 +18,8 @@ class _RequestInputState extends State<RequestInput> {
   // var hr = [for(var i = 0; i < 24; i+=1) i];
   // var min = [for(var i = 0; i < 60; i+=1) i];
   String selectedCategory;
-  DateTime selectedDate, selectedTime;
+  DateTime selectedDate;
+  TimeOfDay selectedTime;
 
   @override
   Widget build(BuildContext context) {
@@ -92,17 +93,20 @@ class _RequestInputState extends State<RequestInput> {
           Padding( // Date
             padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
             child: FlatButton.icon(
-              onPressed: () {
-                showDatePicker(
+              onPressed: () async {
+                final DateTime picked = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2021),
                   lastDate: DateTime(2030)
                 );
+                if (picked != null) setState(() {
+                  selectedDate = picked;
+                });
               },
               icon: Icon(Icons.calendar_today),
               label: Text(
-                selectedDate == null? 'Select time': selectedDate,
+                selectedDate == null? 'Select time': '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -114,15 +118,18 @@ class _RequestInputState extends State<RequestInput> {
           Padding( // Time
             padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
             child: FlatButton.icon(
-              onPressed: () {
-                showTimePicker(
+              onPressed: () async {
+                final TimeOfDay picked = await showTimePicker(
                   context: context,
                   initialTime: TimeOfDay.now()
                 );
+                if (picked != null) setState(() {
+                  selectedTime = picked;
+                });
               },
               icon: Icon(Icons.lock_clock),
               label: Text(
-                selectedTime == null? 'Select time': selectedTime,
+                selectedTime == null? 'Select time': '${selectedTime.toString()}',
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
