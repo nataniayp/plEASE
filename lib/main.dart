@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:please/screens/home.dart';
 import 'package:please/screens/request_input.dart';
+import 'package:please/screens/wrapper.dart';
 
 
 void main() {
@@ -13,8 +14,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Please',
+      home: Wrapper(),
       routes: {
-        '/': (context) => Home(),
+        // '/': (context) => Home(),
         '/request': (context) => RequestInput(),
         // '/request': (context) => Request(),
         // '/respond': (context) => Respond(),
