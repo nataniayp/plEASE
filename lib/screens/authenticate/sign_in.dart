@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:please/services/auth.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key key}) : super(key: key);
+  final Function toggleView;
+  SignIn({ this.toggleView });
 
   @override
   _SignInState createState() => _SignInState();
@@ -33,7 +34,9 @@ class _SignInState extends State<SignIn> {
                   "Sign In",
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.toggleView();
+                  },
                   child: Text("REGISTER"),
                 ),
               ],
