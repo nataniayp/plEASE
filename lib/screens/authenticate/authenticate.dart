@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:please/screens/home.dart';
+import 'package:please/screens/authenticate/register.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key key}) : super(key: key);
@@ -12,7 +12,7 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Authenticate'),
+      child: Register(),
     );
   }
 }
