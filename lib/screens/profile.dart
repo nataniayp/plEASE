@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:please/services/auth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key key}) : super(key: key);
@@ -8,6 +9,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,7 +74,9 @@ class _ProfileState extends State<Profile> {
                     height: 0.1 * size.height,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await _auth.signOut();
+                    },
                     child: Text(
                         'LOGOUT',
                         style: TextStyle(
