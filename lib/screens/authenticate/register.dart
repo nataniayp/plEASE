@@ -18,6 +18,7 @@ class _RegisterState extends State<Register> {
   String userName = '';
   String email = '';
   String password = '';
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +53,9 @@ class _RegisterState extends State<Register> {
                         height: 0.1 * size.width,
                       ),
                       TextFormField(
+                        validator: (val) => val.isEmpty
+                            ? 'Enter a name'
+                            : null,
                         onChanged: (val) {
                           setState(() => userName = val);
                         },
@@ -60,6 +64,9 @@ class _RegisterState extends State<Register> {
                         height: 0.05 * size.width,
                       ),
                       TextFormField(
+                        validator: (val) => val.isEmpty
+                            ? 'Enter a email'
+                            : null,
                         onChanged: (val) {
                           setState(() => email = val);
                         },
@@ -68,6 +75,9 @@ class _RegisterState extends State<Register> {
                         height: 0.05 * size.width,
                       ),
                       TextFormField(
+                        validator: (val) => val.isEmpty
+                            ? 'Enter a password'
+                            : null,
                         onChanged: (val) {
                           setState(() => password = val);
                         },
@@ -77,9 +87,15 @@ class _RegisterState extends State<Register> {
                       ),
                       TextButton(
                         onPressed: () async {
-                          print(userName);
-                          print(email);
-                          print(password);
+                          if (_formKey.currentState.validate()) {
+                            dynamic result =
+                              await _auth.registerWithEmailAndPassword(
+                                  userName, email, password);
+                            if (result == null) {
+                              setState(() => error =
+                              'Enter a valid email');
+                            }
+                          }
                         },
                         child: Text(
                             'REGISTER',
@@ -89,6 +105,15 @@ class _RegisterState extends State<Register> {
                             )
                         ),
                       ),
+                      SizedBox(
+                        height: 0.1 * size.width,
+                      ),
+                      Text(
+                        error,
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      )
                     ]
                 ),
               ),
