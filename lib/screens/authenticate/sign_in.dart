@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:please/services/auth.dart';
+import 'package:please/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -13,6 +14,7 @@ class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   // text field state
   String email = '';
@@ -23,7 +25,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       body: Container(
         padding: EdgeInsets.all(0.1 * size.width),
         child: Column(
@@ -81,14 +83,17 @@ class _SignInState extends State<SignIn> {
                     TextButton(
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
+                          setState(() => loading = true);
                           dynamic result =
                               await _auth.signInWithEmailAndPassword(
                                   email,
                                   password
                               );
                           if (result == null) {
-                            setState(() => error =
-                            'Incorrect email/password');
+                            setState(() {
+                              error = 'Incorrect email/password';
+                              loading = false;
+                            });
                           }
                         }
                       },
