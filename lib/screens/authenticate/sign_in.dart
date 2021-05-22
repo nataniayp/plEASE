@@ -55,6 +55,9 @@ class _SignInState extends State<SignIn> {
                       height: 0.1 * size.width,
                     ),
                     TextFormField(
+                      validator: (val) => val.isEmpty
+                          ? 'Enter an email'
+                          : null,
                       onChanged: (val) {
                         setState(() => email = val);
                       },
@@ -63,6 +66,9 @@ class _SignInState extends State<SignIn> {
                       height: 0.05 * size.width,
                     ),
                     TextFormField(
+                      validator: (val) => val.isEmpty
+                          ? 'Enter a password'
+                          : null,
                       onChanged: (val) {
                         setState(() => password = val);
                       },
@@ -72,8 +78,17 @@ class _SignInState extends State<SignIn> {
                     ),
                     TextButton(
                       onPressed: () async {
-                        print(email);
-                        print(password);
+                        if (_formKey.currentState.validate()) {
+                          dynamic result =
+                              await _auth.signInWithEmailAndPassword(
+                                  email,
+                                  password
+                              );
+                          if (result == null) {
+                            setState(() => error =
+                            'Incorrect email/password');
+                          }
+                        }
                       },
                       child: Text(
                           'SIGN IN',
@@ -83,6 +98,15 @@ class _SignInState extends State<SignIn> {
                           )
                       ),
                     ),
+                    SizedBox(
+                      height: 0.1 * size.width,
+                    ),
+                    Text(
+                      error,
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    )
                   ]
                 ),
               ),
