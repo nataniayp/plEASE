@@ -55,6 +55,7 @@ class _SignInState extends State<SignIn> {
                       height: 0.1 * size.width,
                     ),
                     TextFormField(
+                      decoration: InputDecoration(hintText: "Email"),
                       validator: (val) => val.isEmpty
                           ? 'Enter an email'
                           : null,
@@ -66,6 +67,7 @@ class _SignInState extends State<SignIn> {
                       height: 0.05 * size.width,
                     ),
                     TextFormField(
+                      decoration: InputDecoration(hintText: "Password"),
                       validator: (val) => val.isEmpty
                           ? 'Enter a password'
                           : null,
