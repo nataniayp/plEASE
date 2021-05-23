@@ -8,5 +8,5 @@ class RequestItem {
   DateTime date;
   TimeOfDay time;
 
-  RequestItem({this.category, this.itemName, this.quantity, this.time});
+  RequestItem({this.id, this.category, this.itemName, this.quantity, this.time});
 }

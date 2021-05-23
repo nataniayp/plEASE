@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
+import 'package:please/components/request_item.dart';
+import 'package:intl/intl.dart';
 
 class RequestInput extends StatefulWidget {
   const RequestInput({Key key}) : super(key: key);
@@ -12,14 +14,7 @@ class RequestInput extends StatefulWidget {
 class _RequestInputState extends State<RequestInput> {
   
   List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
-  int year = 2021;
-  // var month = [for(var i = 1; i < 13; i+=1) i];
-  // var day = [for(var i = 1; i < 32; i+=1) i];
-  // var hr = [for(var i = 0; i < 24; i+=1) i];
-  // var min = [for(var i = 0; i < 60; i+=1) i];
-  String selectedCategory;
-  DateTime selectedDate;
-  TimeOfDay selectedTime;
+  RequestItem selected = new RequestItem(id: 'Natania');
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +26,10 @@ class _RequestInputState extends State<RequestInput> {
             padding: const EdgeInsets.fromLTRB(100, 50, 100, 0),
             child: DropdownButton(
               isExpanded: true,
-              hint: Text(selectedCategory == null? 'Category': selectedCategory),
+              hint: Text(selected.category == null? 'Category': selected.category),
               onChanged: (val) {
                 setState(() {
-                  selectedCategory = val;
+                  selected.category = val;
                 });
               },
               items: category.map((cat) {
@@ -56,6 +51,11 @@ class _RequestInputState extends State<RequestInput> {
           Padding( // Item Name
             padding: const EdgeInsets.fromLTRB(100, 20, 100, 0),
             child: TextField(
+              onChanged: (String text) {
+                setState(() {
+                  selected.itemName = text;
+                });
+              },
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -69,6 +69,11 @@ class _RequestInputState extends State<RequestInput> {
           Padding( // Quantity
             padding: const EdgeInsets.fromLTRB(100, 20, 100, 0),
             child: TextField(
+              onChanged: (String num) {
+                setState(() {
+                   selected.quantity = int.parse(num);
+                });
+              },
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -90,12 +95,12 @@ class _RequestInputState extends State<RequestInput> {
                   lastDate: DateTime(2030)
                 );
                 if (picked != null) setState(() {
-                  selectedDate = picked;
+                  selected.date = picked;
                 });
               },
               icon: Icon(Icons.calendar_today),
               label: Text(
-                selectedDate == null? 'Select date': '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+                selected.date == null? 'Select date': DateFormat('dd-MM-yyyy').format(selected.date),
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -113,12 +118,12 @@ class _RequestInputState extends State<RequestInput> {
                   initialTime: TimeOfDay.now()
                 );
                 if (picked != null) setState(() {
-                  selectedTime = picked;
+                  selected.time = picked;
                 });
               },
               icon: Icon(Icons.schedule),
               label: Text(
-                selectedTime == null? 'Select time': '${selectedTime.toString()}',
+                selected.time == null? 'Select time': '${selected.time.format(context)}',
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
