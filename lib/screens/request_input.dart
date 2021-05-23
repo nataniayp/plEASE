@@ -13,11 +13,14 @@ class RequestInput extends StatefulWidget {
 
 class _RequestInputState extends State<RequestInput> {
   
+  RequestItem selected;
   List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
-  RequestItem selected = new RequestItem(id: 'Natania');
 
   @override
   Widget build(BuildContext context) {
+
+    selected = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       body: Column(
         children: [
@@ -26,7 +29,7 @@ class _RequestInputState extends State<RequestInput> {
             padding: const EdgeInsets.fromLTRB(100, 50, 100, 0),
             child: DropdownButton(
               isExpanded: true,
-              hint: Text(selected.category == null? 'Category': selected.category),
+              hint: Text(selected.category),
               onChanged: (val) {
                 setState(() {
                   selected.category = val;
@@ -136,7 +139,7 @@ class _RequestInputState extends State<RequestInput> {
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: FlatButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/my_requests');
+                Navigator.pushReplacementNamed(context, '/my_requests', arguments: selected);
               },
               color: Colors.white,
               height: 50.0,

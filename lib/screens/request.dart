@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
+import 'package:please/components/request_item.dart';
 import 'package:please/components/screen_header.dart';
 
 class Request extends StatefulWidget {
@@ -11,6 +12,9 @@ class Request extends StatefulWidget {
 }
 
 class _RequestState extends State<Request> {
+
+  RequestItem selected = new RequestItem(id: 'Natatnia');
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -27,7 +31,7 @@ class _RequestState extends State<Request> {
               Row (
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+                  Container( // Food
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       color: Colors.white,
@@ -43,7 +47,8 @@ class _RequestState extends State<Request> {
                     width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/request');
+                        selected.category = 'Food';
+                        Navigator.pushNamed(context, '/request', arguments: selected);
                       },
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
@@ -85,7 +90,8 @@ class _RequestState extends State<Request> {
                     width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/request');
+                        selected.category = 'Stationery';
+                        Navigator.pushNamed(context, '/request', arguments: selected);
                       },
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
@@ -132,7 +138,8 @@ class _RequestState extends State<Request> {
                     width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/request');
+                        selected.category = 'Cleaning supplies';
+                        Navigator.pushNamed(context, '/request', arguments: selected);
                       },
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
@@ -174,7 +181,8 @@ class _RequestState extends State<Request> {
                     width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/request');
+                        selected.category = 'Others';
+                        Navigator.pushNamed(context, '/request', arguments: selected);
                       },
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
