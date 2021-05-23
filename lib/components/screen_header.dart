@@ -5,10 +5,12 @@ class ScreenHeader extends StatefulWidget {
     Key key,
     @required this.name,
     this.withSortBy,
+    this.withAdd,
   }) : super(key: key);
 
   final String name;
   final bool withSortBy;
+  final bool withAdd;
 
   @override
   _ScreenHeaderState createState() => _ScreenHeaderState();
@@ -45,6 +47,19 @@ class _ScreenHeaderState extends State<ScreenHeader> {
                ),
              ),
            ),
+          if (widget.withAdd != null && widget.withAdd)
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "+",
+                style: TextStyle(
+                  color: Colors.teal[900],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 0.02 * size.height,
+                  letterSpacing: 1.0,
+                ),
+              ),
+            ),
         ],
       ),
     );
