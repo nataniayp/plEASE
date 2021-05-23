@@ -13,6 +13,8 @@ class Request extends StatefulWidget {
 class _RequestState extends State<Request> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -27,54 +29,82 @@ class _RequestState extends State<Request> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
-                        border: Border.all(width: 5.0, color: Colors.teal[900])
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 4,
+                          color: Colors.grey.withOpacity(0.4),
+                          offset: Offset(0, 8), // changes position of shadow
+                        ),
+                      ]
                     ),
-                    height: 200.0,
-                    width: 200.0,
+                    height: size.height * 0.2,
+                    width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/request');
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
                         child: Column(
                           children: [
-                            Icon(
-                              Icons.fastfood,
-                              size: 150,
+                            Image.asset(
+                              'icons/food.png',
+                              color: Colors.teal[900],
+                              scale: 0.8,
                             ),
-                            SizedBox(height: 10.0),
-                            Text('Food'),
+                            SizedBox(height: size.height * 0.03),
+                            Text(
+                              'Food',
+                              style: TextStyle(
+                                color: Colors.teal[900],
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10.0),
+                  SizedBox(width: size.width * 0.08),
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.white,
-                        border: Border.all(width: 5.0, color: Colors.teal[900])
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Colors.grey.withOpacity(0.4),
+                            offset: Offset(0, 8), // changes position of shadow
+                          ),
+                        ]
                     ),
-                    height: 200.0,
-                    width: 200.0,
+                    height: size.height * 0.2,
+                    width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/request');
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
                         child: Column(
                           children: [
-                            Icon(
-                              Icons.square_foot,
-                              size: 150,
+                            Image.asset(
+                              'icons/stationery.png',
+                              color: Colors.teal[900],
+                              scale: 0.8,
                             ),
-                            SizedBox(height: 10.0),
-                            Text('Stationery'),
+                            SizedBox(height: size.height * 0.03),
+                            Text(
+                              'Stationery',
+                              style: TextStyle(
+                                color: Colors.teal[900],
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -82,62 +112,88 @@ class _RequestState extends State<Request> {
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: size.width * 0.08),
               Row (
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: Colors.white,
-                      border: Border.all(width: 5.0, color: Colors.teal[900])
+                        borderRadius: BorderRadius.circular(30),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Colors.grey.withOpacity(0.4),
+                            offset: Offset(0, 8), // changes position of shadow
+                          ),
+                        ]
                     ),
-                    height: 200.0,
-                    width: 200.0,
+                    height: size.height * 0.2,
+                    width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/request');
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
                         child: Column(
                           children: [
                             Image.asset(
-                              'assets/icons/sweeping.png',
-                              height: 150.0,
-                              width: 150.0,
+                              'icons/cleaning.png',
+                              color: Colors.teal[900],
+                              scale: 8,
                             ),
-                            SizedBox(height: 10.0),
-                            Text('Cleaning supplies'),
+                            SizedBox(height: size.height * 0.03),
+                            Text(
+                              'Cleaning supplies',
+                              style: TextStyle(
+                                color: Colors.teal[900],
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10.0),
+                  SizedBox(width: size.width * 0.08),
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: Colors.white,
-                        border: Border.all(width: 5.0, color: Colors.teal[900])
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Colors.grey.withOpacity(0.4),
+                            offset: Offset(0, 8), // changes position of shadow
+                          ),
+                        ]
                     ),
-                    height: 200.0,
-                    width: 200.0,
+                    height: size.height * 0.2,
+                    width: size.height * 0.2,
                     child: FlatButton(
                       onPressed: () {
                         Navigator.pushNamed(context, '/request');
                       },
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
                         child: Column(
                           children: [
                             Image.asset(
-                              'assets/icons/audio-jack.png',
-                              height: 150.0,
-                              width: 150.0,
+                              'icons/audio-jack.png',
+                              color: Colors.teal[900],
+                              scale: 8,
                             ),
-                            SizedBox(height: 10.0),
-                            Text('Others'),
+                            SizedBox(height: size.height * 0.03),
+                            Text(
+                              'Others',
+                              style: TextStyle(
+                                color: Colors.teal[900],
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -145,17 +201,18 @@ class _RequestState extends State<Request> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: size.height * 0.03),
               FlatButton(
-                onPressed: () {},
-                color: Colors.teal[900],
-                height: 50.0,
-                minWidth: 300.0,
+                onPressed: () {
+                  Navigator.pushNamed(context, '/my_requests');
+                },
+                color: Colors.white,
                 child: Text(
-                  'My Requests',
+                  'MY REQUESTS',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
+                    color: Colors.teal[900],
+                    letterSpacing: 1.7,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

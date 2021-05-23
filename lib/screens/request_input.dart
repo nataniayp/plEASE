@@ -95,7 +95,7 @@ class _RequestInputState extends State<RequestInput> {
               },
               icon: Icon(Icons.calendar_today),
               label: Text(
-                selectedDate == null? 'Select time': '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+                selectedDate == null? 'Select date': '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
                 style: TextStyle(
                   fontSize: 20.0,
                 ),
@@ -131,16 +131,16 @@ class _RequestInputState extends State<RequestInput> {
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: FlatButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/my_requests');
               },
               color: Colors.white,
               height: 50.0,
               minWidth: 200.0,
               child: Text(
-                'Submit',
+                'SUBMIT',
                 style: TextStyle(
                   color: Colors.teal[900],
-                  fontSize: 20.0,
+                  letterSpacing: 1.7,
                   fontWeight: FontWeight.bold,
                 ),
               ),
