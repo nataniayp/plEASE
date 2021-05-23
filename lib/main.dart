@@ -9,7 +9,8 @@ import 'package:please/models/user_data.dart';
 
 
 void main() async {
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
