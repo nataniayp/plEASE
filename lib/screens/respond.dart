@@ -87,24 +87,22 @@ class _RespondState extends State<Respond> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              CustomisedAppBar(name: "Natania"),
-              ScreenHeader(name: "Respond", withSortBy: true),
-              Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                    itemCount: myList.length,
-                    itemBuilder: (context, index) {
-                      return myList[index];
-                    }
-                  ),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            CustomisedAppBar(name: "Natania"),
+            ScreenHeader(name: "Respond", withSortBy: true),
+            Expanded(
+              child: Scrollbar(
+                child: ListView.builder(
+                  itemCount: myList.length,
+                  itemBuilder: (context, index) {
+                    return myList[index];
+                  }
                 ),
-              )
-            ],
-          )
+              ),
+            )
+          ],
         )
       ),
     );

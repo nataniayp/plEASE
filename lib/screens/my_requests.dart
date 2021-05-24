@@ -39,24 +39,22 @@ class _MyRequestsState extends State<MyRequests> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: [
-              CustomisedAppBar(name: 'Natania'),
-              ScreenHeader(name: 'My Requests', withAdd: true,),
-              Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                      itemCount: myList.length,
-                      itemBuilder: (context, index) {
-                        return myList[index];
-                      }
-                  ),
+      body: Container(
+        child: Column(
+          children: [
+            CustomisedAppBar(name: 'Natania'),
+            ScreenHeader(name: 'My Requests', withAdd: true,),
+            Expanded(
+              child: Scrollbar(
+                child: ListView.builder(
+                    itemCount: myList.length,
+                    itemBuilder: (context, index) {
+                      return myList[index];
+                    }
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
