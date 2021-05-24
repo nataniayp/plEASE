@@ -40,12 +40,24 @@ class _SignInState extends State<SignIn> {
               children: [
                 Text(
                   "Sign In",
+                  style: TextStyle(
+                    color: Colors.white,
+                    letterSpacing: 2.5,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
                     widget.toggleView();
                   },
-                  child: Text("REGISTER"),
+                  child: Text(
+                    "REGISTER",
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      letterSpacing: 1.7,
+                    ),
+                  ),
                 ),
               ],
             ),

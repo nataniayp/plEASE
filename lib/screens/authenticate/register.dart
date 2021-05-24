@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:please/services/auth.dart';
 
@@ -39,12 +40,24 @@ class _RegisterState extends State<Register> {
               children: [
                 Text(
                   "Register",
+                  style: TextStyle(
+                    color: Colors.white,
+                    letterSpacing: 2.5,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
                     widget.toggleView();
                   },
-                  child: Text("SIGN IN"),
+                  child: Text(
+                    "SIGN IN",
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      letterSpacing: 1.7,
+                    ),
+                  ),
                 ),
               ],
             ),
