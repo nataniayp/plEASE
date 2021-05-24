@@ -94,24 +94,9 @@ class _RespondState extends State<Respond> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    // String getCurrentUser() {
-    //   User user = FirebaseAuth.instance.currentUser;
-    //   return user.uid;
-    // }
-    //
-    // UserCredentials getName(List<UserCredentials> list) {
-    //   UserCredentials curr;
-    //   for (UserCredentials u in list) {
-    //     if (u.uid == getCurrentUser()) {
-    //       curr = u;
-    //       break;
-    //     }
-    //   }
-    //   return curr;
-    // }
-
     final user = Provider.of<UserData>(context);
-    // final userData = Provider.of<List<UserCredentials>>(context);
+    final userList = Provider.of<List<UserCredentials>>(context);
+
 
     return Scaffold(
       backgroundColor: Colors.white,

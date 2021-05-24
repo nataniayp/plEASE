@@ -23,8 +23,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<UserCredentials>>.value(
-      value: DatabaseService().userData,
+    return MultiProvider(
+      providers: [
+        StreamProvider<List<UserCredentials>>.value(value: DatabaseService().userData),
+        StreamProvider<UserCredentials>.value(value: DatabaseService().userCredentials),
+      ],
+    // return StreamProvider<List<UserCredentials>>.value(
+    //   value: DatabaseService().userData,
       child: Scaffold(
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
