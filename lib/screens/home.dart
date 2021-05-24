@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:please/screens/request.dart';
+import 'package:please/screens/my_requests.dart';
 import 'package:please/screens/respond.dart';
 import 'package:please/screens/profile.dart';
 
@@ -11,9 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentIndex = 0;
+  int _currentIndex = 2;
   final List<Widget> _children = [
-    Request(),
+    MyRequests(),
     Respond(),
     Profile(),
   ];

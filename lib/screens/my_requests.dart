@@ -43,8 +43,8 @@ class _MyRequestsState extends State<MyRequests> {
         child: Container(
           child: Column(
             children: [
-              CustomisedAppBar(name: 'Natania', withBackArrow: true,),
-              ScreenHeader(name: 'My Requests', withSortBy: true,),
+              CustomisedAppBar(name: 'Natania'),
+              ScreenHeader(name: 'My Requests', withAdd: true,),
               Expanded(
                 child: Scrollbar(
                   child: ListView.builder(

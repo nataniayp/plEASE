@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:please/screens/home.dart';
 import 'package:please/screens/request_input.dart';
-import 'package:please/screens/my_requests.dart';
+import 'package:please/screens/request.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -15,8 +13,8 @@ class MyApp extends StatelessWidget {
       title: 'Please',
       routes: {
         '/': (context) => Home(),
-        '/request': (context) => RequestInput(),
-        '/my_requests': (context) => MyRequests(),
+        '/request': (context) => Request(),
+        '/request_input': (context) => RequestInput(),
         // '/request': (context) => Request(),
         // '/respond': (context) => Respond(),
         // '/profile': (context) => Profile(),
