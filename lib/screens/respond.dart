@@ -94,8 +94,11 @@ class _RespondState extends State<Respond> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    // to get current uid
     final user = Provider.of<UserData>(context);
-    final userList = Provider.of<List<UserCredentials>>(context);
+
+    // to get userList
+    // final userList = Provider.of<List<UserCredentials>>(context);
 
 
     return Scaffold(
