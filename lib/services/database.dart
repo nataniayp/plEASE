@@ -27,9 +27,23 @@ class DatabaseService {
     }).toList();
   }
 
+  // userCredentials from snapshot
+  UserCredentials _userCredentialsFromSnapshot(DocumentSnapshot snapshot) {
+    return UserCredentials(
+      uid: uid,
+      name: snapshot.get('name'),
+    );
+  }
+
   // get userData stream
   Stream<List<UserCredentials>> get userData {
     return userCollection.snapshots()
       .map(_userInfoListFromSnapshot);
+  }
+
+  // get user doc stream
+  Stream<UserCredentials> get userCredentials {
+    return userCollection.doc(uid).snapshots()
+      .map(_userCredentialsFromSnapshot);
   }
 }

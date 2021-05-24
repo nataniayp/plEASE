@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_card.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/models/user_credentials.dart';
+import 'package:please/models/user_data.dart';
 import 'package:please/screens/request.dart';
 import 'package:please/services/database.dart';
+import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -91,47 +94,57 @@ class _RespondState extends State<Respond> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    String getCurrentUser() {
-      User user = FirebaseAuth.instance.currentUser;
-      return user.uid;
-    }
+    // String getCurrentUser() {
+    //   User user = FirebaseAuth.instance.currentUser;
+    //   return user.uid;
+    // }
+    //
+    // UserCredentials getName(List<UserCredentials> list) {
+    //   UserCredentials curr;
+    //   for (UserCredentials u in list) {
+    //     if (u.uid == getCurrentUser()) {
+    //       curr = u;
+    //       break;
+    //     }
+    //   }
+    //   return curr;
+    // }
 
-    UserCredentials getName(List<UserCredentials> list) {
-      UserCredentials curr;
-      for (UserCredentials u in list) {
-        if (u.uid == getCurrentUser()) {
-          curr = u;
-          break;
-        }
-      }
-      return curr;
-    }
-
-    final userData = Provider.of<List<UserCredentials>>(context);
+    final user = Provider.of<UserData>(context);
+    // final userData = Provider.of<List<UserCredentials>>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              CustomisedAppBar(name: getName(userData).name),
-              // CustomisedAppBar(name: getName(userData)[0].name),
-              // CustomisedAppBar(name: userData[0].uid),
-              // CustomisedAppBar(name: "Natania"),
-              ScreenHeader(name: "Respond", withSortBy: true),
-              Expanded(
-                child: Scrollbar(
-                  child: ListView.builder(
-                    itemCount: myList.length,
-                    itemBuilder: (context, index) {
-                      return myList[index];
-                    }
-                  ),
-                ),
-              )
-            ],
-          )
+        child: StreamBuilder<UserCredentials>(
+          stream: DatabaseService(uid: user.uid).userCredentials,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              UserCredentials userCredentials = snapshot.data;
+              return Container(
+                  child: Column(
+                    children: <Widget>[
+                      // CustomisedAppBar(name: getName(userData).name),
+                      // CustomisedAppBar(name: "Natania"),
+                      CustomisedAppBar(name: userCredentials.name),
+                      ScreenHeader(name: "Respond", withSortBy: true),
+                      Expanded(
+                        child: Scrollbar(
+                          child: ListView.builder(
+                              itemCount: myList.length,
+                              itemBuilder: (context, index) {
+                                return myList[index];
+                              }
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+              );
+            } else {
+              return Loading();
+            }
+          }
         )
       ),
     );
