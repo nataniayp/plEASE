@@ -27,6 +27,11 @@ class _SignInState extends State<SignIn> {
 
     return loading ? Loading() : Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Colors.teal[900], Colors.grey[600]]
+          ),
+        ),
         padding: EdgeInsets.all(0.1 * size.width),
         child: Column(
           children: [
@@ -57,7 +62,19 @@ class _SignInState extends State<SignIn> {
                       height: 0.1 * size.width,
                     ),
                     TextFormField(
-                      decoration: InputDecoration(hintText: "Email"),
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Email",
+                        hintStyle: TextStyle(color: Colors.white,),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white,)
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white,)
+                        ),
+                      ),
                       validator: (val) => val.isEmpty
                           ? 'Enter an email'
                           : null,
@@ -70,7 +87,16 @@ class _SignInState extends State<SignIn> {
                     ),
                     TextFormField(
                       obscureText: true,
-                      decoration: InputDecoration(hintText: "Password"),
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        hintStyle: TextStyle(color: Colors.white,),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white,)
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white,)
+                        ),
+                      ),
                       validator: (val) => val.length < 6
                           ? 'Enter a password with 6+ characters'
                           : null,

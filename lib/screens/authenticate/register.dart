@@ -26,6 +26,11 @@ class _RegisterState extends State<Register> {
 
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [Colors.teal[900], Colors.grey[600]]
+          ),
+        ),
         padding: EdgeInsets.all(0.1 * size.width),
         child: Column(
           children: [
@@ -53,7 +58,16 @@ class _RegisterState extends State<Register> {
                         height: 0.1 * size.width,
                       ),
                       TextFormField(
-                        decoration: InputDecoration(hintText: "Name"),
+                        decoration: InputDecoration(
+                          hintText: "Name",
+                          hintStyle: TextStyle(color: Colors.white,),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white,)
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white,)
+                          ),
+                        ),
                         validator: (val) => val.isEmpty
                             ? 'Enter a name'
                             : null,
@@ -65,7 +79,16 @@ class _RegisterState extends State<Register> {
                         height: 0.05 * size.width,
                       ),
                       TextFormField(
-                        decoration: InputDecoration(hintText: "Email"),
+                        decoration: InputDecoration(
+                          hintText: "Email",
+                          hintStyle: TextStyle(color: Colors.white,),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white,)
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white,)
+                          ),
+                        ),
                         validator: (val) => val.isEmpty
                             ? 'Enter an email'
                             : null,
@@ -78,7 +101,16 @@ class _RegisterState extends State<Register> {
                       ),
                       TextFormField(
                         obscureText: true,
-                        decoration: InputDecoration(hintText: "Password"),
+                        decoration: InputDecoration(
+                          hintText: "Password",
+                          hintStyle: TextStyle(color: Colors.white,),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white,)
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white,)
+                          ),
+                        ),
                         validator: (val) => val.length < 6
                             ? 'Enter a password with 6+ characters'
                             : null,
