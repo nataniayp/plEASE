@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:please/models/user_credentials.dart';
 import 'package:please/screens/request.dart';
 import 'package:please/screens/respond.dart';
 import 'package:please/screens/profile.dart';
+import 'package:please/services/database.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -20,39 +23,42 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'icons/interview.png',
-              color: Colors.teal[900],
-              height: 23,
+    return StreamProvider<List<UserCredentials>>.value(
+      value: DatabaseService().userData,
+      child: Scaffold(
+        body: _children[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          items: [
+            BottomNavigationBarItem(
+              icon: Image.asset(
+                'icons/interview.png',
+                color: Colors.teal[900],
+                height: 23,
+              ),
+              label: "Respond",
             ),
-            label: "Respond",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'icons/reply.png',
-              color: Colors.teal[900],
-              height: 23,
+            BottomNavigationBarItem(
+              icon: Image.asset(
+                'icons/reply.png',
+                color: Colors.teal[900],
+                height: 23,
+              ),
+              label: "Request",
             ),
-            label: "Request",
-          ),
-          BottomNavigationBarItem(
-            icon: Image.asset(
-              'icons/user.png',
-              color: Colors.teal[900],
-              height: 23,
+            BottomNavigationBarItem(
+              icon: Image.asset(
+                'icons/user.png',
+                color: Colors.teal[900],
+                height: 23,
+              ),
+              label: "Profile",
             ),
-            label: "Profile",
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
