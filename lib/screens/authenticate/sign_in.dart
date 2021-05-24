@@ -74,9 +74,7 @@ class _SignInState extends State<SignIn> {
                       height: 0.1 * size.width,
                     ),
                     TextFormField(
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(color: Colors.white,),
                       decoration: InputDecoration(
                         hintText: "Email",
                         hintStyle: TextStyle(color: Colors.white,),
@@ -98,15 +96,16 @@ class _SignInState extends State<SignIn> {
                       height: 0.05 * size.width,
                     ),
                     TextFormField(
+                      style: TextStyle(color: Colors.white,),
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: "Password",
                         hintStyle: TextStyle(color: Colors.white,),
                         enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white,)
+                          borderSide: BorderSide(color: Colors.white,)
                         ),
                         focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white,)
+                          borderSide: BorderSide(color: Colors.white,)
                         ),
                       ),
                       validator: (val) => val.length < 6

@@ -71,6 +71,7 @@ class _RegisterState extends State<Register> {
                         height: 0.1 * size.width,
                       ),
                       TextFormField(
+                        style: TextStyle(color: Colors.white,),
                         decoration: InputDecoration(
                           hintText: "Name",
                           hintStyle: TextStyle(color: Colors.white,),
@@ -92,6 +93,7 @@ class _RegisterState extends State<Register> {
                         height: 0.05 * size.width,
                       ),
                       TextFormField(
+                        style: TextStyle(color: Colors.white,),
                         decoration: InputDecoration(
                           hintText: "Email",
                           hintStyle: TextStyle(color: Colors.white,),
@@ -113,6 +115,7 @@ class _RegisterState extends State<Register> {
                         height: 0.05 * size.width,
                       ),
                       TextFormField(
+                        style: TextStyle(color: Colors.white,),
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: "Password",
