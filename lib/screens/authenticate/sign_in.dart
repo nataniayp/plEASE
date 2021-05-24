@@ -69,9 +69,10 @@ class _SignInState extends State<SignIn> {
                       height: 0.05 * size.width,
                     ),
                     TextFormField(
+                      obscureText: true,
                       decoration: InputDecoration(hintText: "Password"),
-                      validator: (val) => val.isEmpty
-                          ? 'Enter a password'
+                      validator: (val) => val.length < 6
+                          ? 'Enter a password with 6+ characters'
                           : null,
                       onChanged: (val) {
                         setState(() => password = val);

@@ -77,9 +77,10 @@ class _RegisterState extends State<Register> {
                         height: 0.05 * size.width,
                       ),
                       TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(hintText: "Password"),
-                        validator: (val) => val.isEmpty
-                            ? 'Enter a password'
+                        validator: (val) => val.length < 6
+                            ? 'Enter a password with 6+ characters'
                             : null,
                         onChanged: (val) {
                           setState(() => password = val);
@@ -96,7 +97,7 @@ class _RegisterState extends State<Register> {
                                   userName, email, password);
                             if (result == null) {
                               setState(() => error =
-                              'Enter a valid email');
+                              'Could not register, try again later');
                             }
                           }
                         },
