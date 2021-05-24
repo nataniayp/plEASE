@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
           items: [
             BottomNavigationBarItem(
               icon: Image.asset(
-                'icons/interview.png',
+                'assets/icons/interview.png',
                 color: Colors.teal[900],
                 height: 23,
               ),
@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
-                'icons/reply.png',
+                'assets/icons/reply.png',
                 color: Colors.teal[900],
                 height: 23,
               ),
@@ -56,7 +56,7 @@ class _HomeState extends State<Home> {
             ),
             BottomNavigationBarItem(
               icon: Image.asset(
-                'icons/user.png',
+                'assets/icons/user.png',
                 color: Colors.teal[900],
                 height: 23,
               ),
