@@ -26,7 +26,7 @@ class _RequestInputState extends State<RequestInput> {
     return Scaffold(
       body: Column(
         children: [
-          CustomisedAppBar(name: 'Natania', withBackArrow: true,),
+          CustomisedAppBar(withBackArrow: true),
           Padding( // Category
             padding: const EdgeInsets.fromLTRB(100, 50, 100, 0),
             child: DropdownButton(

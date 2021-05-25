@@ -112,9 +112,7 @@ class _RespondState extends State<Respond> {
               return Container(
                   child: Column(
                     children: <Widget>[
-                      // CustomisedAppBar(name: getName(userData).name),
-                      // CustomisedAppBar(name: "Natania"),
-                      CustomisedAppBar(name: userCredentials.name),
+                      CustomisedAppBar(),
                       ScreenHeader(name: "Respond", withSortBy: true),
                       Expanded(
                         child: Scrollbar(

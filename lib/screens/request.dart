@@ -20,7 +20,7 @@ class _RequestState extends State<Request> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              CustomisedAppBar(name: 'Natania'),
+              CustomisedAppBar(),
               ScreenHeader(name: 'Request'),
               Row (
                 mainAxisAlignment: MainAxisAlignment.center,
