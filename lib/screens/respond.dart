@@ -5,11 +5,9 @@ import 'package:please/components/request_card.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
-import 'package:please/screens/request.dart';
 import 'package:please/services/database.dart';
 import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Respond extends StatefulWidget {
   const Respond({Key key}) : super(key: key);
@@ -19,15 +17,6 @@ class Respond extends StatefulWidget {
 }
 
 class _RespondState extends State<Respond> {
-  // List<RequestCard> myList = List<RequestCard>.generate(10, (i) =>
-  //     RequestCard(
-  //       userName: "Natania",
-  //       category: "stationery",
-  //       itemName: "Cai png",
-  //       quantity: 1,
-  //       time: DateTime.now(),
-  //     )
-  // );
 
   List<RequestCard> myList = [
     RequestCard(
@@ -35,56 +24,64 @@ class _RespondState extends State<Respond> {
       category: "food",
       itemName: "aglio olio",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "stationery",
       itemName: "stapler",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "cleaning",
       itemName: "vacuum cleaner",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "others",
       itemName: "more sleep",
       quantity: 100,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "food",
       itemName: "aglio olio",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "stationery",
       itemName: "stapler",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "cleaning",
       itemName: "vacuum cleaner",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "others",
       itemName: "more sleep",
       quantity: 100,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
   ];
 
