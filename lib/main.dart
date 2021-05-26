@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:please/screens/home.dart';
 import 'package:please/screens/request_input.dart';
 import 'package:please/screens/my_requests.dart';
 import 'package:please/screens/my_responses.dart';
@@ -28,11 +29,11 @@ class MyApp extends StatelessWidget {
         title: 'Please',
         home: Wrapper(),
         routes: {
-          '/': (context) => Home(),
-        '/my_requests': (context) => MyRequests(),
-        '/request_input': (context) => RequestInput(),
-        '/my_responses': (context) => MyResponses(),
-        '/respond_details': (context) => RespondDetails(),
+          // '/': (context) => Home(),
+          '/my_requests': (context) => MyRequests(),
+          '/request_input': (context) => RequestInput(),
+          '/my_responses': (context) => MyResponses(),
+          '/respond_details': (context) => RespondDetails(),
         },
       ),
     );
