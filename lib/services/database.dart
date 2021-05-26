@@ -16,8 +16,15 @@ class DatabaseService {
     return await userCollection.doc(uid).set({
       'uid': uid,
       'name': name,
-      'reqList': [],
-    });
+      'reqList': [{
+        'uid': uid,
+        'name': name,
+        'cat': 'food',
+        'item': 'aglio olio',
+        'quantity': 1,
+        'date': '20210626',
+        'time': '12:23',
+      }]});
   }
 
   // add a RequestItem

@@ -85,7 +85,16 @@ class _RespondState extends State<Respond> {
     ),
   ];
 
-
+  RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
+    return RequestCard(
+      userName: map['name'],
+      category: map['cat'],
+      itemName: map['itemName'],
+      quantity: map['quantity'],
+      selectedDate: DateTime.parse(map['date']),
+      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1])),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,20 +106,20 @@ class _RespondState extends State<Respond> {
     // to get userList
     // final userList = Provider.of<List<UserCredentials>>(context);
 
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: StreamBuilder<UserCredentials>(
-          stream: DatabaseService(uid: user.uid).userCredentials,
+        child: StreamBuilder<List<UserCredentials>>(
+          stream: DatabaseService(uid: user.uid).userData,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              UserCredentials userCredentials = snapshot.data;
+              List<UserCredentials> userData = snapshot.data;
               return Container(
                   child: Column(
                     children: <Widget>[
                       CustomisedAppBar(),
                       ScreenHeader(name: "Respond", withSortBy: true),
+                      // convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
                         child: Scrollbar(
                           child: ListView.builder(
