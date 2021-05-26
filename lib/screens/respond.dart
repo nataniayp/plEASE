@@ -89,7 +89,7 @@ class _RespondState extends State<Respond> {
     return RequestCard(
       userName: map['name'],
       category: map['cat'],
-      itemName: map['itemName'],
+      itemName: map['item'],
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
       selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1])),
@@ -119,7 +119,7 @@ class _RespondState extends State<Respond> {
                     children: <Widget>[
                       CustomisedAppBar(),
                       ScreenHeader(name: "Respond", withSortBy: true),
-                      // convertMapToRequestCard(userData[0].req[0]),
+                      convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
                         child: Scrollbar(
                           child: ListView.builder(
