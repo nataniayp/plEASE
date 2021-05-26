@@ -51,7 +51,7 @@ class _ProfileState extends State<Profile> {
                   Navigator.pushNamed(context, '/my_requests');
                 },
                 child: Text(
-                    'My requests',
+                    'My Requests',
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
@@ -66,7 +66,7 @@ class _ProfileState extends State<Profile> {
                   Navigator.pushNamed(context, '/my_responses');
                 },
                 child: Text(
-                    'My responses',
+                    'My Responses',
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 1.5,
