@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:please/components/request_item.dart';
 
 class ScreenHeader extends StatefulWidget {
   const ScreenHeader({
@@ -33,23 +34,25 @@ class _ScreenHeaderState extends State<ScreenHeader> {
               letterSpacing: 1.0,
             ),
           ),
-         Spacer(),
-         if (widget.withSortBy != null && widget.withSortBy)
-           TextButton(
-             onPressed: () {},
-             child: Text(
-               "SORT BY",
-               style: TextStyle(
-                 color: Colors.teal[900],
-                 fontWeight: FontWeight.bold,
-                 fontSize: 0.02 * size.height,
-                 letterSpacing: 1.0,
-               ),
-             ),
-           ),
-          if (widget.withAdd != null && widget.withAdd)
+          Spacer(),
+          if (widget.withSortBy != null && widget.withSortBy)
             TextButton(
               onPressed: () {},
+              child: Text(
+                "SORT BY",
+                style: TextStyle(
+                  color: Colors.teal[900],
+                  fontWeight: FontWeight.bold,
+                  fontSize: 0.02 * size.height,
+                  letterSpacing: 1.0,
+                ),
+              ),
+            ),
+          if (widget.withAdd != null && widget.withAdd)
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/request');
+              },
               child: Text(
                 "+",
                 style: TextStyle(
