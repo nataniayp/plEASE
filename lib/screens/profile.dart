@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:please/services/auth.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key key}) : super(key: key);
@@ -8,6 +9,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,64 +29,66 @@ class _ProfileState extends State<Profile> {
               // bottom: 0.1 * size.height,
           ),
           child: Column(
-              children: <Widget>[
-                CircleAvatar(
-                  radius: 0.1 * size.height,
-                  backgroundColor: Colors.grey,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 0.1 * size.height,
+                backgroundColor: Colors.grey,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 0.25 * size.width,
+                    vertical: 0.025 * size.height,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 0.25 * size.width,
-                      vertical: 0.025 * size.height,
-                  ),
-                  child: Divider(
-                    // height: 0.025 * size.height,
-                    indent: 0.02 * size.width,
-                    endIndent: 0.02 * size.width,
-                    color: Colors.white,
-                  ),
+                child: Divider(
+                  // height: 0.025 * size.height,
+                  indent: 0.02 * size.width,
+                  endIndent: 0.02 * size.width,
+                  color: Colors.white,
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/my_requests');
-                  },
-                  child: Text(
-                      'My requests',
-                      style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 1.5,
-                      )
-                  ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/my_requests');
+                },
+                child: Text(
+                    'My requests',
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                    )
                 ),
-                SizedBox(
-                  height: 0.0125 * size.height,
+              ),
+              SizedBox(
+                height: 0.0125 * size.height,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/my_responses');
+                },
+                child: Text(
+                    'My responses',
+                    style: TextStyle(
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                    )
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/my_responses');
-                  },
-                  child: Text(
-                      'My responses',
-                      style: TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 1.5,
-                      )
-                  ),
+              ),
+              SizedBox(
+                height: 0.1 * size.height,
+              ),
+              TextButton(
+                onPressed: () async {
+                  await _auth.signOut();
+                },
+                child: Text(
+                    'LOGOUT',
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      letterSpacing: 1.7,
+                    )
                 ),
-                SizedBox(
-                  height: 0.1 * size.height,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                      'LOGOUT',
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                        letterSpacing: 1.7,
-                      )
-                  ),
-                ),
-              ]
+              ),
+            ]
           ),
         ),
       ),
