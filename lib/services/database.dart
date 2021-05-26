@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:please/models/user_credentials.dart';
+import 'package:please/request_item.dart';
 
 
 class DatabaseService {
@@ -14,15 +16,35 @@ class DatabaseService {
     return await userCollection.doc(uid).set({
       'uid': uid,
       'name': name,
+      'reqList': [],
     });
   }
+
+  // add a RequestItem
+  Future addRequestItem(String name, String cat, String item, int quantity, String date, String time) async {
+    return await userCollection.doc(uid).update({
+      'reqList': FieldValue.arrayUnion([{
+        'uid': uid,
+        'name': name,
+        'cat': cat,
+        'item': item,
+        'quantity': quantity,
+        'date': date,
+        'time': time,
+      }]),
+    });
+  }
+
+
+
 
   // userInfo list from snapshot
   List<UserCredentials> _userInfoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc){
      return UserCredentials(
-       uid: doc.get('uid') ?? '',
-       name: doc.get('name') ?? '',
+       doc.get('uid') ?? '',
+       doc.get('name') ?? '',
+       doc.get('reqList') ?? [],
      );
     }).toList();
   }
@@ -30,8 +52,11 @@ class DatabaseService {
   // userCredentials from snapshot
   UserCredentials _userCredentialsFromSnapshot(DocumentSnapshot snapshot) {
     return UserCredentials(
-      uid: uid,
-      name: snapshot.get('name'),
+      // uid: uid,
+      // name: snapshot.get('name'),
+      uid,
+      snapshot.get('name'),
+      snapshot.get('reqList'),
     );
   }
 

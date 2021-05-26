@@ -89,6 +89,7 @@ class _CustomisedAppBarState extends State<CustomisedAppBar> {
             ),
           );
         } else {
+          print(snapshot.error);
           return Loading();
         }
       }

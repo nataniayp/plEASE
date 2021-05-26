@@ -1,8 +1,15 @@
+import 'package:please/request_item.dart';
+
 class UserCredentials {
 
-  final String uid;
-  final String name;
+  String uid;
+  String name;
+  List req;
 
-  UserCredentials({ this.uid, this.name });
+  UserCredentials(String uid, String name, List req){
+    this.uid = uid;
+    this.name = name;
+    this.req = req;
+  }
 
 }
