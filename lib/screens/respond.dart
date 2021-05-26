@@ -96,6 +96,10 @@ class _RespondState extends State<Respond> {
     );
   }
 
+  List<RequestCard> convertList(List<dynamic> myList) {
+    return myList.map((item) => convertMapToRequestCard(item)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -119,13 +123,13 @@ class _RespondState extends State<Respond> {
                     children: <Widget>[
                       CustomisedAppBar(),
                       ScreenHeader(name: "Respond", withSortBy: true),
-                      convertMapToRequestCard(userData[0].req[0]),
+                      // convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
                         child: Scrollbar(
                           child: ListView.builder(
-                              itemCount: myList.length,
+                              itemCount: convertList(userData[0].req).length,
                               itemBuilder: (context, index) {
-                                return myList[index];
+                                return convertList(userData[0].req)[index];
                               }
                           ),
                         ),
