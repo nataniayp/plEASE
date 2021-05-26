@@ -100,6 +100,14 @@ class _RespondState extends State<Respond> {
     return myList.map((item) => convertMapToRequestCard(item)).toList();
   }
 
+  List<Widget> flatMap(List<List<RequestCard>> myList) {
+    return List.generate(myList.length, (index){
+      return Column(
+        children: myList[index],
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -126,14 +134,17 @@ class _RespondState extends State<Respond> {
                       // convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
                         child: Scrollbar(
-                          child: ListView.builder(
-                              itemCount: convertList(userData[0].req).length,
-                              itemBuilder: (context, index) {
-                                return convertList(userData[0].req)[index];
-                              }
+                          child: Column(
+                            children: flatMap(userData.map((item) => convertList(item.req).toList()).toList()),
                           ),
+                          // child: ListView.builder(
+                          //   itemCount: convertList(userData[0].req).length,
+                          //   itemBuilder: (context, index) {
+                          //     return convertList(userData[0].req)[index];
+                          //   }
+                          // ),
                         ),
-                      )
+                      ),
                     ],
                   )
               );
