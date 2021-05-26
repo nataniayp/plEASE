@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/components/request_card.dart';
-import 'package:please/components/request_item.dart';
 
-class MyRequests extends StatefulWidget {
-  const MyRequests({Key key}) : super(key: key);
+class MyResponses extends StatefulWidget {
+  const MyResponses({Key key}) : super(key: key);
 
   @override
-  _MyRequestsState createState() => _MyRequestsState();
+  _MyResponsesState createState() => _MyResponsesState();
 }
 
-class _MyRequestsState extends State<MyRequests> {
-
-  RequestItem selected;
+class _MyResponsesState extends State<MyResponses> {
 
   List<RequestCard> myList = [
     RequestCard(
@@ -23,19 +20,32 @@ class _MyRequestsState extends State<MyRequests> {
       quantity: 1,
       time: DateTime.now(),
     ),
+    RequestCard(
+      userName: "Natania",
+      category: "stationery",
+      itemName: "stapler",
+      quantity: 1,
+      time: DateTime.now(),
+    ),
+    RequestCard(
+      userName: "Natania",
+      category: "cleaning",
+      itemName: "vacuum cleaner",
+      quantity: 1,
+      time: DateTime.now(),
+    ),
+    RequestCard(
+      userName: "Natania",
+      category: "others",
+      itemName: "more sleep",
+      quantity: 100,
+      time: DateTime.now(),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    selected = ModalRoute.of(context).settings.arguments;
-    if (selected != null) myList.add(new RequestCard(
-      userName: selected.id, 
-      category: selected.category,
-      itemName: selected.itemName,
-      quantity: selected.quantity,
-      time: selected.date,
-    ));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,7 +53,7 @@ class _MyRequestsState extends State<MyRequests> {
         child: Column(
           children: [
             CustomisedAppBar(name: 'Natania', withBackArrow: true,),
-            ScreenHeader(name: 'My Requests'),
+            ScreenHeader(name: 'My Responses'),
             Expanded(
               child: Scrollbar(
                 child: ListView.builder(

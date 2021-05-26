@@ -59,7 +59,7 @@ class _RequestCardState extends State<RequestCard> {
             child: Padding(
               padding: EdgeInsets.all(0.01 * size.height),
               child: Image.asset(
-                'icons/${widget.category}.png',
+                'assets/icons/${widget.category}.png',
                 color: Colors.teal[900],
               ),
             ),
@@ -97,7 +97,9 @@ class _RequestCardState extends State<RequestCard> {
           Expanded(
             flex: 1,
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/respond_details', );
+              },
               child: Icon(
                 Icons.navigate_next,
               ),

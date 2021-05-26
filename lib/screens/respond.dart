@@ -87,7 +87,7 @@ class _RespondState extends State<Respond> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Container(
+      body: SafeArea(
         child: Column(
           children: <Widget>[
             CustomisedAppBar(name: "Natania"),

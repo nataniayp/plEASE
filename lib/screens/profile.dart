@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:please/screens/my_requests.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key key}) : super(key: key);
@@ -44,9 +45,11 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/my_requests');
+                  },
                   child: Text(
-                      '3 requests',
+                      'My requests',
                       style: TextStyle(
                         color: Colors.white,
                         letterSpacing: 1.5,
@@ -57,9 +60,11 @@ class _ProfileState extends State<Profile> {
                   height: 0.0125 * size.height,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/my_responses');
+                  },
                   child: Text(
-                      '5 responses',
+                      'My responses',
                       style: TextStyle(
                         color: Colors.white,
                         letterSpacing: 1.5,
