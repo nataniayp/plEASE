@@ -17,6 +17,18 @@ class _RequestInputState extends State<RequestInput> {
   RequestItem selected;
   List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
 
+  String convertCatName(String s) {
+    if (s == 'Food') {
+      return 'food';
+    } else if (s == 'Stationery') {
+      return 'stationery';
+    } if (s == 'Cleaning supplies') {
+      return 'cleaning';
+    } else {
+      return 'others';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
