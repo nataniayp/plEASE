@@ -21,7 +21,8 @@ class _MyRequestsState extends State<MyRequests> {
       category: "food",
       itemName: "aglio olio",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
   ];
 
@@ -30,11 +31,12 @@ class _MyRequestsState extends State<MyRequests> {
     Size size = MediaQuery.of(context).size;
     selected = ModalRoute.of(context).settings.arguments;
     if (selected != null) myList.add(new RequestCard(
-      userName: selected.id, 
+      userName: selected.name,
       category: selected.category,
       itemName: selected.itemName,
       quantity: selected.quantity,
-      time: selected.date,
+      selectedDate: selected.date,
+      selectedTime: selected.time,
     ));
 
     return Scaffold(
@@ -42,7 +44,7 @@ class _MyRequestsState extends State<MyRequests> {
       body: SafeArea(
         child: Column(
           children: [
-            CustomisedAppBar(name: 'Natania', withBackArrow: true,),
+            CustomisedAppBar(withBackArrow: true,),
             ScreenHeader(name: 'My Requests'),
             Expanded(
               child: Scrollbar(

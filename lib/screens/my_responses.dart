@@ -18,28 +18,32 @@ class _MyResponsesState extends State<MyResponses> {
       category: "food",
       itemName: "aglio olio",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "stationery",
       itemName: "stapler",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "cleaning",
       itemName: "vacuum cleaner",
       quantity: 1,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
     RequestCard(
       userName: "Natania",
       category: "others",
       itemName: "more sleep",
       quantity: 100,
-      time: DateTime.now(),
+      selectedDate: DateTime.now(),
+      selectedTime: TimeOfDay.now(),
     ),
   ];
 
@@ -52,7 +56,7 @@ class _MyResponsesState extends State<MyResponses> {
       body: SafeArea(
         child: Column(
           children: [
-            CustomisedAppBar(name: 'Natania', withBackArrow: true,),
+            CustomisedAppBar(withBackArrow: true,),
             ScreenHeader(name: 'My Responses'),
             Expanded(
               child: Scrollbar(

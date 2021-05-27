@@ -10,14 +10,16 @@ class RequestCard extends StatefulWidget {
     @required this.category,
     @required this.itemName,
     @required this.quantity,
-    @required this.time,
+    @required this.selectedDate,
+    @required this.selectedTime,
   }) : super(key: key);
 
   final String userName;
   final String category;
   final String itemName;
   final int quantity;
-  final DateTime time;
+  final DateTime selectedDate;
+  final TimeOfDay selectedTime;
 
 
   @override
@@ -28,6 +30,13 @@ class _RequestCardState extends State<RequestCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    
+    String formatTimeOfDay(TimeOfDay tod) {
+      final now = new DateTime.now();
+      final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+      final format = DateFormat.jm();
+      return format.format(dt);
+    }
 
     return Container(
       height: 0.105 * size.height,
@@ -88,7 +97,7 @@ class _RequestCardState extends State<RequestCard> {
                 ),
                 Expanded(
                   child: Text(
-                    "by ${DateFormat('EEE, d/M/y, HH:mm').format(widget.time)}",
+                    "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${formatTimeOfDay(widget.selectedTime)}"
                   ),
                 ),
               ],

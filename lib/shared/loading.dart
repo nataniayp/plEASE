@@ -10,6 +10,7 @@ class Loading extends StatelessWidget {
       color: Colors.teal[900],
       child: Center(
         child: SpinKitPulse(
+          color: Colors.white,
           size: 50.0,
         )
       ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_item.dart';
 import 'package:intl/intl.dart';
-
 import '../components/screen_header.dart';
 
 class RequestInput extends StatefulWidget {
@@ -31,7 +30,7 @@ class _RequestInputState extends State<RequestInput> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomisedAppBar(name: 'Natania', withBackArrow: true,),
+            CustomisedAppBar(withBackArrow: true,),
             ScreenHeader(name: 'Request'),
             Padding( // Category
               padding: EdgeInsets.fromLTRB(size.width * 0.1, size.height * 0.02, size.width * 0.1, 0),

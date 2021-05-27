@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 
 class RequestItem {
-  String id;
+  String name;
   String category;
   String itemName;
   int quantity;
   DateTime date;
   TimeOfDay time;
 
-  RequestItem({this.id, this.category, this.itemName, this.quantity, this.time});
+  RequestItem(String name, String category, String itemName, int quantity, DateTime date, TimeOfDay time) {
+    this.name = name;
+    this.category = category;
+    this.itemName = itemName;
+    this.quantity = quantity;
+    this.date = date;
+    this.time = time;
+  }
+
+  RequestItem.nameOnly(String name) {
+    this.name = name;
+  }
+
 }

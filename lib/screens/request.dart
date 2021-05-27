@@ -13,7 +13,7 @@ class Request extends StatefulWidget {
 
 class _RequestState extends State<Request> {
 
-  RequestItem selected = new RequestItem(id: 'Natatnia');
+  RequestItem selected = RequestItem.nameOnly('Natania');
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _RequestState extends State<Request> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CustomisedAppBar(name: 'Natania'),
+            CustomisedAppBar(),
             ScreenHeader(name: 'Request'),
             Row (
               mainAxisAlignment: MainAxisAlignment.center,

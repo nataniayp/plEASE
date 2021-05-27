@@ -20,7 +20,7 @@ class _RespondDetailsState extends State<RespondDetails> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomisedAppBar(name: 'Natania', withBackArrow: true,),
+            CustomisedAppBar(withBackArrow: true,),
             ScreenHeader(name: 'Respond Details'),
             Text('Category: Food',),
             Text('Item: aglio olio',),
