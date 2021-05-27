@@ -92,7 +92,7 @@ class _RespondState extends State<Respond> {
       itemName: map['item'],
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
-      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1])),
+      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
     );
   }
 

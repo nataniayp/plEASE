@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_item.dart';
 import 'package:intl/intl.dart';
+import 'package:please/models/user_data.dart';
+import 'package:please/services/database.dart';
+import 'package:provider/provider.dart';
 import '../components/screen_header.dart';
 
 class RequestInput extends StatefulWidget {
@@ -31,6 +34,8 @@ class _RequestInputState extends State<RequestInput> {
 
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<UserData>(context);
 
     Size size = MediaQuery.of(context).size;
 
@@ -157,7 +162,16 @@ class _RequestInputState extends State<RequestInput> {
             Padding(
               padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
               child: FlatButton(
-                onPressed: () {
+                onPressed: () async {
+                  await DatabaseService(uid: user.uid).addRequestItem(
+                    selected.name,
+                    convertCatName(selected.category),
+                    selected.itemName,
+                    selected.quantity,
+                    DateFormat('yyyy-MM-dd').format(selected.date),
+                    selected.time.format(context),
+                  );
+
                   Navigator.pushReplacementNamed(context, '/my_requests', arguments: selected);
                 },
                 color: Colors.white,
