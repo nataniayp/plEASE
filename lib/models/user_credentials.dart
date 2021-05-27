@@ -1,5 +1,3 @@
-import 'package:please/request_item.dart';
-
 class UserCredentials {
 
   String uid;
