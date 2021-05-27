@@ -134,15 +134,23 @@ class _RespondState extends State<Respond> {
                       // convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
                         child: Scrollbar(
-                          child: Column(
-                            children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
-                          ),
-                          // child: ListView.builder(
-                          //   itemCount: convertList(userData[0].req).length,
-                          //   itemBuilder: (context, index) {
-                          //     return convertList(userData[0].req)[index];
-                          //   }
+                          // child: Column(
+                          //   children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
                           // ),
+                          child: ListView.builder(
+                            itemCount: flatMap(
+                              userData.map((item) => convertList(
+                                  item.reqList
+                              ).toList()).toList()
+                            ).length,
+                            itemBuilder: (context, index) {
+                              return flatMap(
+                                userData.map((item) => convertList(
+                                    item.reqList
+                                ).toList()).toList()
+                              )[index];
+                            }
+                          ),
                         ),
                       ),
                     ],
