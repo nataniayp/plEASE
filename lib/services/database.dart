@@ -13,15 +13,9 @@ class DatabaseService {
     return await userCollection.doc(uid).set({
       'uid': uid,
       'name': name,
-      'reqList': [{
-        'uid': uid,
-        'name': name,
-        'cat': 'food',
-        'item': 'aglio olio',
-        'quantity': 1,
-        'date': '20210626',
-        'time': '12:23',
-      }]});
+      'reqList': [],
+      'resList': [],
+    });
   }
 
   // add a RequestItem
@@ -49,6 +43,7 @@ class DatabaseService {
        doc.get('uid') ?? '',
        doc.get('name') ?? '',
        doc.get('reqList') ?? [],
+       doc.get('resList') ?? [],
      );
     }).toList();
   }
@@ -56,11 +51,10 @@ class DatabaseService {
   // userCredentials from snapshot
   UserCredentials _userCredentialsFromSnapshot(DocumentSnapshot snapshot) {
     return UserCredentials(
-      // uid: uid,
-      // name: snapshot.get('name'),
       uid,
       snapshot.get('name'),
       snapshot.get('reqList'),
+      snapshot.get('resList'),
     );
   }
 
