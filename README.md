@@ -25,6 +25,7 @@ Attached below is a PDF file which contains a concept map of the routing within 
 ## Upcoming features
 
 * In-app chat function
+* Deletion of request
 
 We are also welcoming ideas for additional features to our application. Please contact either one of the developer listed below with your ideas. 
 
