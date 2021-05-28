@@ -33,7 +33,7 @@ We are also welcoming ideas for additional features to our application. Please c
 
 ## Installation Guide
 
-Download the file titled **plEASE.apk** onto your Android phone.
+The app can be downloaded [here](https://drive.google.com/file/d/1IbUi9oN-Df96eEZhlOmgmBjcxCR38pgO/view?usp=sharing) for Android devices.
 
 The current version of the app only works on Android devices. We will update support for Apple devices as soon as possible.
 
