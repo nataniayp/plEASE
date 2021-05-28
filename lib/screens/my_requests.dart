@@ -18,6 +18,7 @@ class MyRequests extends StatefulWidget {
 class _MyRequestsState extends State<MyRequests> {
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
+      uid: map['uid'],
       userName: map['name'],
       category: map['cat'],
       itemName: map['item'],
