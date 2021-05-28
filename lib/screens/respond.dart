@@ -94,11 +94,17 @@ class _RespondState extends State<Respond> {
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
       selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
+      accepted: map['accepted'],
+      acceptedBy: map['acceptedBy'],
+      acceptedByUid: map['acceptedByUid'],
     );
   }
 
   List<RequestCard> convertList(List<dynamic> myList) {
-    return myList.map((item) => convertMapToRequestCard(item)).toList();
+    // return myList.map((item) => convertMapToRequestCard(item)).toList();
+    return myList.map((item) => (item["accepted"] as bool)
+      ? RequestCard.empty()
+      : convertMapToRequestCard(item)).toList();
   }
 
   List<Widget> flatMap(List<List<RequestCard>> myList) {
