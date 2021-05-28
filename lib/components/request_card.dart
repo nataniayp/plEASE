@@ -41,6 +41,16 @@ class _RequestCardState extends State<RequestCard> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
+    RequestCard rc = RequestCard(
+      uid: widget.uid,
+      userName: widget.userName,
+      category: widget.category,
+      itemName: widget.itemName,
+      quantity: widget.quantity,
+      selectedDate: widget.selectedDate,
+      selectedTime: widget.selectedTime,
+    );
     
     String formatTimeOfDay(TimeOfDay tod) {
       final now = new DateTime.now();
@@ -108,7 +118,7 @@ class _RequestCardState extends State<RequestCard> {
                 ),
                 Expanded(
                   child: Text(
-                    "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${formatTimeOfDay(widget.selectedTime)}"
+                    "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${widget.selectedTime.format(context)}"
                   ),
                 ),
               ],
@@ -117,8 +127,8 @@ class _RequestCardState extends State<RequestCard> {
           Expanded(
             flex: 1,
             child: FlatButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/respond_details', );
+              onPressed: () async {
+                await Navigator.pushNamed(context, '/respond_details', arguments: rc);
               },
               child: Icon(
                 Icons.navigate_next,
