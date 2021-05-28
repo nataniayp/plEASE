@@ -42,4 +42,4 @@ Flutter, Dart, Firebase and Git
 
 ## Credits
 
-* Amazing tutorials on Flutter, Dart and Firebase by [The Net Ninja](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg); [iamshaunjp](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg)
+* Amazing tutorials on Flutter, Dart and Firebase by [The Net Ninja](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg) (Youtube); [iamshaunjp](https://www.youtube.com/channel/UCW5YeuERMmlnqo4oq8vwUpg) (GitHub)
