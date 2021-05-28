@@ -29,6 +29,9 @@ class DatabaseService {
         'quantity': quantity,
         'date': date,
         'time': time,
+        'accepted': false,
+        'acceptedBy': '',
+        'acceptedByUid': '',
       }]),
     });
   }
