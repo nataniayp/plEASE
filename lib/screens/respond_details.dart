@@ -46,7 +46,35 @@ class _RespondDetailsState extends State<RespondDetails> {
                     child: FlatButton(
                       onPressed: () async {
                         rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
-
+                        await DatabaseService(uid: user.uid).deleteAcceptedReq(
+                            rc.uid,
+                            rc.userName,
+                            rc.category,
+                            rc.itemName,
+                            rc.quantity,
+                            DateFormat('yyyy-MM-dd').format(rc.selectedDate),
+                            rc.selectedTime.format(context),
+                        );
+                        await DatabaseService(uid: user.uid).addAcceptedReq(
+                          rc.uid,
+                          rc.userName,
+                          rc.category,
+                          rc.itemName,
+                          rc.quantity,
+                          DateFormat('yyyy-MM-dd').format(rc.selectedDate),
+                          rc.selectedTime.format(context),
+                          rc.acceptedBy,
+                        );
+                        await DatabaseService(uid: user.uid).addResponse(
+                            rc.uid,
+                            rc.userName,
+                            rc.category,
+                            rc.itemName,
+                            rc.quantity,
+                            DateFormat('yyyy-MM-dd').format(rc.selectedDate),
+                            rc.selectedTime.format(context),
+                            rc.acceptedBy,
+                        );
                         await Navigator.pushReplacementNamed(context, '/my_responses');
                       },
                       color: Colors.white,
