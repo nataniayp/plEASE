@@ -18,7 +18,7 @@ THere are currently no installation guides for this mobile application as it sti
 
 Flutter, Dart and Firebase
 
-## Contributors
+## Developers
 
-[xRossKoh] (https://github.com/xRossKoh)
-[nataniayp] (https://github.com/nataniayp)
+[xRossKoh](https://github.com/xRossKoh)
+[nataniayp](https://github.com/nataniayp)
