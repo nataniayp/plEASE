@@ -30,7 +30,9 @@ We are also welcoming ideas for additional features to our application. Please c
 
 ## Installation Guide
 
-There are currently no installation guides for this mobile application as it still a work in progress.
+Download the file titled **plEASE.apk** onto your Android phone.
+
+The current version of the app only works on Android devices. We will update support for Apple devices as soon as possible.
 
 ## Powered by
 
