@@ -34,17 +34,8 @@ class _MyRequestsState extends State<MyRequests> {
     return myList.map((item) => convertMapToRequestCard(item)).toList();
   }
 
-  List<Widget> mapListReqCard(List<RequestCard> myList) {
-    return List.generate(myList.length, (index){
-      return Container(
-        child: myList[index],
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     final user = Provider.of<UserData>(context);
 
     return Scaffold(
