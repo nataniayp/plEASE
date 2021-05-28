@@ -1,6 +1,6 @@
 # please
 
-A new Flutter project.
+A mobile application for requests catering to students in college residences.
 
 ## Getting Started
 
