@@ -31,16 +31,20 @@ class _RespondDetailsState extends State<RespondDetails> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CustomisedAppBar(withBackArrow: true,),
                   ScreenHeader(name: 'Respond Details'),
                   Text('Category: ${rc.category}'),
+                  SizedBox(height: 0.02 * size.height),
                   Text('Item: ${rc.itemName}',),
+                  SizedBox(height: 0.02 * size.height),
                   Text('Quantity: ${rc.quantity}',),
+                  SizedBox(height: 0.02 * size.height),
                   Text('by ${DateFormat('EEE, d/M/y,').format(rc.selectedDate)} ${rc.selectedTime.format(context)}'),
+                  SizedBox(height: 0.02 * size.height),
                   Text('Requested by: ${rc.userName}'),
-                  SizedBox(height: size.height * 0.02,),
+                  SizedBox(height: 0.02 * size.height),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                     child: FlatButton(

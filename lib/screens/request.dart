@@ -26,7 +26,7 @@ class _RequestState extends State<Request> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             CustomisedAppBar(),
             ScreenHeader(name: 'Request'),
@@ -116,7 +116,7 @@ class _RequestState extends State<Request> {
                 ),
               ],
             ),
-            SizedBox(height: size.width * 0.04),
+            SizedBox(height: size.width * 0.02),
             Row (
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
