@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:please/services/auth.dart';
+import 'package:please/shared/loading.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
@@ -14,6 +15,7 @@ class _RegisterState extends State<Register> {
 
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading = false;
 
   // text field state
   String userName = '';
@@ -25,7 +27,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
@@ -142,12 +144,15 @@ class _RegisterState extends State<Register> {
                         TextButton(
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
+                              setState(() => loading = true);
                               dynamic result =
                                 await _auth.registerWithEmailAndPassword(
                                     userName, email, password);
                               if (result == null) {
-                                setState(() => error =
-                                'Could not register, try again later');
+                                setState(() {
+                                  error = 'Could not register, try again later';
+                                  loading = false;
+                                });
                               }
                             }
                           },
