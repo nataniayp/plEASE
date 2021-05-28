@@ -100,12 +100,12 @@ class _RespondState extends State<Respond> {
     );
   }
 
-  List<RequestCard> convertList(List<dynamic> myList) {
-    // return myList.map((item) => convertMapToRequestCard(item)).toList();
-    return myList.map((item) => (item["accepted"] as bool)
-      ? RequestCard.empty()
-      : convertMapToRequestCard(item)).toList();
-  }
+  // List<RequestCard> convertAndFilterList(List<dynamic> myList) {
+  //   // return myList.map((item) => convertMapToRequestCard(item)).toList();
+  //   return myList.map((item) => (item["accepted"] as bool)
+  //     ? RequestCard.empty()
+  //     : convertMapToRequestCard(item)).toList();
+  // }
 
   List<Widget> flatMap(List<List<RequestCard>> myList) {
     return List.generate(myList.length, (index){
@@ -121,6 +121,14 @@ class _RespondState extends State<Respond> {
 
     // to get current uid
     final user = Provider.of<UserData>(context);
+
+    List<RequestCard> convertAndFilterList(List<dynamic> myList) {
+      // return myList.map((item) => convertMapToRequestCard(item)).toList();
+      return myList.map((item) => (
+          (item["accepted"] as bool) || (item["uid"] == user.uid)
+          ? RequestCard.empty()
+          : convertMapToRequestCard(item))).toList();
+    }
 
     // to get userList
     // final userList = Provider.of<List<UserCredentials>>(context);
@@ -146,13 +154,13 @@ class _RespondState extends State<Respond> {
                           // ),
                           child: ListView.builder(
                             itemCount: flatMap(
-                              userData.map((item) => convertList(
+                              userData.map((item) => convertAndFilterList(
                                   item.reqList
                               ).toList()).toList()
                             ).length,
                             itemBuilder: (context, index) {
                               return flatMap(
-                                userData.map((item) => convertList(
+                                userData.map((item) => convertAndFilterList(
                                     item.reqList
                                 ).toList()).toList()
                               )[index];
