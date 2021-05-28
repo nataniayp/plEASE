@@ -1,4 +1,4 @@
-# please
+# plEASE
 
 A request platform as a mobile application catering to students in college residences.
 
