@@ -36,7 +36,83 @@ class DatabaseService {
     });
   }
 
+  // the three methods below are used when a user accepts another user's request
+  Future deleteAcceptedReq(
+    String uidReq,
+    String name,
+    String cat,
+    String item,
+    int quantity,
+    String date,
+    String time,
+    ) async {
+    return await userCollection.doc(uidReq).update({
+      'reqList': FieldValue.arrayRemove([{
+        'uid': uidReq,
+        'name': name,
+        'cat': cat,
+        'item': item,
+        'quantity': quantity,
+        'date': date,
+        'time': time,
+        'accepted': false,
+        'acceptedBy': '',
+        'acceptedByUid': '',
+      }]),
+    });
+  }
 
+  Future addAcceptedReq(
+      String uidReq,
+      String name,
+      String cat,
+      String item,
+      int quantity,
+      String date,
+      String time,
+      String acceptedBy
+    ) async {
+    return await userCollection.doc(uidReq).update({
+      'reqList': FieldValue.arrayUnion([{
+        'uid': uidReq,
+        'name': name,
+        'cat': cat,
+        'item': item,
+        'quantity': quantity,
+        'date': date,
+        'time': time,
+        'accepted': true,
+        'acceptedBy': acceptedBy,
+        'acceptedByUid': uid,
+      }]),
+    });
+  }
+
+  Future addResponse(
+      String uidReq,
+      String name,
+      String cat,
+      String item,
+      int quantity,
+      String date,
+      String time,
+      String acceptedBy
+    ) async {
+    return await userCollection.doc(uid).update({
+      'resList': FieldValue.arrayUnion([{
+        'uid': uidReq,
+        'name': name,
+        'cat': cat,
+        'item': item,
+        'quantity': quantity,
+        'date': date,
+        'time': time,
+        'accepted': true,
+        'acceptedBy': acceptedBy,
+        'acceptedByUid': uid,
+      }]),
+    });
+  }
 
 
   // userInfo list from snapshot

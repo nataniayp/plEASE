@@ -19,6 +19,7 @@ class _MyResponsesState extends State<MyResponses> {
 
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
+      uid: map['uid'],
       userName: map['name'],
       category: map['cat'],
       itemName: map['item'],

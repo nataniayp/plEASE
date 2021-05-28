@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 class RequestCard extends StatefulWidget {
   RequestCard({
     Key key,
+    @required this.uid,
     @required this.userName,
     @required this.category,
     @required this.itemName,
@@ -14,6 +15,7 @@ class RequestCard extends StatefulWidget {
     @required this.selectedTime,
   }) : super(key: key);
 
+  final String uid;
   final String userName;
   final String category;
   final String itemName;
