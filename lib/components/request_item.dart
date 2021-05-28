@@ -17,8 +17,6 @@ class RequestItem {
     this.time = time;
   }
 
-  RequestItem.nameOnly(String name) {
-    this.name = name;
-  }
+  RequestItem.empty();
 
 }

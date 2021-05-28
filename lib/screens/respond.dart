@@ -87,18 +87,25 @@ class _RespondState extends State<Respond> {
 
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
+      uid: map['uid'],
       userName: map['name'],
       category: map['cat'],
       itemName: map['item'],
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
-      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1])),
+      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
+      accepted: map['accepted'],
+      acceptedBy: map['acceptedBy'],
+      acceptedByUid: map['acceptedByUid'],
     );
   }
 
-  List<RequestCard> convertList(List<dynamic> myList) {
-    return myList.map((item) => convertMapToRequestCard(item)).toList();
-  }
+  // List<RequestCard> convertAndFilterList(List<dynamic> myList) {
+  //   // return myList.map((item) => convertMapToRequestCard(item)).toList();
+  //   return myList.map((item) => (item["accepted"] as bool)
+  //     ? RequestCard.empty()
+  //     : convertMapToRequestCard(item)).toList();
+  // }
 
   List<Widget> flatMap(List<List<RequestCard>> myList) {
     return List.generate(myList.length, (index){
@@ -114,6 +121,14 @@ class _RespondState extends State<Respond> {
 
     // to get current uid
     final user = Provider.of<UserData>(context);
+
+    List<RequestCard> convertAndFilterList(List<dynamic> myList) {
+      // return myList.map((item) => convertMapToRequestCard(item)).toList();
+      return myList.map((item) => (
+          (item["accepted"] as bool) || (item["uid"] == user.uid)
+          ? RequestCard.empty()
+          : convertMapToRequestCard(item))).toList();
+    }
 
     // to get userList
     // final userList = Provider.of<List<UserCredentials>>(context);
@@ -133,16 +148,23 @@ class _RespondState extends State<Respond> {
                       ScreenHeader(name: "Respond", withSortBy: true),
                       // convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
-                        child: Scrollbar(
-                          child: Column(
-                            children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
-                          ),
-                          // child: ListView.builder(
-                          //   itemCount: convertList(userData[0].req).length,
-                          //   itemBuilder: (context, index) {
-                          //     return convertList(userData[0].req)[index];
-                          //   }
+                        child: Scrollbar(// child: Column(
+                          //   children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
                           // ),
+                          child: ListView.builder(
+                            itemCount: flatMap(
+                              userData.map((item) => convertAndFilterList(
+                                  item.reqList
+                              ).toList()).toList()
+                            ).length,
+                            itemBuilder: (context, index) {
+                              return flatMap(
+                                userData.map((item) => convertAndFilterList(
+                                    item.reqList
+                                ).toList()).toList()
+                              )[index];
+                            }
+                          ),
                         ),
                       ),
                     ],
