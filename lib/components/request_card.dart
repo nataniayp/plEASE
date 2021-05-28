@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 
 class RequestCard extends StatefulWidget {
-  const RequestCard({
+  RequestCard({
     Key key,
     @required this.userName,
     @required this.category,
@@ -20,6 +20,15 @@ class RequestCard extends StatefulWidget {
   final int quantity;
   final DateTime selectedDate;
   final TimeOfDay selectedTime;
+  bool accepted = false;
+  String acceptedBy;
+  String acceptedByUid;
+
+  void reqAccepted(String acceptedBy, String acceptedByUid) {
+    this.accepted = true;
+    this.acceptedBy = acceptedBy;
+    this.acceptedByUid = acceptedByUid;
+  }
 
 
   @override
