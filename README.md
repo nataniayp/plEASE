@@ -8,7 +8,7 @@ We are a group of students from the National University of Singapore (NUS) and w
 
 ## Description
 
-[Milestone 1 Technical Proof of Concept.pdf](https://github.com/nataniayp/please/files/6559964/Milestone.1.Technical.Proof.of.Concept.pdf)
+[Technical Proof of Concept.pdf](https://github.com/nataniayp/please/files/6559964/Milestone.1.Technical.Proof.of.Concept.pdf)
 
 ## Installation Guide
 
@@ -16,9 +16,10 @@ THere are currently no installation guides for this mobile application as it sti
 
 ## Powered by
 
-Flutter, Dart and Firebase
+Flutter, Dart, Firebase and Git
 
 ## Developers
 
-[xRossKoh](https://github.com/xRossKoh)
-[nataniayp](https://github.com/nataniayp)
+[xRossKoh](https://github.com/xRossKoh) and [nataniayp](https://github.com/nataniayp)
+
+## Credits
