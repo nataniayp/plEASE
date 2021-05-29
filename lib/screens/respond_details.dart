@@ -48,7 +48,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                     child: FlatButton(
-                      onPressed: () async {
+                      onPressed: user.uid == rc.uid? null: () async {
                         rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
                         await DatabaseService(uid: user.uid).deleteAcceptedReq(
                             rc.uid,

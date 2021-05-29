@@ -91,61 +91,55 @@ class _RequestCardState extends State<RequestCard> {
           right: 0.1 * size.width,
           bottom: 0.02 * size.height,
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: EdgeInsets.all(0.01 * size.height),
-                child: Image.asset(
-                  'assets/icons/${widget.category}.png',
-                  color: Colors.teal[900],
-                ),
-              ),
-              // child: Icon(
-              //   Icons.fastfood,
-              // ),
-            ),
-            Expanded(
-              flex: 6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                        "${widget.userName} wants"
-                    ),
+        child: FlatButton(
+          onPressed: () async {
+            await Navigator.pushNamed(context, '/respond_details', arguments: rc);
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.all(0.01 * size.height),
+                  child: Image.asset(
+                    'assets/icons/${widget.category}.png',
+                    color: Colors.teal[900],
                   ),
-                  Expanded(
-                    child: Text(
-                      "${widget.itemName} (${widget.quantity})",
-                      style: TextStyle(
-                        color: Colors.teal[900],
+                ),
+                // child: Icon(
+                //   Icons.fastfood,
+                // ),
+              ),
+              Expanded(
+                flex: 6,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                          "${widget.userName} wants"
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
-                        "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${widget.selectedTime.format(context)}"
+                    Expanded(
+                      child: Text(
+                        "${widget.itemName} (${widget.quantity})",
+                        style: TextStyle(
+                          color: Colors.teal[900],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: FlatButton(
-                onPressed: () async {
-                  await Navigator.pushNamed(context, '/respond_details', arguments: rc);
-                },
-                child: Icon(
-                  Icons.navigate_next,
+                    Expanded(
+                      child: Text(
+                          "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${widget.selectedTime.format(context)}"
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     } else {

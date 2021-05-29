@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_item.dart';
 import 'package:intl/intl.dart';
@@ -115,6 +116,10 @@ class _RequestInputState extends State<RequestInput> {
                             selected.quantity = int.parse(num);
                           });
                         },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter.digitsOnly
+                        ],
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
@@ -134,7 +139,7 @@ class _RequestInputState extends State<RequestInput> {
                           final DateTime picked = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
-                              firstDate: DateTime(2021),
+                              firstDate: DateTime.now(),
                               lastDate: DateTime(2030)
                           );
                           if (picked != null) setState(() {
@@ -169,8 +174,7 @@ class _RequestInputState extends State<RequestInput> {
                         },
                         icon: Icon(Icons.schedule),
                         label: Text(
-                          selected.time == null ? 'Select time' : '${selected.time
-                              .format(context)}',
+                          selected.time == null ? 'Select time' : '${selected.time.format(context)}',
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -195,6 +199,7 @@ class _RequestInputState extends State<RequestInput> {
                           Navigator.pushReplacementNamed(
                               context, '/my_requests', arguments: selected);
                         },
+
                         color: Colors.white,
                         height: 50.0,
                         minWidth: 200.0,
