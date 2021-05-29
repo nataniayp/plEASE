@@ -59,7 +59,7 @@ class _RequestState extends State<Request> {
                           Image.asset(
                             'assets/icons/food.png',
                             color: Colors.teal[900],
-                            scale: 0.8,
+                            scale: 8,
                           ),
                           SizedBox(height: size.height * 0.03),
                           Text(
@@ -100,7 +100,7 @@ class _RequestState extends State<Request> {
                           Image.asset(
                             'assets/icons/stationery.png',
                             color: Colors.teal[900],
-                            scale: 0.8,
+                            scale: 8,
                           ),
                           SizedBox(height: size.height * 0.03),
                           Text(
