@@ -95,7 +95,7 @@ class _RequestCardState extends State<RequestCard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              flex: 2,
+              flex: 4,
               child: Padding(
                 padding: EdgeInsets.all(0.01 * size.height),
                 child: Image.asset(
@@ -108,7 +108,7 @@ class _RequestCardState extends State<RequestCard> {
               // ),
             ),
             Expanded(
-              flex: 6,
+              flex: 12,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +135,7 @@ class _RequestCardState extends State<RequestCard> {
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: FlatButton(
                 onPressed: () async {
                   await Navigator.pushNamed(context, '/respond_details', arguments: rc);
