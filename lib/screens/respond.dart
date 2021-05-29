@@ -125,9 +125,7 @@ class _RespondState extends State<Respond> {
     List<RequestCard> convertAndFilterList(List<dynamic> myList) {
       // return myList.map((item) => convertMapToRequestCard(item)).toList();
       return myList.map((item) => (
-          (item["accepted"] as bool) || (item["uid"] == user.uid)
-          ? RequestCard.empty()
-          : convertMapToRequestCard(item))).toList();
+          (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
     }
 
     // to get userList
