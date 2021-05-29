@@ -87,7 +87,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                       child: Text(
                         'ACCEPT',
                         style: TextStyle(
-                          color: Colors.teal[900],
+                          color: user.uid == rc.uid? Colors.grey[500]: Colors.teal[900],
                           letterSpacing: 1.7,
                           fontWeight: FontWeight.bold,
                         ),
