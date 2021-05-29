@@ -33,7 +33,7 @@ We are also welcoming ideas for additional features to our application. Please c
 
 ## Installation Guide
 
-The app can be downloaded [here](https://drive.google.com/file/d/1Vy7YOBOoa3pXO6ZAC8XMqM7rqnTkQWmc/view?usp=sharing) for Android devices.
+The app can be downloaded [here](https://drive.google.com/file/d/1ugKgF95O_3tzvPzezhjWSZYLs_9_yjfl/view?usp=sharing) for Android devices.
 
 The current version of the app only works on Android devices. We will update support for Apple devices as soon as possible.
 
