@@ -59,9 +59,9 @@ class _ProfileState extends State<Profile> {
                       )
                   ),
                 ),
-                SizedBox(
-                  height: 0.0125 * size.height,
-                ),
+                // SizedBox(
+                //   height: 0.002 * size.height,
+                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/my_responses');
