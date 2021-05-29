@@ -14,7 +14,7 @@ Users who are able to help with a particular request can accept the request via 
 
 Attached below is a PDF file which contains a concept map of the routing within the application.
 
-[Technical Proof of Concept.pdf](https://github.com/nataniayp/please/files/6559964/Milestone.1.Technical.Proof.of.Concept.pdf)
+[Milestone 1 Technical Proof of Concept.pdf](https://github.com/nataniayp/plEASE/files/6564391/Milestone.1.Technical.Proof.of.Concept.pdf)
 
 ## Features
 
