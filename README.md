@@ -16,6 +16,8 @@ Attached below is a PDF file which contains a concept map of the routing within 
 
 [Milestone 1 Technical Proof of Concept.pdf](https://github.com/nataniayp/plEASE/files/6564391/Milestone.1.Technical.Proof.of.Concept.pdf)
 
+Screen recordings of user flow can also be found at the following [link](https://drive.google.com/drive/folders/1h9DL48iL497DY_qJPftQBc2X2lBvfNBt?usp=sharing).
+
 ## Features
 
 1. Registration of account
