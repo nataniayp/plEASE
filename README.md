@@ -12,7 +12,7 @@ When in urgent need of something within your on-campus residence, simply fill in
 
 Users who are able to help with a particular request can accept the request via our respond page, which will subsequently notify the person who made the request and complete the transaction.
 
-Attached below is a PDF file which contains a concept map of the routing within the application.
+Attached below is a PDF file that contains a concept map of the routing within the application.
 
 [Milestone 1 Technical Proof of Concept.pdf](https://github.com/nataniayp/plEASE/files/6564391/Milestone.1.Technical.Proof.of.Concept.pdf)
 
