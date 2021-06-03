@@ -18,11 +18,9 @@ class MyResponses extends StatefulWidget {
 class _MyResponsesState extends State<MyResponses> {
 
   TimeOfDay convertStringToTimeOfDay(String t) {
-    print(t);
     int hour;
     int minute;
     String ampm = t.substring(t.length - 2);
-    print(ampm);
     String result = t.substring(0, t.indexOf(' '));
     if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
       hour = int.parse(result.split(':')[0]);
@@ -35,8 +33,6 @@ class _MyResponsesState extends State<MyResponses> {
       }
       minute = int.parse(result.split(":")[1]);
     }
-    print(hour);
-    print(minute);
     return TimeOfDay(hour: hour, minute: minute);
   }
 
@@ -60,6 +56,12 @@ class _MyResponsesState extends State<MyResponses> {
     return myList.map((item) => convertMapToRequestCard(item)).toList();
   }
 
+  // sorting functions by datetime & timeofday
+  int compareTOD(TimeOfDay a, TimeOfDay b) {
+    double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+    return toDouble(a).compareTo(toDouble(b));
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
@@ -72,6 +74,20 @@ class _MyResponsesState extends State<MyResponses> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 UserCredentials userCred = snapshot.data;
+                List<RequestCard> finalList = convertList(userCred.resList);
+
+                // sorting functions by datetime & timeofday
+                int compareTOD(TimeOfDay a, TimeOfDay b) {
+                  double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+                  return toDouble(a).compareTo(toDouble(b));
+                }
+
+                finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
+                    ? a.selectedDate.compareTo(b.selectedDate)
+                    : compareTOD(a.selectedTime, b.selectedTime)
+                );
+
+
                 return Column(
                   children: <Widget>[
                     CustomisedAppBar(withBackArrow: true,),
@@ -79,9 +95,9 @@ class _MyResponsesState extends State<MyResponses> {
                     Expanded(
                       child: Scrollbar(
                         child: ListView.builder(
-                            itemCount: convertList(userCred.resList).length,
+                            itemCount: finalList.length,
                             itemBuilder: (context, index) {
-                              return convertList(userCred.resList)[index];
+                              return finalList[index];
                             }
                         ),
                       ),
