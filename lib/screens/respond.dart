@@ -131,6 +131,14 @@ class _RespondState extends State<Respond> {
   //     : convertMapToRequestCard(item)).toList();
   // }
 
+  List<RequestCard> actualFlatMap(List<List<RequestCard>> l) {
+    List<RequestCard> result = [];
+    for (List<RequestCard> m in l) {
+      result.addAll(m);
+    }
+    return result;
+  }
+
   List<Widget> flatMap(List<List<RequestCard>> myList) {
     return List.generate(myList.length, (index){
       return Column(
@@ -152,9 +160,6 @@ class _RespondState extends State<Respond> {
           (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
     }
 
-    // to get userList
-    // final userList = Provider.of<List<UserCredentials>>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -163,6 +168,16 @@ class _RespondState extends State<Respond> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<UserCredentials> userData = snapshot.data;
+              List<Widget> finalList = flatMap(
+                  userData.map((item) => convertAndFilterList(
+                      item.reqList
+                  ).toList()).toList()
+              );
+
+              List<RequestCard> test = actualFlatMap(userData.map((item) => convertAndFilterList(
+                  item.reqList
+              ).toList()).toList());
+
               return Container(
                   child: Column(
                     children: <Widget>[
@@ -174,17 +189,9 @@ class _RespondState extends State<Respond> {
                           //   children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
                           // ),
                           child: ListView.builder(
-                            itemCount: flatMap(
-                              userData.map((item) => convertAndFilterList(
-                                  item.reqList
-                              ).toList()).toList()
-                            ).length,
+                            itemCount: test.length,
                             itemBuilder: (context, index) {
-                              return flatMap(
-                                userData.map((item) => convertAndFilterList(
-                                    item.reqList
-                                ).toList()).toList()
-                              )[index];
+                              return test[index];
                             }
                           ),
                         ),
