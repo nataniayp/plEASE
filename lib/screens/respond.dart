@@ -85,6 +85,29 @@ class _RespondState extends State<Respond> {
     ),
   ];
 
+  TimeOfDay convertStringToTimeOfDay(String t) {
+    print(t);
+    int hour;
+    int minute;
+    String ampm = t.substring(t.length - 2);
+    print(ampm);
+    String result = t.substring(0, t.indexOf(' '));
+    if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
+      hour = int.parse(result.split(':')[0]);
+      if (hour == 12) hour = 0;
+      minute = int.parse(result.split(":")[1]);
+    } else {
+      hour = int.parse(result.split(':')[0]) - 12;
+      if (hour <= 0) {
+        hour = 24 + hour;
+      }
+      minute = int.parse(result.split(":")[1]);
+    }
+    print(hour);
+    print(minute);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
       uid: map['uid'],
@@ -93,7 +116,8 @@ class _RespondState extends State<Respond> {
       itemName: map['item'],
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
-      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
+      selectedTime: convertStringToTimeOfDay(map['time']),
+      // selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
       accepted: map['accepted'],
       acceptedBy: map['acceptedBy'],
       acceptedByUid: map['acceptedByUid'],
