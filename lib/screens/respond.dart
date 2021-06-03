@@ -18,6 +18,21 @@ class Respond extends StatefulWidget {
 
 class _RespondState extends State<Respond> {
 
+  String selectedCat = "FILTER";
+  List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
+
+  String convertCatName(String s) {
+    if (s == 'Food') {
+      return 'food';
+    } else if (s == 'Stationery') {
+      return 'stationery';
+    } if (s == 'Cleaning supplies') {
+      return 'cleaning';
+    } else {
+      return 'others';
+    }
+  }
+
   List<RequestCard> myList = [
     RequestCard(
       userName: "Natania",
@@ -189,7 +204,27 @@ class _RespondState extends State<Respond> {
                   child: Column(
                     children: <Widget>[
                       CustomisedAppBar(),
-                      ScreenHeader(name: "Respond", withSortBy: true),
+                      Row(
+                        children: [
+                          ScreenHeader(name: "Respond"),
+                          Padding(
+                            padding: EdgeInsets.only(left: 0.45 * size.width),
+                            child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                selectedCat,
+                                style: TextStyle(
+                                  color: Colors.teal[900],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 0.02 * size.height,
+                                  letterSpacing: 1.0,
+                                ),
+                              ),
+                              ),
+                            ),
+                        ],
+                      ),
+
                       // convertMapToRequestCard(userData[0].req[0]),
                       Expanded(
                         child: Scrollbar(// child: Column(
