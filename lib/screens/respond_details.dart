@@ -106,7 +106,8 @@ class _RespondDetailsState extends State<RespondDetails> {
                           DateFormat('yyyy-MM-dd').format(rc.selectedDate),
                           rc.selectedTime.format(context),
                         );
-                        await Navigator.pushReplacementNamed(context, '/my_requests');
+                        await Navigator.pop(context);
+                        // await Navigator.pushReplacementNamed(context, '/my_requests');
                       },
                       height: 50.0,
                       minWidth: 200.0,
