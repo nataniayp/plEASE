@@ -32,7 +32,7 @@ class _RespondDetailsState extends State<RespondDetails> {
             if (snapshot.hasData) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   CustomisedAppBar(withBackArrow: true,),
                   ScreenHeader(name: 'Respond Details'),
                   Text('Category: ${rc.category}'),
@@ -87,13 +87,38 @@ class _RespondDetailsState extends State<RespondDetails> {
                       child: Text(
                         'ACCEPT',
                         style: TextStyle(
-                          color: user.uid == rc.uid? Colors.grey[500]: Colors.teal[900],
+                          color: user.uid == rc.uid ? Colors.grey[500]: Colors.teal[900],
                           letterSpacing: 1.7,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
+                  (user.uid == rc.uid)
+                    ? FlatButton(
+                      onPressed: () async {
+                        await DatabaseService(uid: user.uid).deleteAcceptedReq(
+                          rc.uid,
+                          rc.userName,
+                          rc.category,
+                          rc.itemName,
+                          rc.quantity,
+                          DateFormat('yyyy-MM-dd').format(rc.selectedDate),
+                          rc.selectedTime.format(context),
+                        );
+                        await Navigator.pushReplacementNamed(context, '/my_requests');
+                      },
+                      height: 50.0,
+                      minWidth: 200.0,
+                      child: Text(
+                        'DELETE',
+                        style: TextStyle(
+                          color: Colors.teal[900],
+                          letterSpacing: 1.7,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ) : Container()
                 ],
               );
             } else {
