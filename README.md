@@ -12,9 +12,11 @@ When in urgent need of something within your on-campus residence, simply fill in
 
 Users who are able to help with a particular request can accept the request via our respond page, which will subsequently notify the person who made the request and complete the transaction.
 
-Attached below is a PDF file which contains a concept map of the routing within the application.
+Attached below is a PDF file that contains a concept map of the routing within the application.
 
-[Technical Proof of Concept.pdf](https://github.com/nataniayp/please/files/6559964/Milestone.1.Technical.Proof.of.Concept.pdf)
+[Milestone 1 Technical Proof of Concept.pdf](https://github.com/nataniayp/plEASE/files/6564391/Milestone.1.Technical.Proof.of.Concept.pdf)
+
+Screen recordings of user flow can also be found at the following [link](https://drive.google.com/drive/folders/1h9DL48iL497DY_qJPftQBc2X2lBvfNBt?usp=sharing).
 
 ## Features
 
@@ -33,7 +35,7 @@ We are also welcoming ideas for additional features to our application. Please c
 
 ## Installation Guide
 
-The app can be downloaded [here](https://drive.google.com/file/d/1Vy7YOBOoa3pXO6ZAC8XMqM7rqnTkQWmc/view?usp=sharing) for Android devices.
+The app can be downloaded [here](https://drive.google.com/file/d/1ugKgF95O_3tzvPzezhjWSZYLs_9_yjfl/view?usp=sharing) for Android devices.
 
 The current version of the app only works on Android devices. We will update support for Apple devices as soon as possible.
 
