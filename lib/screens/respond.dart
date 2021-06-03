@@ -86,11 +86,9 @@ class _RespondState extends State<Respond> {
   ];
 
   TimeOfDay convertStringToTimeOfDay(String t) {
-    print(t);
     int hour;
     int minute;
     String ampm = t.substring(t.length - 2);
-    print(ampm);
     String result = t.substring(0, t.indexOf(' '));
     if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
       hour = int.parse(result.split(':')[0]);
@@ -103,8 +101,6 @@ class _RespondState extends State<Respond> {
       }
       minute = int.parse(result.split(":")[1]);
     }
-    print(hour);
-    print(minute);
     return TimeOfDay(hour: hour, minute: minute);
   }
 
@@ -131,7 +127,7 @@ class _RespondState extends State<Respond> {
   //     : convertMapToRequestCard(item)).toList();
   // }
 
-  List<RequestCard> actualFlatMap(List<List<RequestCard>> l) {
+  List<RequestCard> flatMap(List<List<RequestCard>> l) {
     List<RequestCard> result = [];
     for (List<RequestCard> m in l) {
       result.addAll(m);
@@ -139,13 +135,13 @@ class _RespondState extends State<Respond> {
     return result;
   }
 
-  List<Widget> flatMap(List<List<RequestCard>> myList) {
-    return List.generate(myList.length, (index){
-      return Column(
-        children: myList[index],
-      );
-    });
-  }
+  // List<Widget> flatMap(List<List<RequestCard>> myList) {
+  //   return List.generate(myList.length, (index){
+  //     return Column(
+  //       children: myList[index],
+  //     );
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -168,15 +164,26 @@ class _RespondState extends State<Respond> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<UserCredentials> userData = snapshot.data;
-              List<Widget> finalList = flatMap(
-                  userData.map((item) => convertAndFilterList(
-                      item.reqList
-                  ).toList()).toList()
-              );
+              // List<Widget> finalList = flatMap(
+              //     userData.map((item) => convertAndFilterList(
+              //         item.reqList
+              //     ).toList()).toList()
+              // );
 
-              List<RequestCard> test = actualFlatMap(userData.map((item) => convertAndFilterList(
+              List<RequestCard> finalList = flatMap(userData.map((item) => convertAndFilterList(
                   item.reqList
               ).toList()).toList());
+
+              // sorting functions by datetime & timeofday
+              int compareTOD(TimeOfDay a, TimeOfDay b) {
+                double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+                return toDouble(a).compareTo(toDouble(b));
+              }
+
+              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
+                ? a.selectedDate.compareTo(b.selectedDate)
+                : compareTOD(a.selectedTime, b.selectedTime)
+              );
 
               return Container(
                   child: Column(
@@ -189,9 +196,9 @@ class _RespondState extends State<Respond> {
                           //   children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
                           // ),
                           child: ListView.builder(
-                            itemCount: test.length,
+                            itemCount: finalList.length,
                             itemBuilder: (context, index) {
-                              return test[index];
+                              return finalList[index];
                             }
                           ),
                         ),
