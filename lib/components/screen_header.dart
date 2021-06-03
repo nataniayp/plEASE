@@ -34,7 +34,6 @@ class _ScreenHeaderState extends State<ScreenHeader> {
               letterSpacing: 1.0,
             ),
           ),
-          Spacer(),
           if (widget.withSortBy != null && widget.withSortBy)
             TextButton(
               onPressed: () {},
