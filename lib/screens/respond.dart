@@ -22,12 +22,13 @@ class _RespondState extends State<Respond> {
   String currentCat = "FILTER";
   List<String> category = ['FILTER', 'Food', 'Stationery', 'Cleaning', 'Others'];
 
+
   String convertCatName(String s) {
     if (s == 'Food') {
       return 'food';
     } else if (s == 'Stationery') {
       return 'stationery';
-    } if (s == 'Cleaning supplies') {
+    } if (s == 'Cleaning') {
       return 'cleaning';
     } else if (s == 'Others') {
       return 'others';
