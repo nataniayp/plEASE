@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_card.dart';
@@ -18,8 +19,8 @@ class Respond extends StatefulWidget {
 
 class _RespondState extends State<Respond> {
 
-  String selectedCat = "FILTER";
-  List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
+  String currentCat = "FILTER";
+  List<String> category = ['FILTER', 'Food', 'Stationery', 'Cleaning', 'Others'];
 
   String convertCatName(String s) {
     if (s == 'Food') {
@@ -28,77 +29,12 @@ class _RespondState extends State<Respond> {
       return 'stationery';
     } if (s == 'Cleaning supplies') {
       return 'cleaning';
-    } else {
+    } else if (s == 'Others') {
       return 'others';
+    } else {
+      return 'FILTER';
     }
   }
-
-  List<RequestCard> myList = [
-    RequestCard(
-      userName: "Natania",
-      category: "food",
-      itemName: "aglio olio",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "stationery",
-      itemName: "stapler",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "cleaning",
-      itemName: "vacuum cleaner",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "others",
-      itemName: "more sleep",
-      quantity: 100,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "food",
-      itemName: "aglio olio",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "stationery",
-      itemName: "stapler",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "cleaning",
-      itemName: "vacuum cleaner",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "others",
-      itemName: "more sleep",
-      quantity: 100,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-  ];
 
   TimeOfDay convertStringToTimeOfDay(String t) {
     int hour;
@@ -204,32 +140,54 @@ class _RespondState extends State<Respond> {
                   child: Column(
                     children: <Widget>[
                       CustomisedAppBar(),
+
                       Row(
                         children: [
-                          ScreenHeader(name: "Respond"),
-                          Padding(
-                            padding: EdgeInsets.only(left: 0.45 * size.width),
-                            child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                selectedCat,
-                                style: TextStyle(
-                                  color: Colors.teal[900],
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 0.02 * size.height,
-                                  letterSpacing: 1.0,
-                                ),
-                              ),
-                              ),
-                            ),
+                          Expanded(flex: 2, child: ScreenHeader(name: "Respond")),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 0.1 * size.width),
+                            width: 0.45 * size.width,
+                            child: DropdownButtonFormField(
+                              isDense: true,
+                              isExpanded: true,
+                              value: currentCat ?? "FILTER",
+                              items: category.map((item){
+                                return DropdownMenuItem(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(
+                                      color: Colors.teal[900],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 0.02 * size.height,
+                                      letterSpacing: 1.0,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (val) => setState(() => currentCat = val),
+                            )
+                          ),
                         ],
-                      ),
 
-                      // convertMapToRequestCard(userData[0].req[0]),
+
+                        // TextButton(
+                        //   onPressed: () {},
+                        //   child: Text(
+                        //     currentCat,
+                        //     style: TextStyle(
+                        //       color: Colors.teal[900],
+                        //       fontWeight: FontWeight.bold,
+                        //       fontSize: 0.02 * size.height,
+                        //       letterSpacing: 1.0,
+                        //     ),
+                        //   ),
+                        // ),
+                      ),
+                      SizedBox(height: 20),
                       Expanded(
-                        child: Scrollbar(// child: Column(
-                          //   children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
-                          // ),
+                        child: Scrollbar(
                           child: ListView.builder(
                             itemCount: finalList.length,
                             itemBuilder: (context, index) {
