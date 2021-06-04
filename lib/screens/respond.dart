@@ -102,10 +102,18 @@ class _RespondState extends State<Respond> {
     // to get current uid
     final user = Provider.of<UserData>(context);
 
-    List<RequestCard> convertAndFilterList(List<dynamic> myList) {
+    List<RequestCard> convertAndFilterList(List<dynamic> myList, String s) {
       // return myList.map((item) => convertMapToRequestCard(item)).toList();
-      return myList.map((item) => (
-          (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
+      if (convertCatName(s) == 'FILTER') {
+        return myList.map((item) => (
+            (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
+      } else {
+        return myList.map((item) => (
+            (item["accepted"] as bool || item["cat"] != convertCatName(s))
+              ? RequestCard.empty()
+              : convertMapToRequestCard(item)
+        )).toList();
+      }
     }
 
     return Scaffold(
@@ -123,7 +131,7 @@ class _RespondState extends State<Respond> {
               // );
 
               List<RequestCard> finalList = flatMap(userData.map((item) => convertAndFilterList(
-                  item.reqList
+                  item.reqList, currentCat
               ).toList()).toList());
 
               // sorting functions by datetime & timeofday
@@ -132,10 +140,10 @@ class _RespondState extends State<Respond> {
                 return toDouble(a).compareTo(toDouble(b));
               }
 
-              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
-                ? a.selectedDate.compareTo(b.selectedDate)
-                : compareTOD(a.selectedTime, b.selectedTime)
-              );
+              // finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
+              //   ? a.selectedDate.compareTo(b.selectedDate)
+              //   : compareTOD(a.selectedTime, b.selectedTime)
+              // );
 
               return Container(
                   child: Column(
