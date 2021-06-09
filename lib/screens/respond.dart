@@ -70,27 +70,27 @@ class _RespondState extends State<Respond> {
     );
   }
 
+  List<RequestCard> convertList(List<dynamic> l) {
+    return l.map((item) => convertMapToRequestCard(item)).toList();
+  }
+
+  List<RequestCard> filterList(List<RequestCard> l, String s) {
+    List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
+    if (s == 'FILTER') {
+      return noAccepted;
+    } else {
+      return noAccepted
+          .where((item) => item.category == convertCatName(s))
+          .toList();
+    }
+  }
+
   List<RequestCard> flatMap(List<List<RequestCard>> l) {
     List<RequestCard> result = [];
     for (List<RequestCard> m in l) {
       result.addAll(m);
     }
     return result;
-  }
-
-  List<RequestCard> convertList(List<dynamic> myList) {
-    return myList.map((item) => (
-        (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
-  }
-
-  List<RequestCard> filterList(List<RequestCard> l, String s) {
-    if (s == 'FILTER') {
-      return l;
-    } else {
-      return l
-          .where((item) => item.category == convertCatName(s))
-          .toList();
-    }
   }
 
   @override
