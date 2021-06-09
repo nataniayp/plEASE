@@ -22,7 +22,6 @@ class _RespondState extends State<Respond> {
   String currentCat = "FILTER";
   List<String> category = ['FILTER', 'Food', 'Stationery', 'Cleaning', 'Others'];
 
-
   String convertCatName(String s) {
     if (s == 'Food') {
       return 'food';
@@ -158,20 +157,6 @@ class _RespondState extends State<Respond> {
                             )
                           ),
                         ],
-
-
-                        // TextButton(
-                        //   onPressed: () {},
-                        //   child: Text(
-                        //     currentCat,
-                        //     style: TextStyle(
-                        //       color: Colors.teal[900],
-                        //       fontWeight: FontWeight.bold,
-                        //       fontSize: 0.02 * size.height,
-                        //       letterSpacing: 1.0,
-                        //     ),
-                        //   ),
-                        // ),
                       ),
                       SizedBox(height: 20),
                       Expanded(
@@ -188,7 +173,7 @@ class _RespondState extends State<Respond> {
                   )
               );
             } else {
-              print(snapshot.error);
+              // print(snapshot.error);
               return Loading();
             }
           }
