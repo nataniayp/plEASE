@@ -65,19 +65,26 @@ class _RespondState extends State<Respond> {
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
       selectedTime: convertStringToTimeOfDay(map['time']),
-      // selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
       accepted: map['accepted'],
       acceptedBy: map['acceptedBy'],
       acceptedByUid: map['acceptedByUid'],
     );
   }
 
-  // List<RequestCard> convertAndFilterList(List<dynamic> myList) {
-  //   // return myList.map((item) => convertMapToRequestCard(item)).toList();
-  //   return myList.map((item) => (item["accepted"] as bool)
-  //     ? RequestCard.empty()
-  //     : convertMapToRequestCard(item)).toList();
-  // }
+  List<RequestCard> convertList(List<dynamic> l) {
+    return l.map((item) => convertMapToRequestCard(item)).toList();
+  }
+
+  List<RequestCard> filterList(List<RequestCard> l, String s) {
+    List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
+    if (s == 'FILTER') {
+      return noAccepted;
+    } else {
+      return noAccepted
+          .where((item) => item.category == convertCatName(s))
+          .toList();
+    }
+  }
 
   List<RequestCard> flatMap(List<List<RequestCard>> l) {
     List<RequestCard> result = [];
@@ -87,34 +94,12 @@ class _RespondState extends State<Respond> {
     return result;
   }
 
-  // List<Widget> flatMap(List<List<RequestCard>> myList) {
-  //   return List.generate(myList.length, (index){
-  //     return Column(
-  //       children: myList[index],
-  //     );
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
     // to get current uid
     final user = Provider.of<UserData>(context);
-
-    List<RequestCard> convertAndFilterList(List<dynamic> myList, String s) {
-      // return myList.map((item) => convertMapToRequestCard(item)).toList();
-      if (convertCatName(s) == 'FILTER') {
-        return myList.map((item) => (
-            (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
-      } else {
-        return myList.map((item) => (
-            (item["accepted"] as bool || item["cat"] != convertCatName(s))
-              ? RequestCard.empty()
-              : convertMapToRequestCard(item)
-        )).toList();
-      }
-    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -124,15 +109,9 @@ class _RespondState extends State<Respond> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<UserCredentials> userData = snapshot.data;
-              // List<Widget> finalList = flatMap(
-              //     userData.map((item) => convertAndFilterList(
-              //         item.reqList
-              //     ).toList()).toList()
-              // );
 
-              List<RequestCard> finalList = flatMap(userData.map((item) => convertAndFilterList(
-                  item.reqList, currentCat
-              ).toList()).toList());
+              List<RequestCard> finalList = filterList(flatMap(
+                  userData.map((item) => convertList(item.reqList).toList()).toList()), currentCat);
 
               // sorting functions by datetime & timeofday
               int compareTOD(TimeOfDay a, TimeOfDay b) {
@@ -140,10 +119,10 @@ class _RespondState extends State<Respond> {
                 return toDouble(a).compareTo(toDouble(b));
               }
 
-              // finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
-              //   ? a.selectedDate.compareTo(b.selectedDate)
-              //   : compareTOD(a.selectedTime, b.selectedTime)
-              // );
+              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
+                ? a.selectedDate.compareTo(b.selectedDate)
+                : compareTOD(a.selectedTime, b.selectedTime)
+              );
 
               return Container(
                   child: Column(
