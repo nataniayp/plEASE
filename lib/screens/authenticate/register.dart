@@ -99,6 +99,7 @@ class _RegisterState extends State<Register> {
                         TextFormField(
                           style: TextStyle(color: Colors.white,),
                           decoration: InputDecoration(
+                            suffixText: '@u.nus.edu',
                             hintText: "Email",
                             hintStyle: TextStyle(color: Colors.white,),
                             enabledBorder: UnderlineInputBorder(
@@ -112,7 +113,8 @@ class _RegisterState extends State<Register> {
                               ? 'Enter an email'
                               : null,
                           onChanged: (val) {
-                            setState(() => email = val);
+                            String suffix = '@u.nus.edu';
+                            setState(() => email = val + suffix);
                           },
                         ),
                         SizedBox(

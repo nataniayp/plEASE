@@ -78,6 +78,7 @@ class _SignInState extends State<SignIn> {
                       TextFormField(
                         style: TextStyle(color: Colors.white,),
                         decoration: InputDecoration(
+                          suffixText: '@u.nus.edu',
                           hintText: "Email",
                           hintStyle: TextStyle(color: Colors.white,),
                           enabledBorder: UnderlineInputBorder(
@@ -91,7 +92,8 @@ class _SignInState extends State<SignIn> {
                             ? 'Enter an email'
                             : null,
                         onChanged: (val) {
-                          setState(() => email = val);
+                          String suffix = '@u.nus.edu';
+                          setState(() => email = val + suffix);
                         },
                       ),
                       SizedBox(
