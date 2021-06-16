@@ -23,6 +23,13 @@ class _RespondDetailsState extends State<RespondDetails> {
     RequestCard rc = ModalRoute.of(context).settings.arguments;
     final user = Provider.of<UserData>(context);
 
+    List<String> users = [rc.uid, user.uid];
+    String chatRoomId = "${rc.uid}_${user.uid}";
+    Map<String, dynamic> chatRoomMap = {
+      "users": users,
+      "chatRoomId": chatRoomId
+    };
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -79,6 +86,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                             rc.selectedTime.format(context),
                             rc.acceptedBy,
                         );
+                        await DatabaseService(uid: user.uid).createChatRoom(chatRoomId, chatRoomMap);
                         await Navigator.pushReplacementNamed(context, '/my_responses');
                       },
                       color: Colors.white,

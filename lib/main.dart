@@ -1,15 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:please/screens/home.dart';
 import 'package:please/screens/request_input.dart';
 import 'package:please/screens/my_requests.dart';
 import 'package:please/screens/my_responses.dart';
 import 'package:please/screens/respond_details.dart';
 import 'package:please/screens/wrapper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:please/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:please/models/user_data.dart';
+import 'screens/chatroom.dart';
 
 
 void main() async {
@@ -34,6 +33,7 @@ class MyApp extends StatelessWidget {
           '/request_input': (context) => RequestInput(),
           '/my_responses': (context) => MyResponses(),
           '/respond_details': (context) => RespondDetails(),
+          '/chatroom': (context) => chatRoom(),
         },
       ),
     );

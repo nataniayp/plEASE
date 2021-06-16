@@ -3,8 +3,6 @@ import 'package:please/screens/home.dart';
 import 'package:please/models/user_data.dart';
 import 'package:provider/provider.dart';
 import 'package:please/screens/authenticate/authenticate.dart';
-import 'package:please/screens/authenticate/sign_in.dart';
-import 'package:please/screens/authenticate/register.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key key}) : super(key: key);

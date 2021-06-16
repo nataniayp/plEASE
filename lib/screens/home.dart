@@ -5,6 +5,7 @@ import 'package:please/screens/respond.dart';
 import 'package:please/screens/profile.dart';
 import 'package:please/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:please/screens/chatroom.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -17,6 +18,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 1;
   final List<Widget> _children = [
     Request(),
+    chatRoom(chatRoomId: "NUc50EZbhHMUl1UFGGyfSBgI2Ec2_pamJxPCA75Q9FbUHp2ou8NQ0ZBC2"),
     Respond(),
     Profile(),
   ];
