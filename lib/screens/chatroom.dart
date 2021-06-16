@@ -35,14 +35,15 @@ class _chatRoomState extends State<chatRoom> {
       return StreamBuilder<List<MessageData>>(
         stream: DatabaseService(chatRoomId: widget.chatRoomId).messageData,
         builder: (context, snapshot){
+          print('snapshot: $snapshot');
           if (snapshot.hasData){
             List<MessageData> messages = snapshot.data;
             return ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index){
                 return chatBubble(
-                    message: messages[index].message,
-                    isSentByUser: messages[index].sendBy == user.uid,
+                  message: messages[index].message,
+                  isSentByUser: messages[index].sendBy == user.uid,
                 );
               });
           } else {

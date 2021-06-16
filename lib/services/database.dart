@@ -123,12 +123,13 @@ class DatabaseService {
   // userInfo list from snapshot
   List<UserCredentials> _userInfoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc){
-     return UserCredentials(
-       doc.get('uid') ?? '',
-       doc.get('name') ?? '',
-       doc.get('reqList') ?? [],
-       doc.get('resList') ?? [],
-     );
+      // print(doc.data());
+      return UserCredentials(
+        doc.get('uid') ?? '',
+        doc.get('name') ?? '',
+        doc.get('reqList') ?? [],
+        doc.get('resList') ?? [],
+      );
     }).toList();
   }
 
@@ -185,9 +186,9 @@ class DatabaseService {
   List<MessageData> _messageDataFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return MessageData(
-        message: doc.get("message"),
-        sendBy: doc.get("sendBy"),
-        sendTime: doc.get("sendTime")
+        message: doc.get("message") ?? '',
+        sendBy: doc.get("sendBy") ?? '',
+        sendTime: DateTime.now(),
       );
     }).toList();
   }
@@ -196,8 +197,8 @@ class DatabaseService {
   Stream<List<MessageData>> get messageData{
     return chatRoomCollection
         .doc(chatRoomId)
-        .collection("messages")
-        .snapshots()
-        .map(_messageDataFromSnapshot);
+        .collection("messages") // nested collection
+        .snapshots() // get individual documents
+        .map(_messageDataFromSnapshot); // invoke function on individual documents
   }
 }
