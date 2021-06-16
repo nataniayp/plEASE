@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_card.dart';
@@ -17,72 +19,41 @@ class Respond extends StatefulWidget {
 
 class _RespondState extends State<Respond> {
 
-  List<RequestCard> myList = [
-    RequestCard(
-      userName: "Natania",
-      category: "food",
-      itemName: "aglio olio",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "stationery",
-      itemName: "stapler",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "cleaning",
-      itemName: "vacuum cleaner",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "others",
-      itemName: "more sleep",
-      quantity: 100,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "food",
-      itemName: "aglio olio",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "stationery",
-      itemName: "stapler",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "cleaning",
-      itemName: "vacuum cleaner",
-      quantity: 1,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-    RequestCard(
-      userName: "Natania",
-      category: "others",
-      itemName: "more sleep",
-      quantity: 100,
-      selectedDate: DateTime.now(),
-      selectedTime: TimeOfDay.now(),
-    ),
-  ];
+  String currentCat = "FILTER";
+  List<String> category = ['FILTER', 'Food', 'Stationery', 'Cleaning', 'Others'];
+
+  String convertCatName(String s) {
+    if (s == 'Food') {
+      return 'food';
+    } else if (s == 'Stationery') {
+      return 'stationery';
+    } if (s == 'Cleaning') {
+      return 'cleaning';
+    } else if (s == 'Others') {
+      return 'others';
+    } else {
+      return 'FILTER';
+    }
+  }
+
+  TimeOfDay convertStringToTimeOfDay(String t) {
+    int hour;
+    int minute;
+    String ampm = t.substring(t.length - 2);
+    String result = t.substring(0, t.indexOf(' '));
+    if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
+      hour = int.parse(result.split(':')[0]);
+      if (hour == 12) hour = 0;
+      minute = int.parse(result.split(":")[1]);
+    } else {
+      hour = int.parse(result.split(':')[0]) - 12;
+      if (hour <= 0) {
+        hour = 24 + hour;
+      }
+      minute = int.parse(result.split(":")[1]);
+    }
+    return TimeOfDay(hour: hour, minute: minute);
+  }
 
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
@@ -92,26 +63,34 @@ class _RespondState extends State<Respond> {
       itemName: map['item'],
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
-      selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
+      selectedTime: convertStringToTimeOfDay(map['time']),
       accepted: map['accepted'],
       acceptedBy: map['acceptedBy'],
       acceptedByUid: map['acceptedByUid'],
     );
   }
 
-  // List<RequestCard> convertAndFilterList(List<dynamic> myList) {
-  //   // return myList.map((item) => convertMapToRequestCard(item)).toList();
-  //   return myList.map((item) => (item["accepted"] as bool)
-  //     ? RequestCard.empty()
-  //     : convertMapToRequestCard(item)).toList();
-  // }
+  List<RequestCard> convertList(List<dynamic> l) {
+    return l.map((item) => convertMapToRequestCard(item)).toList();
+  }
 
-  List<Widget> flatMap(List<List<RequestCard>> myList) {
-    return List.generate(myList.length, (index){
-      return Column(
-        children: myList[index],
-      );
-    });
+  List<RequestCard> filterList(List<RequestCard> l, String s) {
+    List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
+    if (s == 'FILTER') {
+      return noAccepted;
+    } else {
+      return noAccepted
+          .where((item) => item.category == convertCatName(s))
+          .toList();
+    }
+  }
+
+  List<RequestCard> flatMap(List<List<RequestCard>> l) {
+    List<RequestCard> result = [];
+    for (List<RequestCard> m in l) {
+      result.addAll(m);
+    }
+    return result;
   }
 
   @override
@@ -121,15 +100,6 @@ class _RespondState extends State<Respond> {
     // to get current uid
     final user = Provider.of<UserData>(context);
 
-    List<RequestCard> convertAndFilterList(List<dynamic> myList) {
-      // return myList.map((item) => convertMapToRequestCard(item)).toList();
-      return myList.map((item) => (
-          (item["accepted"] as bool) ? RequestCard.empty(): convertMapToRequestCard(item))).toList();
-    }
-
-    // to get userList
-    // final userList = Provider.of<List<UserCredentials>>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -138,28 +108,63 @@ class _RespondState extends State<Respond> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<UserCredentials> userData = snapshot.data;
+
+              List<RequestCard> finalList = filterList(flatMap(
+                  userData.map((item) => convertList(item.reqList).toList()).toList()), currentCat);
+
+              // sorting functions by datetime & timeofday
+              int compareTOD(TimeOfDay a, TimeOfDay b) {
+                double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+                return toDouble(a).compareTo(toDouble(b));
+              }
+
+              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
+                ? a.selectedDate.compareTo(b.selectedDate)
+                : compareTOD(a.selectedTime, b.selectedTime)
+              );
+
               return Container(
                   child: Column(
                     children: <Widget>[
                       CustomisedAppBar(),
-                      ScreenHeader(name: "Respond", withSortBy: true),
-                      // convertMapToRequestCard(userData[0].req[0]),
+
+                      Row(
+                        children: [
+                          Expanded(flex: 2, child: ScreenHeader(name: "Respond")),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            padding: EdgeInsets.only(right: 0.1 * size.width),
+                            width: 0.45 * size.width,
+                            child: DropdownButtonFormField(
+                              isDense: true,
+                              isExpanded: true,
+                              value: currentCat ?? "FILTER",
+                              items: category.map((item){
+                                return DropdownMenuItem(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: TextStyle(
+                                      color: Colors.teal[900],
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 0.02 * size.height,
+                                      letterSpacing: 1.0,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (val) => setState(() => currentCat = val),
+                            )
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20),
                       Expanded(
-                        child: Scrollbar(// child: Column(
-                          //   children: flatMap(userData.map((item) => convertList(item.reqList).toList()).toList()),
-                          // ),
+                        child: Scrollbar(
                           child: ListView.builder(
-                            itemCount: flatMap(
-                              userData.map((item) => convertAndFilterList(
-                                  item.reqList
-                              ).toList()).toList()
-                            ).length,
+                            itemCount: finalList.length,
                             itemBuilder: (context, index) {
-                              return flatMap(
-                                userData.map((item) => convertAndFilterList(
-                                    item.reqList
-                                ).toList()).toList()
-                              )[index];
+                              return finalList[index];
                             }
                           ),
                         ),
@@ -168,7 +173,7 @@ class _RespondState extends State<Respond> {
                   )
               );
             } else {
-              print(snapshot.error);
+              // print(snapshot.error);
               return Loading();
             }
           }

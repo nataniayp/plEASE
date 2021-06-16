@@ -16,6 +16,25 @@ class MyRequests extends StatefulWidget {
 }
 
 class _MyRequestsState extends State<MyRequests> {
+  TimeOfDay convertStringToTimeOfDay(String t) {
+    int hour;
+    int minute;
+    String ampm = t.substring(t.length - 2);
+    String result = t.substring(0, t.indexOf(' '));
+    if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
+      hour = int.parse(result.split(':')[0]);
+      if (hour == 12) hour = 0;
+      minute = int.parse(result.split(":")[1]);
+    } else {
+      hour = int.parse(result.split(':')[0]) - 12;
+      if (hour <= 0) {
+        hour = 24 + hour;
+      }
+      minute = int.parse(result.split(":")[1]);
+    }
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
       uid: map['uid'],
@@ -24,10 +43,11 @@ class _MyRequestsState extends State<MyRequests> {
       itemName: map['item'],
       quantity: map['quantity'],
       selectedDate: DateTime.parse(map['date']),
-      selectedTime: TimeOfDay(
-        hour: int.parse(map['time'].split(":")[0]),
-        minute: int.parse(map['time'].split(":")[1].substring(0,2))
-      ),
+      selectedTime: convertStringToTimeOfDay(map['time']),
+      // selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
+      accepted: map['accepted'],
+      acceptedBy: map['acceptedBy'],
+      acceptedByUid: map['acceptedByUid'],
     );
   }
 
@@ -47,6 +67,21 @@ class _MyRequestsState extends State<MyRequests> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               UserCredentials userCred = snapshot.data;
+
+              List<RequestCard> finalList = convertList(userCred.reqList);
+
+              // sorting functions by datetime & timeofday
+              int compareTOD(TimeOfDay a, TimeOfDay b) {
+                double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+                return toDouble(a).compareTo(toDouble(b));
+              }
+
+              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
+                  ? a.selectedDate.compareTo(b.selectedDate)
+                  : compareTOD(a.selectedTime, b.selectedTime)
+              );
+
+
               return Column(
                 children: <Widget>[
                   CustomisedAppBar(withBackArrow: true,),
@@ -54,9 +89,9 @@ class _MyRequestsState extends State<MyRequests> {
                   Expanded(
                     child: Scrollbar(
                       child: ListView.builder(
-                          itemCount: convertList(userCred.reqList).length,
+                          itemCount: finalList.length,
                           itemBuilder: (context, index) {
-                            return convertList(userCred.reqList)[index];
+                            return finalList[index];
                           }
                       ),
                       // child: Column(
