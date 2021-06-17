@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:please/services/auth.dart';
 
@@ -80,6 +82,7 @@ class _ProfileState extends State<Profile> {
                 TextButton(
                   onPressed: () async {
                     await _auth.signOut();
+                    print(FirebaseAuth.instance.currentUser);
                   },
                   child: Text(
                       'LOGOUT',
