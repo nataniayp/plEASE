@@ -19,7 +19,6 @@ class _HomeState extends State<Home> {
   int _currentIndex = 1;
   final List<Widget> _children = [
     Request(),
-    chatRoom(chatRoomId: "NUc50EZbhHMUl1UFGGyfSBgI2Ec2_pamJxPCA75Q9FbUHp2ou8NQ0ZBC2"),
     Respond(),
     Profile(),
   ];

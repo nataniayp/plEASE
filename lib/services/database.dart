@@ -167,7 +167,7 @@ class DatabaseService {
   // add new message to current list of messages
   addMessages(String chatRoomId, messageMap){
     chatRoomCollection.doc(chatRoomId)
-        .collection("messages")
+        .collection("messages") // creates "messages" collection if it does not already exist
         .add(messageMap)
         .catchError((e){
           print(e.toString());
@@ -186,9 +186,9 @@ class DatabaseService {
   List<MessageData> _messageDataFromSnapshot(QuerySnapshot snapshot){
     return snapshot.docs.map((doc){
       return MessageData(
-        message: doc.get("message") ?? '',
-        sendBy: doc.get("sendBy") ?? '',
-        sendTime: DateTime.now(),
+        message: doc.get("message") ?? null,
+        sendBy: doc.get("sendBy") ?? null,
+        sendTime: DateTime.parse(doc.get("sendTime").toDate().toString()) ?? null,
       );
     }).toList();
   }

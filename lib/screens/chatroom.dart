@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:please/components/chatroom_app_bar.dart';
 import 'package:please/components/chatBubble.dart';
 import 'package:please/services/database.dart';
@@ -8,12 +9,7 @@ import 'package:please/models/user_data.dart';
 import 'package:please/models/message_data.dart';
 
 class chatRoom extends StatefulWidget {
-  const chatRoom({
-    Key key,
-    @required this.chatRoomId,
-  }) : super(key: key);
-
-  final String chatRoomId;
+  const chatRoom({Key key}) : super(key: key);
 
   @override
   _chatRoomState createState() => _chatRoomState();
@@ -27,23 +23,33 @@ class _chatRoomState extends State<chatRoom> {
   @override
   Widget build(BuildContext context) {
 
+    String chatRoomId = ModalRoute.of(context).settings.arguments;
+
     Size size = MediaQuery.of(context).size;
 
     final user = Provider.of<UserData>(context);
 
     Widget messageDisplay(){
       return StreamBuilder<List<MessageData>>(
-        stream: DatabaseService(chatRoomId: widget.chatRoomId).messageData,
+        stream: DatabaseService(chatRoomId: chatRoomId).messageData,
         builder: (context, snapshot){
-          print('snapshot: $snapshot');
           if (snapshot.hasData){
+
+            print(chatRoomId);
+
             List<MessageData> messages = snapshot.data;
+
+            // sort list based on time
+            messages.sort((a, b) => a.sendTime.compareTo(b.sendTime));
+
+            // TODO centralized date bubbles
             return ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index){
                 return chatBubble(
                   message: messages[index].message,
                   isSentByUser: messages[index].sendBy == user.uid,
+                  sendTime: messages[index].sendTime,
                 );
               });
           } else {
@@ -61,13 +67,16 @@ class _chatRoomState extends State<chatRoom> {
 
     sendMessage() {
       if (messageEditingController.text.isNotEmpty) {
+
+        // DateTime current = DateTime.now();
+
         Map<String, dynamic> messageMap = {
           "sendBy": user.uid,
           "message": messageEditingController.text,
           "sendTime": DateTime.now(),
         };
 
-        DatabaseService(uid: user.uid).addMessages(widget.chatRoomId, messageMap);
+        DatabaseService(uid: user.uid).addMessages(chatRoomId, messageMap);
 
         setState(() {
           messageEditingController.text = "";
