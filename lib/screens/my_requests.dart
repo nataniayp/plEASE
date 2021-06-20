@@ -48,6 +48,7 @@ class _MyRequestsState extends State<MyRequests> {
       accepted: map['accepted'],
       acceptedBy: map['acceptedBy'],
       acceptedByUid: map['acceptedByUid'],
+      routeToChatRoom: true,
     );
   }
 

@@ -5,6 +5,8 @@ import 'package:please/screens/respond.dart';
 import 'package:please/screens/profile.dart';
 import 'package:please/services/database.dart';
 import 'package:provider/provider.dart';
+import 'package:please/screens/chatroom.dart';
+import 'package:please/models/message_data.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key}) : super(key: key);
@@ -27,6 +29,7 @@ class _HomeState extends State<Home> {
       providers: [
         StreamProvider<List<UserCredentials>>.value(value: DatabaseService().userData),
         StreamProvider<UserCredentials>.value(value: DatabaseService().userCredentials),
+        StreamProvider<List<MessageData>>.value(value: DatabaseService().messageData),
       ],
     // return StreamProvider<List<UserCredentials>>.value(
     //   value: DatabaseService().userData,

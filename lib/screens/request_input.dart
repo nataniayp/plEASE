@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:please/components/customised_app_bar.dart';
-import 'package:please/components/request_item.dart';
+import 'package:please/models/request_item.dart';
 import 'package:intl/intl.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
@@ -92,9 +92,15 @@ class _RequestInputState extends State<RequestInput> {
                           0),
                       child: TextField(
                         onChanged: (String text) {
-                          setState(() {
-                            selected.itemName = text;
-                          });
+                          if (text.isEmpty || text == null){
+                            setState(() {
+                              selected.itemName = null;
+                            });
+                          } else {
+                            setState(() {
+                              selected.itemName = text;
+                            });
+                          }
                         },
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
@@ -112,9 +118,15 @@ class _RequestInputState extends State<RequestInput> {
                           0),
                       child: TextField(
                         onChanged: (String num) {
-                          setState(() {
-                            selected.quantity = int.parse(num);
-                          });
+                          if (num.isEmpty || num == null){
+                            setState(() {
+                              selected.quantity = null;
+                            });
+                          } else {
+                            setState(() {
+                              selected.quantity = int.parse(num);
+                            });
+                          }
                         },
                         keyboardType: TextInputType.number,
                         inputFormatters: [
@@ -131,9 +143,7 @@ class _RequestInputState extends State<RequestInput> {
                       ),
                     ),
                     Padding( // Date
-                      padding: EdgeInsets.fromLTRB(
-                          size.width * 0.1, size.height * 0.02, size.width * 0.1,
-                          0),
+                      padding: EdgeInsets.fromLTRB(size.width * 0.1, size.height * 0.02, size.width * 0.1, 0),
                       child: FlatButton.icon(
                         onPressed: () async {
                           final DateTime picked = await showDatePicker(
@@ -159,9 +169,7 @@ class _RequestInputState extends State<RequestInput> {
                       ),
                     ),
                     Padding( // Time
-                      padding: EdgeInsets.fromLTRB(
-                          size.width * 0.1, size.height * 0.02, size.width * 0.1,
-                          0),
+                      padding: EdgeInsets.fromLTRB(size.width * 0.1, size.height * 0.02, size.width * 0.1, 0),
                       child: FlatButton.icon(
                         onPressed: () async {
                           final TimeOfDay picked = await showTimePicker(
@@ -186,7 +194,7 @@ class _RequestInputState extends State<RequestInput> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                       child: FlatButton(
-                        onPressed: () async {
+                        onPressed: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null)? null: () async {
                           await DatabaseService(uid: user.uid).addRequestItem(
                             snapshot.data.name,
                             convertCatName(selected.category),
@@ -206,7 +214,7 @@ class _RequestInputState extends State<RequestInput> {
                         child: Text(
                           'SUBMIT',
                           style: TextStyle(
-                            color: Colors.teal[900],
+                            color: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null)? Colors.grey[500]: Colors.teal[900],
                             letterSpacing: 1.7,
                             fontWeight: FontWeight.bold,
                           ),

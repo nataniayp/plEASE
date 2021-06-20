@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:please/screens/chatroom.dart';
 
 
 class RequestCard extends StatefulWidget {
@@ -16,6 +17,7 @@ class RequestCard extends StatefulWidget {
     this.accepted,
     this.acceptedBy,
     this.acceptedByUid,
+    this.routeToChatRoom,
   }) : super(key: key);
 
   String uid;
@@ -28,6 +30,7 @@ class RequestCard extends StatefulWidget {
   bool accepted = false;
   String acceptedBy;
   String acceptedByUid;
+  bool routeToChatRoom;
 
   void reqAccepted(String acceptedBy, String acceptedByUid) {
     this.accepted = true;
@@ -92,9 +95,13 @@ class _RequestCardState extends State<RequestCard> {
           bottom: 0.02 * size.height,
         ),
         child: FlatButton(
-          onPressed: () async {
-            await Navigator.pushNamed(context, '/respond_details', arguments: rc);
-          },
+          onPressed: widget.routeToChatRoom?
+              () async {
+                await Navigator.pushNamed(context, '/chatroom', arguments: '${widget.uid}_${widget.acceptedByUid}');
+              }:
+              () async {
+                await Navigator.pushNamed(context, '/respond_details', arguments: rc);
+              },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
