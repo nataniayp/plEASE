@@ -71,16 +71,33 @@ class _RespondState extends State<Respond> {
     );
   }
 
+  int compareTOD(TimeOfDay a, TimeOfDay b) {
+    double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+    return toDouble(a).compareTo(toDouble(b));
+  }
+
   List<RequestCard> convertList(List<dynamic> l) {
     return l.map((item) => convertMapToRequestCard(item)).toList();
   }
 
   List<RequestCard> filterList(List<RequestCard> l, String s) {
-    List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
+    // List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
+    List<RequestCard> noAcceptedAndExpired = l.where((item) {
+      int val = item.selectedDate.compareTo(DateTime.now());
+      String date1 = item.selectedDate.toString().substring(0, item.selectedDate.toString().indexOf(' '));
+      String date2 = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
+
+      if (val < 0 && date1 != date2) {
+        return false;
+      } else {
+        return !item.accepted &&
+            compareTOD(item.selectedTime, TimeOfDay.now()) >= 0;
+      }
+    }).toList();
     if (s == 'FILTER') {
-      return noAccepted;
+      return noAcceptedAndExpired;
     } else {
-      return noAccepted
+      return noAcceptedAndExpired
           .where((item) => item.category == convertCatName(s))
           .toList();
     }
@@ -114,10 +131,6 @@ class _RespondState extends State<Respond> {
                   userData.map((item) => convertList(item.reqList).toList()).toList()), currentCat);
 
               // sorting functions by datetime & timeofday
-              int compareTOD(TimeOfDay a, TimeOfDay b) {
-                double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
-                return toDouble(a).compareTo(toDouble(b));
-              }
 
               finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
                 ? a.selectedDate.compareTo(b.selectedDate)
