@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:please/screens/authenticate/reset.dart';
 import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
@@ -141,6 +142,20 @@ class _SignInState extends State<SignIn> {
                         },
                         child: Text(
                             'SIGN IN',
+                            style: TextStyle(
+                              color: Colors.grey[500],
+                              letterSpacing: 1.7,
+                            )
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => Reset()),
+                          );
+                        },
+                        child: Text(
+                            'Forgot password?',
                             style: TextStyle(
                               color: Colors.grey[500],
                               letterSpacing: 1.7,
