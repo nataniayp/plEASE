@@ -55,6 +55,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                     child: FlatButton(
+                      // TODO change routing to chatroom
                       onPressed: user.uid == rc.uid? null: () async {
                         rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
                         await DatabaseService(uid: user.uid).deleteAcceptedReq(
@@ -93,7 +94,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                       height: 50.0,
                       minWidth: 200.0,
                       child: Text(
-                        'ACCEPT',
+                        'CHAT',
                         style: TextStyle(
                           color: user.uid == rc.uid ? Colors.grey[500]: Colors.teal[900],
                           letterSpacing: 1.7,

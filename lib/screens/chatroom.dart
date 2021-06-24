@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/models/message_data.dart';
 
-class chatRoom extends StatefulWidget {
-  const chatRoom({Key key}) : super(key: key);
+class ChatRoom extends StatefulWidget {
+  const ChatRoom({Key key}) : super(key: key);
 
   @override
-  _chatRoomState createState() => _chatRoomState();
+  _ChatRoomState createState() => _ChatRoomState();
 }
 
-class _chatRoomState extends State<chatRoom> {
+class _ChatRoomState extends State<ChatRoom> {
 
   TextEditingController messageEditingController = new TextEditingController();
   ScrollController messageScrollController = new ScrollController();
@@ -67,7 +67,6 @@ class _chatRoomState extends State<chatRoom> {
 
     sendMessage() {
       if (messageEditingController.text.isNotEmpty) {
-
         // DateTime current = DateTime.now();
 
         Map<String, dynamic> messageMap = {
@@ -82,11 +81,13 @@ class _chatRoomState extends State<chatRoom> {
           messageEditingController.text = "";
         });
 
-        messageScrollController.animateTo(messageScrollController.position.maxScrollExtent,
+        messageScrollController.animateTo(
+            messageScrollController.position.maxScrollExtent,
             duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
       }
     }
 
+    // TODO add in accept button according to figma and redo routing
     return Scaffold(
       body: SafeArea(
         child: Column(
