@@ -84,9 +84,9 @@ class _RespondState extends State<Respond> {
     // List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
     List<RequestCard> noAcceptedAndExpired = l.where((item) {
       int val = item.selectedDate.compareTo(DateTime.now());
-      String date1 = item.selectedDate.toString().substring(0, item.selectedDate.toString().indexOf(' '));
-      String date2 = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
-      if (val < 0 && date1 != date2) {
+      String dateRequest = item.selectedDate.toString().substring(0, item.selectedDate.toString().indexOf(' '));
+      String dateCurrent = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
+      if (val < 0 && dateRequest != dateCurrent) {
         return false;
       } else if (val < 0) {
         return !item.accepted && compareTOD(item.selectedTime, TimeOfDay.now()) >= 0;
