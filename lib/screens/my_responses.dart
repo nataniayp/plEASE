@@ -49,6 +49,7 @@ class _MyResponsesState extends State<MyResponses> {
       accepted: map['accepted'],
       acceptedBy: map['acceptedBy'],
       acceptedByUid: map['acceptedByUid'],
+      routeToChatRoom: true,
     );
   }
 

@@ -1,13 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:please/models/user_credentials.dart';
+import 'package:please/models/message_data.dart';
 
 class DatabaseService {
   final String uid;
-  DatabaseService({ this.uid });
+  final String chatRoomId;
+  DatabaseService({ this.uid, this.chatRoomId });
 
-  // collection reference
+  // collection reference for userInfo
   final CollectionReference userCollection
     = FirebaseFirestore.instance.collection('userInfo');
+
+  // collection reference for chatRoom
+  final CollectionReference chatRoomCollection
+  = FirebaseFirestore.instance.collection('chatRoom');
 
   Future updateUserData(String name) async {
     return await userCollection.doc(uid).set({
@@ -114,16 +120,16 @@ class DatabaseService {
     });
   }
 
-
   // userInfo list from snapshot
   List<UserCredentials> _userInfoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc){
-     return UserCredentials(
-       doc.get('uid') ?? '',
-       doc.get('name') ?? '',
-       doc.get('reqList') ?? [],
-       doc.get('resList') ?? [],
-     );
+      // print(doc.data());
+      return UserCredentials(
+        doc.get('uid') ?? '',
+        doc.get('name') ?? '',
+        doc.get('reqList') ?? [],
+        doc.get('resList') ?? [],
+      );
     }).toList();
   }
 
@@ -147,5 +153,52 @@ class DatabaseService {
   Stream<UserCredentials> get userCredentials {
     return userCollection.doc(uid).snapshots()
       .map(_userCredentialsFromSnapshot);
+  }
+
+  // create new chat room between requester and responder
+  createChatRoom(String chatRoomId, chatRoomMap) {
+    chatRoomCollection.doc(chatRoomId)
+        .set(chatRoomMap)
+        .catchError((e) {
+          print(e.toString());
+        });
+  }
+
+  // add new message to current list of messages
+  addMessages(String chatRoomId, messageMap){
+    chatRoomCollection.doc(chatRoomId)
+        .collection("messages") // creates "messages" collection if it does not already exist
+        .add(messageMap)
+        .catchError((e){
+          print(e.toString());
+    });
+  }
+
+  // // get messages
+  // Stream<MessageData> get messageData{
+  //   return chatRoomCollection
+  //       .doc(chatRoomId)
+  //       .collection("messages")
+  //       .snapshots
+  // }
+
+  // messageData from snapshot
+  List<MessageData> _messageDataFromSnapshot(QuerySnapshot snapshot){
+    return snapshot.docs.map((doc){
+      return MessageData(
+        message: doc.get("message") ?? null,
+        sendBy: doc.get("sendBy") ?? null,
+        sendTime: DateTime.parse(doc.get("sendTime").toDate().toString()) ?? null,
+      );
+    }).toList();
+  }
+
+  // get message stream
+  Stream<List<MessageData>> get messageData{
+    return chatRoomCollection
+        .doc(chatRoomId)
+        .collection("messages") // nested collection
+        .snapshots() // get individual documents
+        .map(_messageDataFromSnapshot); // invoke function on individual documents
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
-import 'package:please/components/request_item.dart';
+import 'package:please/models/request_item.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/models/user_data.dart';
 import 'package:provider/provider.dart';
