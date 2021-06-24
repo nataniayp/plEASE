@@ -87,14 +87,14 @@ class _RespondDetailsState extends State<RespondDetails> {
                             rc.selectedTime.format(context),
                             rc.acceptedBy,
                         );
-                        await DatabaseService(uid: user.uid).createChatRoom(chatRoomId, chatRoomMap);
+                        await DatabaseService(chatRoomId: chatRoomId).createChatRoom(chatRoomMap);
                         await Navigator.pushReplacementNamed(context, '/my_responses');
                       },
                       color: Colors.white,
                       height: 50.0,
                       minWidth: 200.0,
                       child: Text(
-                        'CHAT',
+                        'ACCEPT',
                         style: TextStyle(
                           color: user.uid == rc.uid ? Colors.grey[500]: Colors.teal[900],
                           letterSpacing: 1.7,

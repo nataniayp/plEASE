@@ -156,7 +156,7 @@ class DatabaseService {
   }
 
   // create new chat room between requester and responder
-  createChatRoom(String chatRoomId, chatRoomMap) {
+  createChatRoom(chatRoomMap) {
     chatRoomCollection.doc(chatRoomId)
         .set(chatRoomMap)
         .catchError((e) {
@@ -165,7 +165,7 @@ class DatabaseService {
   }
 
   // add new message to current list of messages
-  addMessages(String chatRoomId, messageMap){
+  addMessages(messageMap){
     chatRoomCollection.doc(chatRoomId)
         .collection("messages") // creates "messages" collection if it does not already exist
         .add(messageMap)
@@ -174,12 +174,10 @@ class DatabaseService {
     });
   }
 
-  // // get messages
-  // Stream<MessageData> get messageData{
-  //   return chatRoomCollection
-  //       .doc(chatRoomId)
-  //       .collection("messages")
-  //       .snapshots
+  // // get requester and responder uid
+  // Future<List<String>> getUid () async {
+  //   DocumentSnapshot selected = await chatRoomCollection.doc(chatRoomId).get();
+  //   return selected['users'];
   // }
 
   // messageData from snapshot
@@ -188,7 +186,9 @@ class DatabaseService {
       return MessageData(
         message: doc.get("message") ?? null,
         sendBy: doc.get("sendBy") ?? null,
-        sendTime: DateTime.parse(doc.get("sendTime").toDate().toString()) ?? null,
+        sendTime: DateTime.parse(doc.get("sendTime").toDate().toString()).add(
+            Duration(hours: 8) //  accounts for time difference (temporary fix for SG only)
+        ) ?? null,
       );
     }).toList();
   }

@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:please/components/chatroom_app_bar.dart';
 import 'package:please/components/chatBubble.dart';
 import 'package:please/services/database.dart';
@@ -25,6 +23,9 @@ class _ChatRoomState extends State<ChatRoom> {
 
     String chatRoomId = ModalRoute.of(context).settings.arguments;
 
+    // TODO rectify output of function
+    // Future<List<String>> uids = DatabaseService(chatRoomId: chatRoomId).getUid();
+
     Size size = MediaQuery.of(context).size;
 
     final user = Provider.of<UserData>(context);
@@ -35,14 +36,13 @@ class _ChatRoomState extends State<ChatRoom> {
         builder: (context, snapshot){
           if (snapshot.hasData){
 
-            print(chatRoomId);
+            // print(chatRoomId);
 
             List<MessageData> messages = snapshot.data;
 
             // sort list based on time
             messages.sort((a, b) => a.sendTime.compareTo(b.sendTime));
 
-            // TODO centralized date bubbles
             return ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index){
@@ -75,7 +75,7 @@ class _ChatRoomState extends State<ChatRoom> {
           "sendTime": DateTime.now(),
         };
 
-        DatabaseService(uid: user.uid).addMessages(chatRoomId, messageMap);
+        DatabaseService(chatRoomId: chatRoomId).addMessages(messageMap);
 
         setState(() {
           messageEditingController.text = "";
@@ -87,7 +87,6 @@ class _ChatRoomState extends State<ChatRoom> {
       }
     }
 
-    // TODO add in accept button according to figma and redo routing
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -134,7 +133,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                   bottomRight: Radius.circular(20),
                                 ),
                               ),
-                              height: size.height * 0.05,
+                              height: size.height * 0.06,
                               width: size.width * 0.75,
                               padding: EdgeInsets.symmetric(horizontal: size.width * 0.03, vertical: 0),
                               child: TextField(

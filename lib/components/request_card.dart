@@ -95,7 +95,7 @@ class _RequestCardState extends State<RequestCard> {
           bottom: 0.02 * size.height,
         ),
         child: FlatButton(
-          onPressed: widget.routeToChatRoom?
+          onPressed: widget.accepted && widget.routeToChatRoom?
               () async {
                 await Navigator.pushNamed(context, '/chatroom', arguments: '${widget.uid}_${widget.acceptedByUid}');
               }:
