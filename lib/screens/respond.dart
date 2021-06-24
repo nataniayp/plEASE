@@ -86,12 +86,12 @@ class _RespondState extends State<Respond> {
       int val = item.selectedDate.compareTo(DateTime.now());
       String date1 = item.selectedDate.toString().substring(0, item.selectedDate.toString().indexOf(' '));
       String date2 = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
-
       if (val < 0 && date1 != date2) {
         return false;
+      } else if (val < 0) {
+        return !item.accepted && compareTOD(item.selectedTime, TimeOfDay.now()) >= 0;
       } else {
-        return !item.accepted &&
-            compareTOD(item.selectedTime, TimeOfDay.now()) >= 0;
+        return !item.accepted;
       }
     }).toList();
     if (s == 'FILTER') {
