@@ -6,7 +6,12 @@ import 'package:please/models/user_credentials.dart';
 import 'package:please/shared/loading.dart';
 
 class chatRoomAppBar extends StatefulWidget {
-  const chatRoomAppBar({Key key}) : super(key: key);
+  const chatRoomAppBar({
+    Key key,
+    @required this.name,
+  }) : super(key: key);
+
+  final String name;
 
   @override
   _chatRoomAppBarState createState() => _chatRoomAppBarState();
@@ -66,7 +71,7 @@ class _chatRoomAppBarState extends State<chatRoomAppBar> {
                         flex: 5,
                         child: Container(
                           child: Text(
-                            snapshot.data.name,
+                            widget.name,
                             style: TextStyle(
                               color: Colors.white,
                               letterSpacing: 3.0,

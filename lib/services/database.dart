@@ -174,11 +174,11 @@ class DatabaseService {
     });
   }
 
-  // // get requester and responder uid
-  // Future<List<String>> getUid () async {
-  //   DocumentSnapshot selected = await chatRoomCollection.doc(chatRoomId).get();
-  //   return selected['users'];
-  // }
+  // get requester and responder uid
+  Future<List<String>> getUid () async {
+    DocumentSnapshot doc = await chatRoomCollection.doc(chatRoomId).get();
+    List<String> uids = doc.get('users');
+  }
 
   // messageData from snapshot
   List<MessageData> _messageDataFromSnapshot(QuerySnapshot snapshot){

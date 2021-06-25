@@ -7,11 +7,13 @@ class chatBubble extends StatefulWidget {
     @required this.message,
     @required this.isSentByUser,
     @required this.sendTime,
+    @required this.showDate,
   }) : super(key: key);
 
   final String message;
   final bool isSentByUser;
   final DateTime sendTime;
+  final bool showDate;
 
   @override
   _chatBubbleState createState() => _chatBubbleState();
@@ -30,7 +32,7 @@ class _chatBubbleState extends State<chatBubble> {
 
     return Column(
       children: [
-        Row(
+        widget.showDate? Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
@@ -55,7 +57,7 @@ class _chatBubbleState extends State<chatBubble> {
               ),
             ),
           ],
-        ),
+        ): SizedBox(),
         Container(
           margin: widget.isSentByUser?
           EdgeInsets.fromLTRB(size.width * 0.5, size.height * 0.01, size.width * 0.04, size.height * 0.01):
