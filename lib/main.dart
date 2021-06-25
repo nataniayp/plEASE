@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           '/request_input': (context) => RequestInput(),
           '/my_responses': (context) => MyResponses(),
           '/respond_details': (context) => RespondDetails(),
-          '/chatroom': (context) => chatRoom(),
+          '/chatroom': (context) => ChatRoom(),
         },
       ),
     );

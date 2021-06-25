@@ -55,6 +55,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                     child: FlatButton(
+                      // TODO change routing to chatroom
                       onPressed: user.uid == rc.uid? null: () async {
                         rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
                         await DatabaseService(uid: user.uid).deleteAcceptedReq(
@@ -86,7 +87,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                             rc.selectedTime.format(context),
                             rc.acceptedBy,
                         );
-                        await DatabaseService(uid: user.uid).createChatRoom(chatRoomId, chatRoomMap);
+                        await DatabaseService(chatRoomId: chatRoomId).createChatRoom(chatRoomMap);
                         await Navigator.pushReplacementNamed(context, '/my_responses');
                       },
                       color: Colors.white,
