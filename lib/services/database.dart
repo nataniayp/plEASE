@@ -186,9 +186,7 @@ class DatabaseService {
       return MessageData(
         message: doc.get("message") ?? null,
         sendBy: doc.get("sendBy") ?? null,
-        sendTime: DateTime.parse(doc.get("sendTime").toDate().toString()).add(
-            Duration(hours: 8) //  accounts for time difference (temporary fix for SG only)
-        ) ?? null,
+        sendTime: DateTime.parse(doc.get("sendTime").toDate().toString()) ?? null,
       );
     }).toList();
   }
