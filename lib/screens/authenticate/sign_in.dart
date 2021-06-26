@@ -127,14 +127,21 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-                            dynamic result =
-                                await _auth.signInWithEmailAndPassword(
-                                    email,
-                                    password
-                                );
-                            if (result == null) {
+                            try {
+                              dynamic result =
+                              await _auth.signInWithEmailAndPassword(
+                                  email,
+                                  password
+                              );
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Incorrect email/password';
+                                  loading = false;
+                                });
+                              }
+                            } catch (e) {
                               setState(() {
-                                error = 'Incorrect email/password';
+                                error = e.toString().split("] ")[1];
                                 loading = false;
                               });
                             }

@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
@@ -147,14 +149,22 @@ class _RegisterState extends State<Register> {
                           onPressed: () async {
                             if (_formKey.currentState.validate()) {
                               setState(() => loading = true);
-                              dynamic result =
+                              try {
+                                dynamic result =
                                 await _auth.registerWithEmailAndPassword(
                                     userName, email, password);
-                              if (result == null) {
-                                setState(() {
-                                  error = 'Could not register, try again later';
-                                  loading = false;
-                                });
+                                if (result == null) {
+                                  setState(() {
+                                    error = 'Could not register, try again later';
+                                    loading = false;
+                                  });
+                                }
+                              } catch (e) {
+                               setState(() {
+                                 error = error = e.toString().split("] ")[1];
+                                 loading = false;
+                               });
+
                               }
                             }
                           },
