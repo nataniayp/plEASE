@@ -35,6 +35,18 @@ class _RequestInputState extends State<RequestInput> {
     }
   }
 
+  String convertTimeOfDayToString(TimeOfDay t) {
+    String hour = t.hourOfPeriod.toString();
+    String min = t.minute < 10 ? '0' + t.minute.toString() : t.minute.toString();
+    int period = t.period.index;
+
+    if (period == 0) {
+      return hour + ':' + min + ' AM';
+    } else {
+      return hour + ':' + min + ' PM';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -182,7 +194,7 @@ class _RequestInputState extends State<RequestInput> {
                         },
                         icon: Icon(Icons.schedule),
                         label: Text(
-                          selected.time == null ? 'Select time' : '${selected.time.format(context)}',
+                          selected.time == null ? 'Select time' : '${convertTimeOfDayToString(selected.time)}',
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -194,14 +206,15 @@ class _RequestInputState extends State<RequestInput> {
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                       child: FlatButton(
-                        onPressed: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null)? null: () async {
+                        onPressed: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null) ? null : () async {
                           await DatabaseService(uid: user.uid).addRequestItem(
                             snapshot.data.name,
                             convertCatName(selected.category),
                             selected.itemName,
                             selected.quantity,
                             DateFormat('yyyy-MM-dd').format(selected.date),
-                            selected.time.format(context),
+                            // selected.time.format(context),
+                            convertTimeOfDayToString(selected.time),
                           );
 
                           Navigator.pushReplacementNamed(
