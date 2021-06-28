@@ -9,6 +9,7 @@ import 'package:please/screens/authenticate/authenticate.dart';
 import 'package:please/screens/authenticate/sign_in.dart';
 import 'package:please/screens/wrapper.dart';
 import '../mock_services/mock_authentication.dart';
+import 'dart:io' as io;
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,30 +44,4 @@ void main() {
       expect(result, 'Enter a password with 6+ characters');
     });
   });
-
-  // group('user login test:', () {
-  //   final email = 'test@u.nus.edu';
-  //   final password = 'test1234';
-  //
-  //   test('sign in with email and password should return a user', () async {
-  //     final _auth = MockAuthService();
-  //     var user = await _auth.signInWithEmailAndPassword(email, password);
-  //     expect(user, isA<UserData>());
-  //   });
-  // });
-
-  // forgot password
-
-  // register
-  // testWidgets('page changed to register', (WidgetTester tester) async {
-  //   await tester.binding.scheduleWarmUpFrame();
-  //
-  //   await tester.tap(find.byType(TextButton));
-  //   await tester.pump();
-  //   expect(find.text('Register'), findsOneWidget);
-  //   await tester.pumpAndSettle(const Duration(seconds: 5));
-  // });
-
-  // verify email
-
 }
