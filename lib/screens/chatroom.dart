@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:please/components/chatroom_app_bar.dart';
@@ -7,15 +6,18 @@ import 'package:please/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/models/message_data.dart';
+import 'package:please/models/chatroom_data.dart';
+import 'package:please/models/user_credentials.dart';
+import 'package:please/shared/loading.dart';
 
-class chatRoom extends StatefulWidget {
-  const chatRoom({Key key}) : super(key: key);
+class ChatRoom extends StatefulWidget {
+  const ChatRoom({Key key}) : super(key: key);
 
   @override
-  _chatRoomState createState() => _chatRoomState();
+  _ChatRoomState createState() => _ChatRoomState();
 }
 
-class _chatRoomState extends State<chatRoom> {
+class _ChatRoomState extends State<ChatRoom> {
 
   TextEditingController messageEditingController = new TextEditingController();
   ScrollController messageScrollController = new ScrollController();
@@ -23,7 +25,7 @@ class _chatRoomState extends State<chatRoom> {
   @override
   Widget build(BuildContext context) {
 
-    String chatRoomId = ModalRoute.of(context).settings.arguments;
+    ChatRoomData doc = ModalRoute.of(context).settings.arguments;
 
     Size size = MediaQuery.of(context).size;
 
@@ -31,26 +33,39 @@ class _chatRoomState extends State<chatRoom> {
 
     Widget messageDisplay(){
       return StreamBuilder<List<MessageData>>(
-        stream: DatabaseService(chatRoomId: chatRoomId).messageData,
+        stream: DatabaseService(chatRoomId: doc.chatRoomId).messageData,
         builder: (context, snapshot){
           if (snapshot.hasData){
 
-            print(chatRoomId);
+            String currentDate;
+
+            // print(chatRoomId);
 
             List<MessageData> messages = snapshot.data;
 
             // sort list based on time
             messages.sort((a, b) => a.sendTime.compareTo(b.sendTime));
 
-            // TODO centralized date bubbles
             return ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index){
-                return chatBubble(
-                  message: messages[index].message,
-                  isSentByUser: messages[index].sendBy == user.uid,
-                  sendTime: messages[index].sendTime,
-                );
+                String formattedDate = DateFormat('dd/MM/yy').format(messages[index].sendTime);
+                if (currentDate == null || currentDate != formattedDate) {
+                  currentDate = formattedDate;
+                  return chatBubble(
+                    message: messages[index].message,
+                    isSentByUser: messages[index].sendBy == user.uid,
+                    sendTime: messages[index].sendTime,
+                    showDate: true,
+                  );
+                } else {
+                  return chatBubble(
+                    message: messages[index].message,
+                    isSentByUser: messages[index].sendBy == user.uid,
+                    sendTime: messages[index].sendTime,
+                    showDate: false,
+                  );
+                }
               });
           } else {
             return Container(
@@ -67,7 +82,6 @@ class _chatRoomState extends State<chatRoom> {
 
     sendMessage() {
       if (messageEditingController.text.isNotEmpty) {
-
         // DateTime current = DateTime.now();
 
         Map<String, dynamic> messageMap = {
@@ -76,92 +90,102 @@ class _chatRoomState extends State<chatRoom> {
           "sendTime": DateTime.now(),
         };
 
-        DatabaseService(uid: user.uid).addMessages(chatRoomId, messageMap);
+        DatabaseService(chatRoomId: doc.chatRoomId).addMessages(messageMap);
 
         setState(() {
           messageEditingController.text = "";
         });
 
-        messageScrollController.animateTo(messageScrollController.position.maxScrollExtent,
+        messageScrollController.animateTo(
+            messageScrollController.position.maxScrollExtent,
             duration: Duration(milliseconds: 200), curve: Curves.easeInOut);
       }
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            chatRoomAppBar(),
-            Expanded(
+    return StreamBuilder<UserCredentials>(
+      stream: DatabaseService(uid: user.uid).userCredentials,
+      builder: (context, snapshot) {
+        if (snapshot.hasData){
+          return Scaffold(
+            body: SafeArea(
               child: Column(
                 children: [
-                  SizedBox(height: size.height * 0.01,),
+                  chatRoomAppBar(name: snapshot.data.name == doc.requesterName? doc.responderName: doc.requesterName),
                   Expanded(
-                    flex: 5,
-                    child: messageDisplay(),
-                  ),
-                  SizedBox(height: size.height * 0.01,),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.01),
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, -10),
-                            blurRadius: 10,
-                            color: Colors.black.withOpacity(0.15),
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          topRight: Radius.circular(50),
+                    child: Column(
+                      children: [
+                        SizedBox(height: size.height * 0.01,),
+                        Expanded(
+                          flex: 5,
+                          child: messageDisplay(),
                         ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
+                        SizedBox(height: size.height * 0.01,),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: size.width * 0.05, vertical: size.height * 0.01),
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, -10),
+                                  blurRadius: 10,
+                                  color: Colors.black.withOpacity(0.15),
                                 ),
-                              ),
-                              height: size.height * 0.05,
-                              width: size.width * 0.75,
-                              padding: EdgeInsets.symmetric(horizontal: size.width * 0.03, vertical: 0),
-                              child: TextField(
-                                controller: messageEditingController,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Type something',
-                                ),
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(50),
+                                topRight: Radius.circular(50),
                               ),
                             ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[300],
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                    ),
+                                    height: size.height * 0.06,
+                                    width: size.width * 0.75,
+                                    padding: EdgeInsets.symmetric(horizontal: size.width * 0.03, vertical: 0),
+                                    child: TextField(
+                                      controller: messageEditingController,
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Type something',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: size.width * 0.01),
+                                IconButton(
+                                    icon: Icon(Icons.send),
+                                    color: Colors.teal[900],
+                                    onPressed: () {
+                                      sendMessage();
+                                    }),
+                              ],
+                            ),
                           ),
-                          SizedBox(width: size.width * 0.01),
-                          IconButton(
-                              icon: Icon(Icons.send),
-                              color: Colors.teal[900],
-                              onPressed: () {
-                                sendMessage();
-                              }),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return Loading();
+        }
+      }
     );
   }
 }

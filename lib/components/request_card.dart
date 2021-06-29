@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:please/screens/chatroom.dart';
+import 'package:please/models/chatroom_data.dart';
 
 
 class RequestCard extends StatefulWidget {
@@ -42,6 +42,24 @@ class RequestCard extends StatefulWidget {
 
   bool isEmpty() {
     return this.uid == null;
+  }
+
+  int compareTOD(TimeOfDay a, TimeOfDay b) {
+    double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
+    return toDouble(a).compareTo(toDouble(b));
+  }
+
+  bool isExpired() {
+    int val = this.selectedDate.compareTo(DateTime.now());
+    String dateRequest = this.selectedDate.toString().substring(0, this.selectedDate.toString().indexOf(' '));
+    String dateCurrent = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
+    if (val < 0 && dateRequest != dateCurrent) {
+      return true;
+    } else if (val < 0) {
+      return compareTOD(this.selectedTime, TimeOfDay.now()) < 0;
+    } else {
+      return false;
+    }
   }
 
 
@@ -95,9 +113,13 @@ class _RequestCardState extends State<RequestCard> {
           bottom: 0.02 * size.height,
         ),
         child: FlatButton(
-          onPressed: widget.routeToChatRoom?
+          onPressed: widget.accepted && widget.routeToChatRoom?
               () async {
-                await Navigator.pushNamed(context, '/chatroom', arguments: '${widget.uid}_${widget.acceptedByUid}');
+                await Navigator.pushNamed(context, '/chatroom', arguments: ChatRoomData(
+                  chatRoomId: '${widget.uid}_${widget.acceptedByUid}',
+                  requesterName: widget.userName,
+                  responderName: widget.acceptedBy,
+                ));
               }:
               () async {
                 await Navigator.pushNamed(context, '/respond_details', arguments: rc);
@@ -137,9 +159,17 @@ class _RequestCardState extends State<RequestCard> {
                         ),
                       ),
                     ),
+
                     Expanded(
                       child: Text(
-                          "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${widget.selectedTime.format(context)}"
+                          "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${widget.selectedTime.format(context)}",
+                        style: TextStyle(
+                          color: widget.accepted
+                              ? Colors.teal[700]
+                              : widget.isExpired()
+                                ? Colors.red[900]
+                                : Colors.black,
+                        ),
                       ),
                     ),
                   ],

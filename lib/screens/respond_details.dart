@@ -17,6 +17,18 @@ class RespondDetails extends StatefulWidget {
 }
 
 class _RespondDetailsState extends State<RespondDetails> {
+  String convertTimeOfDayToString(TimeOfDay t) {
+    String hour = t.hourOfPeriod.toString();
+    String min = t.minute < 10 ? '0' + t.minute.toString() : t.minute.toString();
+    int period = t.period.index;
+
+    if (period == 0) {
+      return hour + ':' + min + ' AM';
+    } else {
+      return hour + ':' + min + ' PM';
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -48,13 +60,15 @@ class _RespondDetailsState extends State<RespondDetails> {
                   SizedBox(height: 0.02 * size.height),
                   Text('Quantity: ${rc.quantity}',),
                   SizedBox(height: 0.02 * size.height),
-                  Text('by ${DateFormat('EEE, d/M/y,').format(rc.selectedDate)} ${rc.selectedTime.format(context)}'),
+                  Text('by ${DateFormat('EEE, d/M/y,').format(rc.selectedDate)} ${convertTimeOfDayToString(rc.selectedTime)}'),
+                  // Text('by ${DateFormat('EEE, d/M/y,').format(rc.selectedDate)} ${rc.selectedTime.format(context)}'),
                   SizedBox(height: 0.02 * size.height),
                   Text('Requested by: ${rc.userName}'),
                   SizedBox(height: 0.02 * size.height),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                     child: FlatButton(
+                      // TODO change routing to chatroom
                       onPressed: user.uid == rc.uid? null: () async {
                         rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
                         await DatabaseService(uid: user.uid).deleteAcceptedReq(
@@ -64,7 +78,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                             rc.itemName,
                             rc.quantity,
                             DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                            rc.selectedTime.format(context),
+                            convertTimeOfDayToString(rc.selectedTime),
                         );
                         await DatabaseService(uid: user.uid).addAcceptedReq(
                           rc.uid,
@@ -73,7 +87,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                           rc.itemName,
                           rc.quantity,
                           DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                          rc.selectedTime.format(context),
+                          convertTimeOfDayToString(rc.selectedTime),
                           rc.acceptedBy,
                         );
                         await DatabaseService(uid: user.uid).addResponse(
@@ -83,10 +97,10 @@ class _RespondDetailsState extends State<RespondDetails> {
                             rc.itemName,
                             rc.quantity,
                             DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                            rc.selectedTime.format(context),
+                            convertTimeOfDayToString(rc.selectedTime),
                             rc.acceptedBy,
                         );
-                        await DatabaseService(uid: user.uid).createChatRoom(chatRoomId, chatRoomMap);
+                        await DatabaseService(chatRoomId: chatRoomId).createChatRoom(chatRoomMap);
                         await Navigator.pushReplacementNamed(context, '/my_responses');
                       },
                       color: Colors.white,
@@ -112,7 +126,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                           rc.itemName,
                           rc.quantity,
                           DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                          rc.selectedTime.format(context),
+                          convertTimeOfDayToString(rc.selectedTime),
                         );
                         await Navigator.pop(context);
                         // await Navigator.pushReplacementNamed(context, '/my_requests');

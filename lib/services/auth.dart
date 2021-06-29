@@ -30,7 +30,7 @@ class AuthService {
       return _userFromFirebase(user);
     } catch(e) {
       print(e.toString());
-      return null;
+      throw e;
     }
   }
 
@@ -49,7 +49,7 @@ class AuthService {
       return _userFromFirebase(user);
     } catch(e) {
       print(e.toString());
-      return null;
+      throw e;
     }
   }
 

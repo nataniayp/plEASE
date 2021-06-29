@@ -3,6 +3,20 @@ import 'package:please/screens/authenticate/reset.dart';
 import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
+class FieldValidator {
+  static String emailValidator(String val) {
+    return val.isEmpty
+        ? 'Enter an email'
+        : null;
+  }
+
+  static String passwordValidator(String val) {
+    return val.length < 6
+        ? 'Enter a password with 6+ characters'
+        : null;
+  }
+}
+
 class SignIn extends StatefulWidget {
   final Function toggleView;
   SignIn({ this.toggleView });
@@ -89,9 +103,7 @@ class _SignInState extends State<SignIn> {
                               borderSide: BorderSide(color: Colors.white,)
                           ),
                         ),
-                        validator: (val) => val.isEmpty
-                            ? 'Enter an email'
-                            : null,
+                        validator: FieldValidator.emailValidator,
                         onChanged: (val) {
                           String suffix = '@u.nus.edu';
                           setState(() => email = val + suffix);
@@ -113,9 +125,7 @@ class _SignInState extends State<SignIn> {
                             borderSide: BorderSide(color: Colors.white,)
                           ),
                         ),
-                        validator: (val) => val.length < 6
-                            ? 'Enter a password with 6+ characters'
-                            : null,
+                        validator: FieldValidator.passwordValidator,
                         onChanged: (val) {
                           setState(() => password = val);
                         },
@@ -127,14 +137,21 @@ class _SignInState extends State<SignIn> {
                         onPressed: () async {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
-                            dynamic result =
-                                await _auth.signInWithEmailAndPassword(
-                                    email,
-                                    password
-                                );
-                            if (result == null) {
+                            try {
+                              dynamic result =
+                              await _auth.signInWithEmailAndPassword(
+                                  email,
+                                  password
+                              );
+                              if (result == null) {
+                                setState(() {
+                                  error = 'Incorrect email/password';
+                                  loading = false;
+                                });
+                              }
+                            } catch (e) {
                               setState(() {
-                                error = 'Incorrect email/password';
+                                error = e.toString().split("] ")[1];
                                 loading = false;
                               });
                             }
