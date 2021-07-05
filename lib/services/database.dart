@@ -181,6 +181,16 @@ class DatabaseService {
       .map(_userCredentialsFromSnapshot);
   }
 
+  // tokenIds from snapshot
+  List<String> _tokenIdsFromSnapshot(DocumentSnapshot snapshot) {
+    return snapshot.get('tokenIds');
+  }
+
+  // get tokenIds stream
+  Stream<List<String>> getTokenIds(String tokenUid) {
+    return userCollection.doc(tokenUid).snapshots().map(_tokenIdsFromSnapshot);
+  }
+
   // create new chat room between requester and responder
   createChatRoom(chatRoomMap) {
     chatRoomCollection.doc(chatRoomId)
