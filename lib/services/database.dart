@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/message_data.dart';
 
@@ -16,11 +17,36 @@ class DatabaseService {
   = FirebaseFirestore.instance.collection('chatRoom');
 
   Future updateUserData(String name) async {
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    String tokenId = status.subscriptionStatus.userId;
+    // print(tokenId);
+
     return await userCollection.doc(uid).set({
       'uid': uid,
       'name': name,
       'reqList': [],
       'resList': [],
+      'tokenIds': [tokenId],
+    });
+  }
+
+  // update tokenId after signing in
+  Future addTokenId() async {
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    String tokenId = status.subscriptionStatus.userId;
+
+    return await userCollection.doc(uid).update({
+      'tokenIds': FieldValue.arrayUnion([tokenId]),
+    });
+  }
+
+  // delete tokenId after logging out
+  Future deleteTokenId() async {
+    var status = await OneSignal.shared.getPermissionSubscriptionState();
+    String tokenId = status.subscriptionStatus.userId;
+
+    return await userCollection.doc(uid).update({
+      'tokenIds': FieldValue.arrayRemove([tokenId]),
     });
   }
 
@@ -153,6 +179,16 @@ class DatabaseService {
   Stream<UserCredentials> get userCredentials {
     return userCollection.doc(uid).snapshots()
       .map(_userCredentialsFromSnapshot);
+  }
+
+  // tokenIds from snapshot
+  List<dynamic> _tokenIdsFromSnapshot(DocumentSnapshot snapshot) {
+    return snapshot.get('tokenIds');
+  }
+
+  // get tokenIds stream
+  Stream<List<dynamic>> getTokenIds(String tokenUid) {
+    return userCollection.doc(tokenUid).snapshots().map(_tokenIdsFromSnapshot);
   }
 
   // create new chat room between requester and responder
