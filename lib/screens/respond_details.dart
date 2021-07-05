@@ -97,9 +97,10 @@ class _RespondDetailsState extends State<RespondDetails> {
                   SizedBox(height: 0.02 * size.height),
                   Text('Requested by: ${rc.userName}'),
                   SizedBox(height: 0.02 * size.height),
-                  StreamBuilder<List<String>>(
+                  StreamBuilder<List<dynamic>>(
                       stream: DatabaseService(uid: user.uid).getTokenIds(rc.uid),
                       builder: (context, snapshotToken) {
+                        print(snapshotToken);
                         if (snapshotToken.hasData) {
                           return Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
