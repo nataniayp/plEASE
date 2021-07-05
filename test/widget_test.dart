@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:please/main.dart';
+import 'package:please/screens/my_responses.dart';
 
 void main() {
   // setUpAll(() async {
@@ -12,7 +13,7 @@ void main() {
   // sign in page displayed
   testWidgets('sign in displayed initially', (WidgetTester tester) async {
     await tester.pumpWidget(MyApp());
-    expect(find.text('Sign In'), findsOneWidget);
+    expect(find.text('My Responses'), findsOneWidget);
   });
 
   // // register
