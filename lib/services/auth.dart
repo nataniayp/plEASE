@@ -27,6 +27,7 @@ class AuthService {
           email: email,
           password: password);
       User user = result.user;
+      await DatabaseService(uid: user.uid).addTokenId();
       return _userFromFirebase(user);
     } catch(e) {
       print(e.toString());
@@ -56,6 +57,8 @@ class AuthService {
   // sign out
   Future signOut() async {
     try {
+      User user = _auth.currentUser;
+      await DatabaseService(uid: user.uid).deleteTokenId();
       return await _auth.signOut();
     } catch(e) {
       return null;
