@@ -32,9 +32,9 @@ class _ProfileState extends State<Profile> {
         // android_accent_color reprsent the color of the heading text in the notifiction
         "android_accent_color":"FF9976D2",
 
-        "small_icon":"ic_stat_onesignal_default",
+        "small_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
 
-        "large_icon":"https://www.filepicker.io/api/file/zPloHSmnQsix82nlj9Aj?filename=name.jpg",
+        "large_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
 
         "headings": {"en": heading},
 
@@ -108,12 +108,12 @@ class _ProfileState extends State<Profile> {
                       )
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    sendNotification(['31ea5c49-3c14-4b2f-a93e-9a592e901b9b'], 'Your request has been accepted!', 'plEASE');
-                  },
-                  child: Text('Send notification'),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     sendNotification(['31ea5c49-3c14-4b2f-a93e-9a592e901b9b'], 'Your request has been accepted!', 'plEASE');
+                //   },
+                //   child: Text('Send notification'),
+                // ),
                 SizedBox(
                   height: 0.1 * size.height,
                 ),
