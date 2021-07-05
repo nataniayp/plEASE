@@ -182,12 +182,14 @@ class DatabaseService {
   }
 
   // tokenIds from snapshot
-  List<dynamic> _tokenIdsFromSnapshot(DocumentSnapshot snapshot) {
-    return snapshot.get('tokenIds');
+  List<String> _tokenIdsFromSnapshot(DocumentSnapshot snapshot) {
+    List<dynamic> tokenDynamic = snapshot.get('tokenIds');
+    List<String> tokenString = tokenDynamic.map((i) => i as String).toList();
+    return tokenString;
   }
 
   // get tokenIds stream
-  Stream<List<dynamic>> getTokenIds(String tokenUid) {
+  Stream<List<String>> getTokenIds(String tokenUid) {
     return userCollection.doc(tokenUid).snapshots().map(_tokenIdsFromSnapshot);
   }
 

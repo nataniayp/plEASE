@@ -32,8 +32,7 @@ class _RespondDetailsState extends State<RespondDetails> {
     }
   }
 
-  Future<Response> sendNotification(List<String> tokenIdList, String contents, String heading) async{
-
+  Future<Response> sendNotification(List<String> tokenIdList, String contents, String heading) async {
     return await post(
       Uri.parse('https://onesignal.com/api/v1/notifications'),
       headers: <String, String>{
@@ -45,7 +44,7 @@ class _RespondDetailsState extends State<RespondDetails> {
 
         "include_player_ids": tokenIdList,//tokenIdList Is the List of All the Token Id to to Whom notification must be sent.
 
-        // android_accent_color reprsent the color of the heading text in the notifiction
+        // android_accent_color represent the color of the heading text in the notification
         "android_accent_color":"FF9976D2",
 
         "small_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
@@ -97,7 +96,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                   SizedBox(height: 0.02 * size.height),
                   Text('Requested by: ${rc.userName}'),
                   SizedBox(height: 0.02 * size.height),
-                  StreamBuilder<List<dynamic>>(
+                  StreamBuilder<List<String>>(
                       stream: DatabaseService(uid: user.uid).getTokenIds(rc.uid),
                       builder: (context, snapshotToken) {
                         print(snapshotToken);
@@ -107,8 +106,9 @@ class _RespondDetailsState extends State<RespondDetails> {
                             child: FlatButton(
                               // TODO change routing to chatroom
                               onPressed: user.uid == rc.uid? null: () async {
-                                sendNotification(snapshotToken.data, 'Your request has been accepted!', 'plEASE');
+                                print(snapshotToken.data);
                                 rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
+                                sendNotification(snapshotToken.data, 'Your request has been accepted!', 'plEASE');
                                 await DatabaseService(uid: user.uid).deleteAcceptedReq(
                                   rc.uid,
                                   rc.userName,
