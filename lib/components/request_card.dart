@@ -2,64 +2,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:please/models/chatroom_data.dart';
+import 'package:please/models/request_item.dart';
 
 
 class RequestCard extends StatefulWidget {
+
   RequestCard({
     Key key,
-    @required this.uid,
-    @required this.userName,
-    @required this.category,
-    @required this.itemName,
-    @required this.quantity,
-    @required this.selectedDate,
-    @required this.selectedTime,
-    this.accepted,
-    this.acceptedBy,
-    this.acceptedByUid,
+    @required this.rq,
     this.routeToChatRoom,
   }) : super(key: key);
 
-  String uid;
-  String userName;
-  String category;
-  String itemName;
-  int quantity;
-  DateTime selectedDate;
-  TimeOfDay selectedTime;
-  bool accepted = false;
-  String acceptedBy;
-  String acceptedByUid;
-  bool routeToChatRoom;
+  // RequestCard({
+  //   Key key,
+  //   @required this.uid,
+  //   @required this.userName,
+  //   @required this.category,
+  //   @required this.itemName,
+  //   @required this.quantity,
+  //   @required this.selectedDate,
+  //   @required this.selectedTime,
+  //   this.accepted,
+  //   this.acceptedBy,
+  //   this.acceptedByUid,
+  //   this.routeToChatRoom,
+  // }) : super(key: key);
 
-  void reqAccepted(String acceptedBy, String acceptedByUid) {
-    this.accepted = true;
-    this.acceptedBy = acceptedBy;
-    this.acceptedByUid = acceptedByUid;
-  }
-
-  RequestCard.empty();
+  final RequestItem rq;
+  final bool routeToChatRoom;
 
   bool isEmpty() {
-    return this.uid == null;
-  }
-
-  int compareTOD(TimeOfDay a, TimeOfDay b) {
-    double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
-    return toDouble(a).compareTo(toDouble(b));
-  }
-
-  bool isExpired() {
-    int val = this.selectedDate.compareTo(DateTime.now());
-    String dateRequest = this.selectedDate.toString().substring(0, this.selectedDate.toString().indexOf(' '));
-    String dateCurrent = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
-    if (val < 0 && dateRequest != dateCurrent) {
-      return true;
-    } else if (val < 0) {
-      return compareTOD(this.selectedTime, TimeOfDay.now()) < 0;
-    } else {
-      return false;
-    }
+    return this.rq.uid == null;
   }
 
 
@@ -68,26 +41,10 @@ class RequestCard extends StatefulWidget {
 }
 
 class _RequestCardState extends State<RequestCard> {
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
-    RequestCard rc = RequestCard(
-      uid: widget.uid,
-      userName: widget.userName,
-      category: widget.category,
-      itemName: widget.itemName,
-      quantity: widget.quantity,
-      selectedDate: widget.selectedDate,
-      selectedTime: widget.selectedTime,
-    );
-    
-    String formatTimeOfDay(TimeOfDay tod) {
-      final now = new DateTime.now();
-      final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
-      final format = DateFormat.jm();
-      return format.format(dt);
-    }
 
     if (!widget.isEmpty()) {
       return Container(
@@ -113,16 +70,16 @@ class _RequestCardState extends State<RequestCard> {
           bottom: 0.02 * size.height,
         ),
         child: FlatButton(
-          onPressed: widget.accepted && widget.routeToChatRoom?
+          onPressed: widget.rq.accepted && widget.routeToChatRoom?
               () async {
                 await Navigator.pushNamed(context, '/chatroom', arguments: ChatRoomData(
-                  chatRoomId: '${widget.uid}_${widget.acceptedByUid}',
-                  requesterName: widget.userName,
-                  responderName: widget.acceptedBy,
+                  chatRoomId: '${widget.rq.uid}_${widget.rq.acceptedByUid}',
+                  requesterName: widget.rq.userName,
+                  responderName: widget.rq.acceptedBy,
                 ));
               }:
               () async {
-                await Navigator.pushNamed(context, '/respond_details', arguments: rc);
+                await Navigator.pushNamed(context, '/respond_details', arguments: widget.rq);
               },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -132,7 +89,7 @@ class _RequestCardState extends State<RequestCard> {
                 child: Padding(
                   padding: EdgeInsets.all(0.01 * size.height),
                   child: Image.asset(
-                    'assets/icons/${widget.category}.png',
+                    'assets/icons/${widget.rq.category}.png',
                     color: Colors.teal[900],
                   ),
                 ),
@@ -148,12 +105,12 @@ class _RequestCardState extends State<RequestCard> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                          "${widget.userName} wants"
+                          "${widget.rq.userName} wants"
                       ),
                     ),
                     Expanded(
                       child: Text(
-                        "${widget.itemName} (${widget.quantity})",
+                        "${widget.rq.itemName} (${widget.rq.quantity})",
                         style: TextStyle(
                           color: Colors.teal[900],
                         ),
@@ -162,11 +119,11 @@ class _RequestCardState extends State<RequestCard> {
 
                     Expanded(
                       child: Text(
-                          "by ${DateFormat('EEE, d/M/y,').format(widget.selectedDate)} ${widget.selectedTime.format(context)}",
+                          "by ${DateFormat('EEE, d/M/y,').format(widget.rq.date)} ${widget.rq.time.format(context)}",
                         style: TextStyle(
-                          color: widget.accepted
+                          color: widget.rq.accepted
                               ? Colors.teal[700]
-                              : widget.isExpired()
+                              : widget.rq.isExpired()
                                 ? Colors.red[900]
                                 : Colors.black,
                         ),

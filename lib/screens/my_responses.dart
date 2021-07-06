@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/components/request_card.dart';
+import 'package:please/models/request_item.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
@@ -38,17 +39,18 @@ class _MyResponsesState extends State<MyResponses> {
 
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
-      uid: map['uid'],
-      userName: map['name'],
-      category: map['cat'],
-      itemName: map['item'],
-      quantity: map['quantity'],
-      selectedDate: DateTime.parse(map['date']),
-      selectedTime: convertStringToTimeOfDay(map['time']),
-      // selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
-      accepted: map['accepted'],
-      acceptedBy: map['acceptedBy'],
-      acceptedByUid: map['acceptedByUid'],
+      rq: RequestItem(
+        map['uid'],
+        map['name'],
+        map['cat'],
+        map['item'],
+        map['quantity'],
+        DateTime.parse(map['date']),
+        convertStringToTimeOfDay(map['time']),
+        map['accepted'],
+        map['acceptedBy'],
+        map['acceptedByUid'],
+      ),
       routeToChatRoom: true,
     );
   }
@@ -76,18 +78,7 @@ class _MyResponsesState extends State<MyResponses> {
               if (snapshot.hasData) {
                 UserCredentials userCred = snapshot.data;
                 List<RequestCard> finalList = convertList(userCred.resList);
-
-                // sorting functions by datetime & timeofday
-                int compareTOD(TimeOfDay a, TimeOfDay b) {
-                  double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
-                  return toDouble(a).compareTo(toDouble(b));
-                }
-
-                finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
-                    ? a.selectedDate.compareTo(b.selectedDate)
-                    : compareTOD(a.selectedTime, b.selectedTime)
-                );
-
+                finalList.sort((a, b) => a.rq.compareReq(b.rq));
 
                 return Column(
                   children: <Widget>[

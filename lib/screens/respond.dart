@@ -1,9 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/request_card.dart';
 import 'package:please/components/screen_header.dart';
+import 'package:please/models/request_item.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
@@ -57,23 +57,20 @@ class _RespondState extends State<Respond> {
 
   RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
     return RequestCard(
-      uid: map['uid'],
-      userName: map['name'],
-      category: map['cat'],
-      itemName: map['item'],
-      quantity: map['quantity'],
-      selectedDate: DateTime.parse(map['date']),
-      selectedTime: convertStringToTimeOfDay(map['time']),
-      accepted: map['accepted'],
-      acceptedBy: map['acceptedBy'],
-      acceptedByUid: map['acceptedByUid'],
+      rq: RequestItem(
+        map['uid'],
+        map['name'],
+        map['cat'],
+        map['item'],
+        map['quantity'],
+        DateTime.parse(map['date']),
+        convertStringToTimeOfDay(map['time']),
+        map['accepted'],
+        map['acceptedBy'],
+        map['acceptedByUid'],
+      ),
       routeToChatRoom: false,
     );
-  }
-
-  int compareTOD(TimeOfDay a, TimeOfDay b) {
-    double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
-    return toDouble(a).compareTo(toDouble(b));
   }
 
   List<RequestCard> convertList(List<dynamic> l) {
@@ -83,22 +80,22 @@ class _RespondState extends State<Respond> {
   List<RequestCard> filterList(List<RequestCard> l, String s) {
     // List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
     List<RequestCard> noAcceptedAndExpired = l.where((item) {
-      int val = item.selectedDate.compareTo(DateTime.now());
-      String dateRequest = item.selectedDate.toString().substring(0, item.selectedDate.toString().indexOf(' '));
+      int val = item.rq.date.compareTo(DateTime.now());
+      String dateRequest = item.rq.date.toString().substring(0, item.rq.date.toString().indexOf(' '));
       String dateCurrent = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
       if (val < 0 && dateRequest != dateCurrent) {
         return false;
       } else if (val < 0) {
-        return !item.accepted && compareTOD(item.selectedTime, TimeOfDay.now()) >= 0;
+        return !item.rq.accepted && compareTOD(item.rq.time, TimeOfDay.now()) >= 0;
       } else {
-        return !item.accepted;
+        return !item.rq.accepted;
       }
     }).toList();
     if (s == 'FILTER') {
       return noAcceptedAndExpired;
     } else {
       return noAcceptedAndExpired
-          .where((item) => item.category == convertCatName(s))
+          .where((item) => item.rq.category == convertCatName(s))
           .toList();
     }
   }
@@ -130,12 +127,7 @@ class _RespondState extends State<Respond> {
               List<RequestCard> finalList = filterList(flatMap(
                   userData.map((item) => convertList(item.reqList).toList()).toList()), currentCat);
 
-              // sorting functions by datetime & timeofday
-
-              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
-                ? a.selectedDate.compareTo(b.selectedDate)
-                : compareTOD(a.selectedTime, b.selectedTime)
-              );
+              finalList.sort((a, b) => a.rq.compareReq(b.rq));
 
               return Container(
                   child: Column(
