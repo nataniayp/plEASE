@@ -15,7 +15,7 @@ class Request extends StatefulWidget {
 
 class _RequestState extends State<Request> {
   
-  RequestItem selected = RequestItem.empty();
+  RequestItem selected = new RequestItem();
 
   @override
   Widget build(BuildContext context) {
