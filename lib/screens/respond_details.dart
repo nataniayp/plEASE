@@ -145,7 +145,6 @@ class _RespondDetailsState extends State<RespondDetails> {
                         }
                         return Loading();
                       }
-
                   ),
 
                   (user.uid == rq.uid)
@@ -160,8 +159,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                           rq.getDateInString(),
                           rq.getTimeInString(),
                         );
-                        await Navigator.pop(context);
-                        // await Navigator.pushReplacementNamed(context, '/my_requests');
+                        Navigator.pop(context);
                       },
                       height: 50.0,
                       minWidth: 200.0,

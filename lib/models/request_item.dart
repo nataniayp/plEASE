@@ -6,6 +6,25 @@ int compareTOD(TimeOfDay a, TimeOfDay b) {
   return toDouble(a).compareTo(toDouble(b));
 }
 
+TimeOfDay convertStringToTimeOfDay(String t) {
+  int hour;
+  int minute;
+  String ampm = t.substring(t.length - 2);
+  String result = t.substring(0, t.indexOf(' '));
+  if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
+    hour = int.parse(result.split(':')[0]);
+    if (hour == 12) hour = 0;
+    minute = int.parse(result.split(":")[1]);
+  } else {
+    hour = int.parse(result.split(':')[0]) - 12;
+    if (hour <= 0) {
+      hour = 24 + hour;
+    }
+    minute = int.parse(result.split(":")[1]);
+  }
+  return TimeOfDay(hour: hour, minute: minute);
+}
+
 class RequestItem {
   String uid;
   String userName;
@@ -20,6 +39,20 @@ class RequestItem {
 
   // constructor with optional parameters
   RequestItem([this.uid, this.userName, this.category, this.itemName, this.quantity, this.date, this.time, this.accepted, this.acceptedBy, this.acceptedByUid]);
+
+  // constructor from firestore
+  RequestItem.fromMap(Map<String, dynamic> map) {
+    this.uid = map['uid'];
+    this.userName = map['name'];
+    this.category = map['cat'];
+    this.itemName = map['item'];
+    this.quantity = map['quantity'];
+    this.date = DateTime.parse(map['date']);
+    this.time = convertStringToTimeOfDay(map['time']);
+    this.accepted = map['accepted'];
+    this.acceptedBy = map['acceptedBy'];
+    this.acceptedByUid = map['acceptedByUid'];
+  }
 
   void reqAccepted(String acceptedBy, String acceptedByUid) {
     this.accepted = true;

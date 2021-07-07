@@ -10,6 +10,51 @@ import 'package:please/services/database.dart';
 import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
 
+String currentCat = "FILTER";
+List<String> category = ['FILTER', 'Food', 'Stationery', 'Cleaning', 'Others'];
+
+String convertCatName(String s) {
+  if (s == 'Food') {
+    return 'food';
+  } else if (s == 'Stationery') {
+    return 'stationery';
+  } if (s == 'Cleaning') {
+    return 'cleaning';
+  } else if (s == 'Others') {
+    return 'others';
+  } else {
+    return 'FILTER';
+  }
+}
+
+List<RequestCard> convertList(List<dynamic> l) {
+  return l.map((item) => RequestCard(
+    rq: RequestItem.fromMap(item),
+    routeToChatRoom: false,
+  )).toList();
+}
+
+List<RequestCard> filterList(List<RequestCard> l, String s) {
+  List<RequestCard> notAcceptedAndNotExpired = l.where((item) {
+    return !item.rq.accepted && !item.rq.isExpired();
+  }).toList();
+  if (s == 'FILTER') {
+    return notAcceptedAndNotExpired;
+  } else {
+    return notAcceptedAndNotExpired
+        .where((item) => item.rq.category == convertCatName(s))
+        .toList();
+  }
+}
+
+List<RequestCard> flatMap(List<List<RequestCard>> l) {
+  List<RequestCard> result = [];
+  for (List<RequestCard> m in l) {
+    result.addAll(m);
+  }
+  return result;
+}
+
 class Respond extends StatefulWidget {
   const Respond({Key key}) : super(key: key);
 
@@ -17,96 +62,9 @@ class Respond extends StatefulWidget {
   _RespondState createState() => _RespondState();
 }
 
+
+
 class _RespondState extends State<Respond> {
-
-  String currentCat = "FILTER";
-  List<String> category = ['FILTER', 'Food', 'Stationery', 'Cleaning', 'Others'];
-
-  String convertCatName(String s) {
-    if (s == 'Food') {
-      return 'food';
-    } else if (s == 'Stationery') {
-      return 'stationery';
-    } if (s == 'Cleaning') {
-      return 'cleaning';
-    } else if (s == 'Others') {
-      return 'others';
-    } else {
-      return 'FILTER';
-    }
-  }
-
-  TimeOfDay convertStringToTimeOfDay(String t) {
-    int hour;
-    int minute;
-    String ampm = t.substring(t.length - 2);
-    String result = t.substring(0, t.indexOf(' '));
-    if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
-      hour = int.parse(result.split(':')[0]);
-      if (hour == 12) hour = 0;
-      minute = int.parse(result.split(":")[1]);
-    } else {
-      hour = int.parse(result.split(':')[0]) - 12;
-      if (hour <= 0) {
-        hour = 24 + hour;
-      }
-      minute = int.parse(result.split(":")[1]);
-    }
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
-  RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
-    return RequestCard(
-      rq: RequestItem(
-        map['uid'],
-        map['name'],
-        map['cat'],
-        map['item'],
-        map['quantity'],
-        DateTime.parse(map['date']),
-        convertStringToTimeOfDay(map['time']),
-        map['accepted'],
-        map['acceptedBy'],
-        map['acceptedByUid'],
-      ),
-      routeToChatRoom: false,
-    );
-  }
-
-  List<RequestCard> convertList(List<dynamic> l) {
-    return l.map((item) => convertMapToRequestCard(item)).toList();
-  }
-
-  List<RequestCard> filterList(List<RequestCard> l, String s) {
-    // List<RequestCard> noAccepted = l.where((item) => !item.accepted).toList();
-    List<RequestCard> noAcceptedAndExpired = l.where((item) {
-      int val = item.rq.date.compareTo(DateTime.now());
-      String dateRequest = item.rq.date.toString().substring(0, item.rq.date.toString().indexOf(' '));
-      String dateCurrent = DateTime.now().toString().substring(0, DateTime.now().toString().indexOf(' '));
-      if (val < 0 && dateRequest != dateCurrent) {
-        return false;
-      } else if (val < 0) {
-        return !item.rq.accepted && compareTOD(item.rq.time, TimeOfDay.now()) >= 0;
-      } else {
-        return !item.rq.accepted;
-      }
-    }).toList();
-    if (s == 'FILTER') {
-      return noAcceptedAndExpired;
-    } else {
-      return noAcceptedAndExpired
-          .where((item) => item.rq.category == convertCatName(s))
-          .toList();
-    }
-  }
-
-  List<RequestCard> flatMap(List<List<RequestCard>> l) {
-    List<RequestCard> result = [];
-    for (List<RequestCard> m in l) {
-      result.addAll(m);
-    }
-    return result;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +91,6 @@ class _RespondState extends State<Respond> {
                   child: Column(
                     children: <Widget>[
                       CustomisedAppBar(),
-
                       Row(
                         children: [
                           Expanded(flex: 2, child: ScreenHeader(name: "Respond")),
@@ -179,7 +136,6 @@ class _RespondState extends State<Respond> {
                   )
               );
             } else {
-              // print(snapshot.error);
               return Loading();
             }
           }
