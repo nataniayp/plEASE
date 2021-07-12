@@ -5,7 +5,6 @@ import 'package:please/screens/respond.dart';
 import 'package:please/screens/profile.dart';
 import 'package:please/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:please/screens/chatroom.dart';
 import 'package:please/models/message_data.dart';
 
 class Home extends StatefulWidget {
