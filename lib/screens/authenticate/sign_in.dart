@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:please/screens/authenticate/reset.dart';
+import 'package:please/screens/wrapper.dart';
 import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
@@ -143,6 +145,12 @@ class _SignInState extends State<SignIn> {
                                   email,
                                   password
                               );
+
+                              if (result != null) {
+                                setState(() => loading = false);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
+                              }
+
                               if (result == null) {
                                 setState(() {
                                   error = 'Incorrect email/password';

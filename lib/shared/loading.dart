@@ -6,12 +6,14 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Container(
       color: Colors.teal[900],
       child: Center(
         child: SpinKitPulse(
           color: Colors.white,
-          size: 50.0,
+          size: 0.25 * size.width,
         )
       ),
     );
