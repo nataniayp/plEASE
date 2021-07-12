@@ -19,7 +19,6 @@ class DatabaseService {
   Future updateUserData(String name) async {
     var status = await OneSignal.shared.getPermissionSubscriptionState();
     String tokenId = status.subscriptionStatus.userId;
-    // print(tokenId);
 
     return await userCollection.doc(uid).set({
       'uid': uid,
@@ -149,7 +148,6 @@ class DatabaseService {
   // userInfo list from snapshot
   List<UserCredentials> _userInfoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc){
-      // print(doc.data());
       return UserCredentials(
         doc.get('uid') ?? '',
         doc.get('name') ?? '',
@@ -210,12 +208,6 @@ class DatabaseService {
         .catchError((e){
           print(e.toString());
     });
-  }
-
-  // get requester and responder uid
-  Future<List<String>> getUid () async {
-    DocumentSnapshot doc = await chatRoomCollection.doc(chatRoomId).get();
-    List<String> uids = doc.get('users');
   }
 
   // messageData from snapshot

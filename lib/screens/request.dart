@@ -31,7 +31,7 @@ class _RequestState extends State<Request> {
             CustomisedAppBar(),
             ScreenHeader(name: 'Request'),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.025),
               child: Column(
                 children: [
                   Row (

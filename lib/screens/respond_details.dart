@@ -74,20 +74,80 @@ class _RespondDetailsState extends State<RespondDetails> {
                 children: <Widget>[
                   CustomisedAppBar(withBackArrow: true,),
                   ScreenHeader(name: 'Respond Details'),
-                  Text('Category: ${rq.category}'),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('Item: ${rq.itemName}',),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('Quantity: ${rq.quantity}',),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('by ${rq.getDateInStringWithDay()} ${rq.getTimeInString()}'),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('Requested by: ${rq.userName}'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/icons/${rq.category}.png',
+                        color: Colors.teal[900],
+                        height: 0.1 * size.height,
+                      ),
+                      SizedBox(width: 0.05 * size.width),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '${rq.itemName.toUpperCase()}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 18,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            'quantity: ${rq.quantity}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            'requested by ${rq.userName}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            'to be ready by',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            '${rq.getDateInStringWithDay()} ${rq.getTimeInString()}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  // Text('Category: ${rq.category}'),
+                  // SizedBox(height: 0.02 * size.height),
+                  // Text('Item: ${rq.itemName}',),
+                  // SizedBox(height: 0.02 * size.height),
+                  // Text('Quantity: ${rq.quantity}',),
+                  // SizedBox(height: 0.02 * size.height),
+                  // Text('by ${rq.getDateInStringWithDay()} ${rq.getTimeInString()}'),
+                  // SizedBox(height: 0.02 * size.height),
+                  // Text('Requested by: ${rq.userName}'),
                   SizedBox(height: 0.02 * size.height),
                   StreamBuilder<List<String>>(
                       stream: DatabaseService(uid: user.uid).getTokenIds(rq.uid),
                       builder: (context, snapshotToken) {
-                        print(snapshotToken);
                         if (snapshotToken.hasData) {
                           return Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
