@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:please/components/customised_app_bar.dart';
+import 'package:please/controller/request_item_controller.dart';
 import 'package:please/models/request_item.dart';
 import 'package:intl/intl.dart';
 import 'package:please/models/user_credentials.dart';
@@ -34,6 +35,7 @@ class RequestInput extends StatefulWidget {
 
 class _RequestInputState extends State<RequestInput> {
   RequestItem selected;
+  RequestItemController con = RequestItemController();
 
   @override
   Widget build(BuildContext context) {
@@ -203,8 +205,7 @@ class _RequestInputState extends State<RequestInput> {
                             selected.date,
                             selected.time);
 
-                          await DatabaseService(uid: user.uid).addRequestItem(req);
-
+                          await con.addRequest(req, user.uid);
                           Navigator.pushReplacementNamed(
                               context, '/my_requests', arguments: selected);
                         },
