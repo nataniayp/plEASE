@@ -74,7 +74,7 @@ class DatabaseService {
 
 
   // the three methods below are used when a user accepts another user's request
-  Future deleteAcceptedReq(RequestItem req) async {
+  Future deleteReq(RequestItem req) async {
     return await userCollection.doc(req.uid).update({
       'reqList': FieldValue.arrayRemove([{
         'uid': req.uid,
