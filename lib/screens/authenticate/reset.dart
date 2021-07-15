@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:please/controller/reset_controller.dart';
 import 'package:please/shared/loading.dart';
 
 class Reset extends StatefulWidget {
@@ -11,7 +12,7 @@ class Reset extends StatefulWidget {
 
 class _ResetState extends State<Reset> {
   final _formKey = GlobalKey<FormState>();
-  final auth = FirebaseAuth.instance;
+  ResetController con = ResetController();
   bool loading = false;
   String _email = '';
   String error = '';
@@ -78,9 +79,9 @@ class _ResetState extends State<Reset> {
                           height: 0.05 * size.width,
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() => loading = true);
-                            auth.sendPasswordResetEmail(email: _email);
+                            await con.resetPassword(_email);
                             Navigator.of(context).pop();
                           },
                           child: Text(
