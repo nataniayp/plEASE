@@ -11,10 +11,9 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final user = Provider.of<UserData>(context);
 
-    // return either Home or Authenticate widget
+    // return either Home, Verify or Authenticate widget
     if (user != null && !FirebaseAuth.instance.currentUser.emailVerified) {
       return Verify();
     } else if (user == null) {

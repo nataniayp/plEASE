@@ -11,6 +11,20 @@ import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
 import '../components/screen_header.dart';
 
+List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
+
+String convertCatName(String s) {
+  if (s == 'Food') {
+    return 'food';
+  } else if (s == 'Stationery') {
+    return 'stationery';
+  } if (s == 'Cleaning supplies') {
+    return 'cleaning';
+  } else {
+    return 'others';
+  }
+}
+
 class RequestInput extends StatefulWidget {
   const RequestInput({Key key}) : super(key: key);
 
@@ -19,41 +33,13 @@ class RequestInput extends StatefulWidget {
 }
 
 class _RequestInputState extends State<RequestInput> {
-  
   RequestItem selected;
-  List<String> category = ['Food', 'Stationery', 'Cleaning supplies', 'Others'];
-
-  String convertCatName(String s) {
-    if (s == 'Food') {
-      return 'food';
-    } else if (s == 'Stationery') {
-      return 'stationery';
-    } if (s == 'Cleaning supplies') {
-      return 'cleaning';
-    } else {
-      return 'others';
-    }
-  }
-
-  String convertTimeOfDayToString(TimeOfDay t) {
-    String hour = t.hourOfPeriod.toString();
-    String min = t.minute < 10 ? '0' + t.minute.toString() : t.minute.toString();
-    int period = t.period.index;
-
-    if (period == 0) {
-      return hour + ':' + min + ' AM';
-    } else {
-      return hour + ':' + min + ' PM';
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
 
     final user = Provider.of<UserData>(context);
-
     Size size = MediaQuery.of(context).size;
-
     selected = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
@@ -72,8 +58,11 @@ class _RequestInputState extends State<RequestInput> {
                     ScreenHeader(name: 'Request'),
                     Padding( // Category
                       padding: EdgeInsets.fromLTRB(
-                          size.width * 0.1, size.height * 0.02, size.width * 0.1,
-                          0),
+                          size.width * 0.1,
+                          size.height * 0.02,
+                          size.width * 0.1,
+                          0,
+                      ),
                       child: DropdownButton(
                         isExpanded: true,
                         hint: Text(selected.category),
@@ -104,7 +93,7 @@ class _RequestInputState extends State<RequestInput> {
                           0),
                       child: TextField(
                         onChanged: (String text) {
-                          if (text.isEmpty || text == null){
+                          if (text.isEmpty || text == null) {
                             setState(() {
                               selected.itemName = null;
                             });
@@ -172,9 +161,7 @@ class _RequestInputState extends State<RequestInput> {
                         label: Text(
                           selected.date == null ? 'Select date' : DateFormat(
                               'dd-MM-yyyy').format(selected.date),
-                          style: TextStyle(
-                            fontSize: 20.0,
-                          ),
+                          style: TextStyle(fontSize: 20.0),
                         ),
                         height: 50.0,
                         minWidth: 200.0,
@@ -194,7 +181,7 @@ class _RequestInputState extends State<RequestInput> {
                         },
                         icon: Icon(Icons.schedule),
                         label: Text(
-                          selected.time == null ? 'Select time' : '${convertTimeOfDayToString(selected.time)}',
+                          selected.time == null ? 'Select time' : '${selected.getTimeInString()}',
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -207,15 +194,16 @@ class _RequestInputState extends State<RequestInput> {
                       padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                       child: FlatButton(
                         onPressed: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null) ? null : () async {
-                          await DatabaseService(uid: user.uid).addRequestItem(
+                          RequestItem req = RequestItem(
+                            user.uid,
                             snapshot.data.name,
                             convertCatName(selected.category),
                             selected.itemName,
                             selected.quantity,
-                            DateFormat('yyyy-MM-dd').format(selected.date),
-                            // selected.time.format(context),
-                            convertTimeOfDayToString(selected.time),
-                          );
+                            selected.date,
+                            selected.time);
+
+                          await DatabaseService(uid: user.uid).addRequestItem(req);
 
                           Navigator.pushReplacementNamed(
                               context, '/my_requests', arguments: selected);
@@ -227,7 +215,7 @@ class _RequestInputState extends State<RequestInput> {
                         child: Text(
                           'SUBMIT',
                           style: TextStyle(
-                            color: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null)? Colors.grey[500]: Colors.teal[900],
+                            color: (selected.itemName == null || selected.quantity == null || selected.date == null || selected.time == null) ? Colors.grey[500] : Colors.teal[900],
                             letterSpacing: 1.7,
                             fontWeight: FontWeight.bold,
                           ),

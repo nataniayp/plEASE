@@ -15,9 +15,6 @@ import 'screens/chatroom.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // var status = await OneSignal.shared.getPermissionSubscriptionState();
-  // String tokenId = status.subscriptionStatus.userId;
-  // print(tokenId);
   runApp(MyApp());
 }
 
@@ -33,16 +30,13 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     configOneSignal();
-
   }
 
+  // to initialise push notification feature
   void configOneSignal()
   {
     OneSignal.shared.init('729732d6-6359-40bb-8847-ca6e0c987d25');
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +47,6 @@ class _MyAppState extends State<MyApp> {
         title: 'Please',
         home: Wrapper(),
         routes: {
-          // '/': (context) => Home(),
           '/my_requests': (context) => MyRequests(),
           '/request_input': (context) => RequestInput(),
           '/my_responses': (context) => MyResponses(),

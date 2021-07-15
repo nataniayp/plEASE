@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/screen_header.dart';
-import 'package:intl/intl.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
+import 'package:please/services/notif.dart';
 import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
 import 'package:please/models/request_item.dart';
@@ -21,33 +20,7 @@ class RespondDetails extends StatefulWidget {
 
 class _RespondDetailsState extends State<RespondDetails> {
 
-  Future<Response> sendNotification(List<String> tokenIdList, String contents, String heading) async {
-    return await post(
-      Uri.parse('https://onesignal.com/api/v1/notifications'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>
-      {
-        "app_id": '729732d6-6359-40bb-8847-ca6e0c987d25',//kAppId is the App Id that one get from the OneSignal When the application is registered.
 
-        "include_player_ids": tokenIdList,//tokenIdList Is the List of All the Token Id to to Whom notification must be sent.
-
-        // android_accent_color represent the color of the heading text in the notification
-        "android_accent_color":"FF9976D2",
-
-        "small_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
-
-        "large_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
-
-        "headings": {"en": heading},
-
-        "contents": {"en": contents},
-
-
-      }),
-    );
-  }
   
   @override
   Widget build(BuildContext context) {
@@ -135,15 +108,6 @@ class _RespondDetailsState extends State<RespondDetails> {
                       )
                     ],
                   ),
-                  // Text('Category: ${rq.category}'),
-                  // SizedBox(height: 0.02 * size.height),
-                  // Text('Item: ${rq.itemName}',),
-                  // SizedBox(height: 0.02 * size.height),
-                  // Text('Quantity: ${rq.quantity}',),
-                  // SizedBox(height: 0.02 * size.height),
-                  // Text('by ${rq.getDateInStringWithDay()} ${rq.getTimeInString()}'),
-                  // SizedBox(height: 0.02 * size.height),
-                  // Text('Requested by: ${rq.userName}'),
                   SizedBox(height: 0.02 * size.height),
                   StreamBuilder<List<String>>(
                       stream: DatabaseService(uid: user.uid).getTokenIds(rq.uid),
@@ -156,36 +120,11 @@ class _RespondDetailsState extends State<RespondDetails> {
                               onPressed: user.uid == rq.uid? null: () async {
                                 print(snapshotToken.data);
                                 rq.reqAccepted(snapshot.data.name, snapshot.data.uid);
-                                sendNotification(snapshotToken.data, 'Your request has been accepted!', 'plEASE');
-                                await DatabaseService(uid: user.uid).deleteAcceptedReq(
-                                  rq.uid,
-                                  rq.userName,
-                                  rq.category,
-                                  rq.itemName,
-                                  rq.quantity,
-                                  rq.getDateInString(),
-                                  rq.getTimeInString(),
-                                );
-                                await DatabaseService(uid: user.uid).addAcceptedReq(
-                                  rq.uid,
-                                  rq.userName,
-                                  rq.category,
-                                  rq.itemName,
-                                  rq.quantity,
-                                  rq.getDateInString(),
-                                  rq.getTimeInString(),
-                                  rq.acceptedBy,
-                                );
-                                await DatabaseService(uid: user.uid).addResponse(
-                                  rq.uid,
-                                  rq.userName,
-                                  rq.category,
-                                  rq.itemName,
-                                  rq.quantity,
-                                  rq.getDateInString(),
-                                  rq.getTimeInString(),
-                                  rq.acceptedBy,
-                                );
+                                Notif().sendNotification(snapshotToken.data, 'Your request has been accepted!', 'plEASE');
+
+                                await DatabaseService(uid: user.uid).deleteAcceptedReq(rq);
+                                await DatabaseService(uid: user.uid).addAcceptedReq(rq);
+                                await DatabaseService(uid: user.uid).addResponse(rq);
                                 await DatabaseService(chatRoomId: chatRoomId).createChatRoom(chatRoomMap);
                                 await Navigator.pushReplacementNamed(context, '/my_responses');
                               },
@@ -210,15 +149,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                   (user.uid == rq.uid)
                     ? FlatButton(
                       onPressed: () async {
-                        await DatabaseService(uid: user.uid).deleteAcceptedReq(
-                          rq.uid,
-                          rq.userName,
-                          rq.category,
-                          rq.itemName,
-                          rq.quantity,
-                          rq.getDateInString(),
-                          rq.getTimeInString(),
-                        );
+                        await DatabaseService(uid: user.uid).deleteAcceptedReq(rq);
                         Navigator.pop(context);
                       },
                       height: 50.0,
