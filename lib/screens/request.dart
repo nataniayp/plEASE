@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/models/request_item.dart';
 import 'package:please/components/screen_header.dart';
-import 'package:please/models/user_data.dart';
-import 'package:provider/provider.dart';
 
 class Request extends StatefulWidget {
   const Request({Key key}) : super(key: key);
@@ -14,12 +12,10 @@ class Request extends StatefulWidget {
 }
 
 class _RequestState extends State<Request> {
-  
   RequestItem selected = new RequestItem();
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(

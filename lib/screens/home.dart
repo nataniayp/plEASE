@@ -30,8 +30,6 @@ class _HomeState extends State<Home> {
         StreamProvider<UserCredentials>.value(value: DatabaseService().userCredentials),
         StreamProvider<List<MessageData>>.value(value: DatabaseService().messageData),
       ],
-    // return StreamProvider<List<UserCredentials>>.value(
-    //   value: DatabaseService().userData,
       child: Scaffold(
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(

@@ -9,6 +9,15 @@ import 'package:please/services/database.dart';
 import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
 
+List<RequestCard> convertList(List<dynamic> myList) {
+  return myList.map((item) =>
+      RequestCard(
+        rq: RequestItem.fromMap(item),
+        routeToChatRoom: true,
+      )
+  ).toList();
+}
+
 class MyResponses extends StatefulWidget {
   const MyResponses({Key key}) : super(key: key);
 
@@ -17,53 +26,6 @@ class MyResponses extends StatefulWidget {
 }
 
 class _MyResponsesState extends State<MyResponses> {
-
-  TimeOfDay convertStringToTimeOfDay(String t) {
-    int hour;
-    int minute;
-    String ampm = t.substring(t.length - 2);
-    String result = t.substring(0, t.indexOf(' '));
-    if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
-      hour = int.parse(result.split(':')[0]);
-      if (hour == 12) hour = 0;
-      minute = int.parse(result.split(":")[1]);
-    } else {
-      hour = int.parse(result.split(':')[0]) - 12;
-      if (hour <= 0) {
-        hour = 24 + hour;
-      }
-      minute = int.parse(result.split(":")[1]);
-    }
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
-  RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
-    return RequestCard(
-      rq: RequestItem(
-        map['uid'],
-        map['name'],
-        map['cat'],
-        map['item'],
-        map['quantity'],
-        DateTime.parse(map['date']),
-        convertStringToTimeOfDay(map['time']),
-        map['accepted'],
-        map['acceptedBy'],
-        map['acceptedByUid'],
-      ),
-      routeToChatRoom: true,
-    );
-  }
-
-  List<RequestCard> convertList(List<dynamic> myList) {
-    return myList.map((item) => convertMapToRequestCard(item)).toList();
-  }
-
-  // sorting functions by datetime & timeofday
-  int compareTOD(TimeOfDay a, TimeOfDay b) {
-    double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
-    return toDouble(a).compareTo(toDouble(b));
-  }
 
   @override
   Widget build(BuildContext context) {

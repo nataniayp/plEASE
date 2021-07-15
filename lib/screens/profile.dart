@@ -62,9 +62,6 @@ class _ProfileState extends State<Profile> {
                       )
                   ),
                 ),
-                // SizedBox(
-                //   height: 0.002 * size.height,
-                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/my_responses');
@@ -83,7 +80,6 @@ class _ProfileState extends State<Profile> {
                 TextButton(
                   onPressed: () async {
                     await _auth.signOut();
-                    print(FirebaseAuth.instance.currentUser);
                   },
                   child: Text(
                       'LOGOUT',

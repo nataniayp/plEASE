@@ -17,6 +17,16 @@ class _VerifyState extends State<Verify> {
   User user;
   Timer timer;
 
+  // to move to auth.dart if possible
+  Future<void> checkEmailVerified() async {
+    user = auth.currentUser;
+    await user.reload();
+    if (user.emailVerified) {
+      timer.cancel();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
+    }
+  }
+
   @override
   void initState() {
     user = auth.currentUser;
@@ -59,14 +69,5 @@ class _VerifyState extends State<Verify> {
         ),
       ),
     );
-  }
-
-  Future<void> checkEmailVerified() async {
-    user = auth.currentUser;
-    await user.reload();
-    if (user.emailVerified) {
-      timer.cancel();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
-    }
   }
 }
