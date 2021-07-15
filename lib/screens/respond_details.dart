@@ -6,8 +6,8 @@ import 'package:please/components/screen_header.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
-import 'package:please/services/notif.dart';
 import 'package:please/shared/loading.dart';
+import 'package:please/controller/respond_details_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:please/models/request_item.dart';
 
@@ -24,6 +24,7 @@ class _RespondDetailsState extends State<RespondDetails> {
   
   @override
   Widget build(BuildContext context) {
+    RespondDetailsController con = RespondDetailsController();
     Size size = MediaQuery.of(context).size;
     RequestItem rq = ModalRoute.of(context).settings.arguments;
     final user = Provider.of<UserData>(context);
@@ -118,14 +119,15 @@ class _RespondDetailsState extends State<RespondDetails> {
                             child: FlatButton(
                               // TODO change routing to chatroom
                               onPressed: user.uid == rq.uid? null: () async {
-                                print(snapshotToken.data);
-                                rq.reqAccepted(snapshot.data.name, snapshot.data.uid);
-                                Notif().sendNotification(snapshotToken.data, 'Your request has been accepted!', 'plEASE');
-
-                                await DatabaseService(uid: user.uid).deleteAcceptedReq(rq);
-                                await DatabaseService(uid: user.uid).addAcceptedReq(rq);
-                                await DatabaseService(uid: user.uid).addResponse(rq);
-                                await DatabaseService(chatRoomId: chatRoomId).createChatRoom(chatRoomMap);
+                                await con.acceptRequest(
+                                  rq,
+                                  user.uid,
+                                  snapshot.data.name,
+                                  snapshot.data.uid,
+                                  snapshotToken.data,
+                                  chatRoomId,
+                                  chatRoomMap
+                                );
                                 await Navigator.pushReplacementNamed(context, '/my_responses');
                               },
                               color: Colors.white,
@@ -149,7 +151,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                   (user.uid == rq.uid)
                     ? FlatButton(
                       onPressed: () async {
-                        await DatabaseService(uid: user.uid).deleteAcceptedReq(rq);
+                        await con.deleteRequest(rq, user.uid);
                         Navigator.pop(context);
                       },
                       height: 50.0,
