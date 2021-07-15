@@ -26,11 +26,11 @@ class _RespondDetailsState extends State<RespondDetails> {
   Widget build(BuildContext context) {
     RespondDetailsController con = RespondDetailsController();
     Size size = MediaQuery.of(context).size;
-    RequestItem rq = ModalRoute.of(context).settings.arguments;
+    RequestItem req = ModalRoute.of(context).settings.arguments;
     final user = Provider.of<UserData>(context);
 
-    List<String> users = [rq.uid, user.uid];
-    String chatRoomId = "${rq.uid}_${user.uid}";
+    List<String> users = [req.uid, user.uid];
+    String chatRoomId = "${req.uid}_${user.uid}";
     Map<String, dynamic> chatRoomMap = {
       "users": users,
       "chatRoomId": chatRoomId
@@ -52,7 +52,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Image.asset(
-                        'assets/icons/${rq.category}.png',
+                        'assets/icons/${req.category}.png',
                         color: Colors.teal[900],
                         height: 0.1 * size.height,
                       ),
@@ -61,7 +61,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            '${rq.itemName.toUpperCase()}',
+                            '${req.itemName.toUpperCase()}',
                             style: TextStyle(
                               color: Colors.grey[700],
                               fontSize: 18,
@@ -70,7 +70,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                             )
                           ),
                           Text(
-                            'quantity: ${rq.quantity}',
+                            'quantity: ${req.quantity}',
                             style: TextStyle(
                               color: Colors.grey[700],
                               fontSize: 15,
@@ -79,7 +79,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                             )
                           ),
                           Text(
-                            'requested by ${rq.userName}',
+                            'requested by ${req.userName}',
                             style: TextStyle(
                               color: Colors.grey[700],
                               fontSize: 15,
@@ -97,7 +97,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                             )
                           ),
                           Text(
-                            '${rq.getDateInStringWithDay()} ${rq.getTimeInString()}',
+                            '${req.getDateInStringWithDay()} ${req.getTimeInString()}',
                             style: TextStyle(
                               color: Colors.grey[700],
                               fontSize: 15,
@@ -111,16 +111,16 @@ class _RespondDetailsState extends State<RespondDetails> {
                   ),
                   SizedBox(height: 0.02 * size.height),
                   StreamBuilder<List<String>>(
-                      stream: DatabaseService(uid: user.uid).getTokenIds(rq.uid),
+                      stream: DatabaseService(uid: user.uid).getTokenIds(req.uid),
                       builder: (context, snapshotToken) {
                         if (snapshotToken.hasData) {
                           return Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                             child: FlatButton(
                               // TODO change routing to chatroom
-                              onPressed: user.uid == rq.uid? null: () async {
+                              onPressed: user.uid == req.uid? null: () async {
                                 await con.acceptRequest(
-                                  rq,
+                                  req,
                                   user.uid,
                                   snapshot.data.name,
                                   snapshot.data.uid,
@@ -136,7 +136,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                               child: Text(
                                 'ACCEPT',
                                 style: TextStyle(
-                                  color: user.uid == rq.uid ? Colors.grey[500]: Colors.teal[900],
+                                  color: user.uid == req.uid ? Colors.grey[500]: Colors.teal[900],
                                   letterSpacing: 1.7,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -148,10 +148,10 @@ class _RespondDetailsState extends State<RespondDetails> {
                       }
                   ),
 
-                  (user.uid == rq.uid)
+                  (user.uid == req.uid)
                     ? FlatButton(
                       onPressed: () async {
-                        await con.deleteRequest(rq, user.uid);
+                        await con.deleteRequest(req, user.uid);
                         Navigator.pop(context);
                       },
                       height: 50.0,
