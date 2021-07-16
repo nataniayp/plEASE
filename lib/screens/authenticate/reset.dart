@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:please/controller/reset_controller.dart';
 import 'package:please/shared/loading.dart';

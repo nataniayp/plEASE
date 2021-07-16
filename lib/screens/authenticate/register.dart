@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:please/services/auth.dart';
+import 'package:please/controller/register_controller.dart';
 import 'package:please/shared/loading.dart';
 
 class Register extends StatefulWidget {
@@ -12,7 +12,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
 
-  final AuthService _auth = AuthService();
+  RegisterController con = RegisterController();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
@@ -147,9 +147,7 @@ class _RegisterState extends State<Register> {
                             if (_formKey.currentState.validate()) {
                               setState(() => loading = true);
                               try {
-                                dynamic result =
-                                await _auth.registerWithEmailAndPassword(
-                                    userName, email, password);
+                                dynamic result = con.register(userName, email, password);
                                 if (result == null) {
                                   setState(() {
                                     error = 'Could not register, try again later';
