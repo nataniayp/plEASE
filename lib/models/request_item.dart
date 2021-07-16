@@ -99,14 +99,17 @@ class RequestItem {
 
   // for firestore
   String getTimeInString() {
-    String hour = this.time.hourOfPeriod.toString();
+    int hour = this.time.hourOfPeriod;
     String min = this.time.minute < 10 ? '0' + this.time.minute.toString() : this.time.minute.toString();
     int period = this.time.period.index;
 
     if (period == 0) {
-      return hour + ':' + min + ' AM';
+      return hour.toString() + ':' + min + ' AM';
     } else {
-      return hour + ':' + min + ' PM';
+      if (hour == 0) {
+        hour += 12;
+      }
+      return hour.toString() + ':' + min + ' PM';
     }
   }
 
