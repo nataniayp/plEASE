@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:please/controller/register_controller.dart';
+import 'package:please/screens/wrapper.dart';
+import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
 class Register extends StatefulWidget {
@@ -113,7 +115,7 @@ class _RegisterState extends State<Register> {
                               : null,
                           onChanged: (val) {
                             String suffix = '@u.nus.edu';
-                            setState(() => email = val + suffix);
+                            email = val + suffix;
                           },
                         ),
                         SizedBox(
@@ -136,7 +138,7 @@ class _RegisterState extends State<Register> {
                               ? 'Enter a password with 6+ characters'
                               : null,
                           onChanged: (val) {
-                            setState(() => password = val);
+                            password = val;
                           },
                         ),
                         SizedBox(
@@ -148,15 +150,20 @@ class _RegisterState extends State<Register> {
                               setState(() => loading = true);
                               try {
                                 dynamic result = await con.register(userName, email, password);
+                                if (result != null) {
+                                  setState(() => loading = false);
+                                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
+                                }
+
                                 if (result == null) {
+                                  error = 'Could not register, try again later';
                                   setState(() {
-                                    error = 'Could not register, try again later';
                                     loading = false;
                                   });
                                 }
                               } catch (e) {
-                               setState(() {
-                                 error = error = e.toString().split("] ")[1];
+                                error = error = e.toString().split("] ")[1];
+                                setState(() {
                                  loading = false;
                                });
 
