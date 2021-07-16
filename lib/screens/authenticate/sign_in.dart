@@ -108,7 +108,7 @@ class _SignInState extends State<SignIn> {
                         validator: FieldValidator.emailValidator,
                         onChanged: (val) {
                           String suffix = '@u.nus.edu';
-                          setState(() => email = val + suffix);
+                          email = val + suffix;
                         },
                       ),
                       SizedBox(
@@ -129,7 +129,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         validator: FieldValidator.passwordValidator,
                         onChanged: (val) {
-                          setState(() => password = val);
+                          password = val;
                         },
                       ),
                       SizedBox(
@@ -148,14 +148,14 @@ class _SignInState extends State<SignIn> {
                               }
 
                               if (result == null) {
+                                error = 'Incorrect email/password';
                                 setState(() {
-                                  error = 'Incorrect email/password';
                                   loading = false;
                                 });
                               }
                             } catch (e) {
+                              error = e.toString().split("] ")[1];
                               setState(() {
-                                error = e.toString().split("] ")[1];
                                 loading = false;
                               });
                             }
