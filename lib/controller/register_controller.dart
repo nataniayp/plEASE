@@ -4,9 +4,7 @@ class RegisterController {
   final AuthService _auth = AuthService();
 
   Future register(String userName, String email, String password) async {
-    dynamic result =
-        await _auth.registerWithEmailAndPassword(
+    return await _auth.registerWithEmailAndPassword(
         userName, email, password);
-    return result;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:please/controller/sign_in_controller.dart';
 import 'package:please/screens/authenticate/reset.dart';
 import 'package:please/screens/wrapper.dart';
 import 'package:please/services/auth.dart';
@@ -28,7 +29,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  final AuthService _auth = AuthService();
+  SignInController con = SignInController();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
@@ -139,11 +140,7 @@ class _SignInState extends State<SignIn> {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             try {
-                              dynamic result =
-                              await _auth.signInWithEmailAndPassword(
-                                  email,
-                                  password
-                              );
+                              dynamic result = await con.signIn(email, password);
 
                               if (result != null) {
                                 setState(() => loading = false);
