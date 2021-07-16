@@ -147,7 +147,7 @@ class _RegisterState extends State<Register> {
                             if (_formKey.currentState.validate()) {
                               setState(() => loading = true);
                               try {
-                                dynamic result = con.register(userName, email, password);
+                                dynamic result = await con.register(userName, email, password);
                                 if (result == null) {
                                   setState(() {
                                     error = 'Could not register, try again later';
