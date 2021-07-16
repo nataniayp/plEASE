@@ -12,7 +12,7 @@ class Request extends StatefulWidget {
 }
 
 class _RequestState extends State<Request> {
-  RequestItem selected = new RequestItem();
+  String category;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class _RequestState extends State<Request> {
                         width: size.height * 0.22,
                         child: FlatButton(
                           onPressed: () {
-                            selected.category = 'Food';
-                            Navigator.pushNamed(context, '/request_input', arguments: selected);
+                            category = 'Food';
+                            Navigator.pushNamed(context, '/request_input', arguments: category);
                           },
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(size.width * 0.05, size.height * 0.05, size.width * 0.05, 0),
@@ -90,8 +90,8 @@ class _RequestState extends State<Request> {
                         width: size.height * 0.22,
                         child: FlatButton(
                           onPressed: () {
-                            selected.category = 'Stationery';
-                            Navigator.pushNamed(context, '/request_input', arguments: selected);
+                            category = 'Stationery';
+                            Navigator.pushNamed(context, '/request_input', arguments: category);
                           },
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
@@ -136,8 +136,8 @@ class _RequestState extends State<Request> {
                         width: size.height * 0.22,
                         child: FlatButton(
                           onPressed: () {
-                            selected.category = 'Cleaning supplies';
-                            Navigator.pushNamed(context, '/request_input', arguments: selected);
+                            category = 'Cleaning supplies';
+                            Navigator.pushNamed(context, '/request_input', arguments: category);
                           },
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
@@ -177,8 +177,8 @@ class _RequestState extends State<Request> {
                         width: size.height * 0.22,
                         child: FlatButton(
                           onPressed: () {
-                            selected.category = 'Others';
-                            Navigator.pushNamed(context, '/request_input', arguments: selected);
+                            category = 'Others';
+                            Navigator.pushNamed(context, '/request_input', arguments: category);
                           },
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.05, 0, 0),
