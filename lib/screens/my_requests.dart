@@ -2,11 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/screen_header.dart';
 import 'package:please/components/request_card.dart';
+import 'package:please/models/request_item.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
 import 'package:please/shared/loading.dart';
 import 'package:provider/provider.dart';
+
+List<RequestCard> convertList(List<dynamic> myList) {
+  return myList.map((item) =>
+      RequestCard(
+        rq: RequestItem.fromMap(item),
+        routeToChatRoom: true,
+      )
+  ).toList();
+}
 
 class MyRequests extends StatefulWidget {
   const MyRequests({Key key}) : super(key: key);
@@ -16,45 +26,6 @@ class MyRequests extends StatefulWidget {
 }
 
 class _MyRequestsState extends State<MyRequests> {
-  TimeOfDay convertStringToTimeOfDay(String t) {
-    int hour;
-    int minute;
-    String ampm = t.substring(t.length - 2);
-    String result = t.substring(0, t.indexOf(' '));
-    if (ampm == 'AM' && int.parse(result.split(":")[0]) != 12) {
-      hour = int.parse(result.split(':')[0]);
-      if (hour == 12) hour = 0;
-      minute = int.parse(result.split(":")[1]);
-    } else {
-      hour = int.parse(result.split(':')[0]) - 12;
-      if (hour <= 0) {
-        hour = 24 + hour;
-      }
-      minute = int.parse(result.split(":")[1]);
-    }
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
-  RequestCard convertMapToRequestCard(Map<String, dynamic> map) {
-    return RequestCard(
-      uid: map['uid'],
-      userName: map['name'],
-      category: map['cat'],
-      itemName: map['item'],
-      quantity: map['quantity'],
-      selectedDate: DateTime.parse(map['date']),
-      selectedTime: convertStringToTimeOfDay(map['time']),
-      // selectedTime: TimeOfDay(hour: int.parse(map['time'].split(":")[0]), minute: int.parse(map['time'].split(":")[1].substring(0,2))),
-      accepted: map['accepted'],
-      acceptedBy: map['acceptedBy'],
-      acceptedByUid: map['acceptedByUid'],
-      routeToChatRoom: true,
-    );
-  }
-
-  List<RequestCard> convertList(List<dynamic> myList) {
-    return myList.map((item) => convertMapToRequestCard(item)).toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,20 +39,8 @@ class _MyRequestsState extends State<MyRequests> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               UserCredentials userCred = snapshot.data;
-
               List<RequestCard> finalList = convertList(userCred.reqList);
-
-              // sorting functions by datetime & timeofday
-              int compareTOD(TimeOfDay a, TimeOfDay b) {
-                double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
-                return toDouble(a).compareTo(toDouble(b));
-              }
-
-              finalList.sort((a, b) => (a.selectedDate.compareTo(b.selectedDate) != 0)
-                  ? a.selectedDate.compareTo(b.selectedDate)
-                  : compareTOD(a.selectedTime, b.selectedTime)
-              );
-
+              finalList.sort((a, b) => a.rq.compareReq(b.rq));
 
               return Column(
                 children: <Widget>[
@@ -95,8 +54,6 @@ class _MyRequestsState extends State<MyRequests> {
                             return finalList[index];
                           }
                       ),
-                      // child: Column(
-                      //   children: mapListReqCard(convertList(userCred.reqList)),
                     ),
                   ),
                 ],

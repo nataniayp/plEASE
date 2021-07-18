@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:please/models/request_item.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/message_data.dart';
 
@@ -16,10 +19,11 @@ class DatabaseService {
   final CollectionReference chatRoomCollection
   = FirebaseFirestore.instance.collection('chatRoom');
 
+  // initial storing of data after registering
   Future updateUserData(String name) async {
+    // get tokenId
     var status = await OneSignal.shared.getPermissionSubscriptionState();
     String tokenId = status.subscriptionStatus.userId;
-    // print(tokenId);
 
     return await userCollection.doc(uid).set({
       'uid': uid,
@@ -50,43 +54,36 @@ class DatabaseService {
     });
   }
 
-  // add a RequestItem
-  Future addRequestItem(String name, String cat, String item, int quantity, String date, String time) async {
+  Future addRequestItem(RequestItem req) async {
     return await userCollection.doc(uid).update({
       'reqList': FieldValue.arrayUnion([{
         'uid': uid,
-        'name': name,
-        'cat': cat,
-        'item': item,
-        'quantity': quantity,
-        'date': date,
-        'time': time,
+        'name': req.userName,
+        'cat': req.category,
+        'item': req.itemName,
+        'quantity': req.quantity,
+        'date': DateFormat('yyyy-MM-dd').format(req.date),
+        'time': req.getTimeInString(),
         'accepted': false,
         'acceptedBy': '',
         'acceptedByUid': '',
       }]),
     });
   }
+
+
 
   // the three methods below are used when a user accepts another user's request
-  Future deleteAcceptedReq(
-    String uidReq,
-    String name,
-    String cat,
-    String item,
-    int quantity,
-    String date,
-    String time,
-    ) async {
-    return await userCollection.doc(uidReq).update({
+  Future deleteReq(RequestItem req) async {
+    return await userCollection.doc(req.uid).update({
       'reqList': FieldValue.arrayRemove([{
-        'uid': uidReq,
-        'name': name,
-        'cat': cat,
-        'item': item,
-        'quantity': quantity,
-        'date': date,
-        'time': time,
+        'uid': req.uid,
+        'name': req.userName,
+        'cat': req.category,
+        'item': req.itemName,
+        'quantity': req.quantity,
+        'date': req.getDateInString(),
+        'time': req.getTimeInString(),
         'accepted': false,
         'acceptedBy': '',
         'acceptedByUid': '',
@@ -94,53 +91,35 @@ class DatabaseService {
     });
   }
 
-  Future addAcceptedReq(
-      String uidReq,
-      String name,
-      String cat,
-      String item,
-      int quantity,
-      String date,
-      String time,
-      String acceptedBy
-    ) async {
-    return await userCollection.doc(uidReq).update({
+  Future addAcceptedReq(RequestItem req) async {
+    return await userCollection.doc(req.uid).update({
       'reqList': FieldValue.arrayUnion([{
-        'uid': uidReq,
-        'name': name,
-        'cat': cat,
-        'item': item,
-        'quantity': quantity,
-        'date': date,
-        'time': time,
+        'uid': req.uid,
+        'name': req.userName,
+        'cat': req.category,
+        'item': req.itemName,
+        'quantity': req.quantity,
+        'date': req.getDateInString(),
+        'time': req.getTimeInString(),
         'accepted': true,
-        'acceptedBy': acceptedBy,
+        'acceptedBy': req.acceptedBy,
         'acceptedByUid': uid,
       }]),
     });
   }
 
-  Future addResponse(
-      String uidReq,
-      String name,
-      String cat,
-      String item,
-      int quantity,
-      String date,
-      String time,
-      String acceptedBy
-    ) async {
+  Future addResponse(RequestItem req) async {
     return await userCollection.doc(uid).update({
       'resList': FieldValue.arrayUnion([{
-        'uid': uidReq,
-        'name': name,
-        'cat': cat,
-        'item': item,
-        'quantity': quantity,
-        'date': date,
-        'time': time,
+        'uid': req.uid,
+        'name': req.userName,
+        'cat': req.category,
+        'item': req.itemName,
+        'quantity': req.quantity,
+        'date': req.getDateInString(),
+        'time': req.getTimeInString(),
         'accepted': true,
-        'acceptedBy': acceptedBy,
+        'acceptedBy': req.acceptedBy,
         'acceptedByUid': uid,
       }]),
     });
@@ -149,7 +128,6 @@ class DatabaseService {
   // userInfo list from snapshot
   List<UserCredentials> _userInfoListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.docs.map((doc){
-      // print(doc.data());
       return UserCredentials(
         doc.get('uid') ?? '',
         doc.get('name') ?? '',
@@ -194,33 +172,27 @@ class DatabaseService {
   }
 
   // create new chat room between requester and responder
-  createChatRoom(chatRoomMap) {
-    chatRoomCollection.doc(chatRoomId)
-        .set(chatRoomMap)
-        .catchError((e) {
-          print(e.toString());
-        });
+  Future createChatRoom(chatRoomMap) async {
+    return await chatRoomCollection.doc(chatRoomId)
+      .set(chatRoomMap)
+      .catchError((e) {
+        print(e.toString());
+      });
   }
 
   // add new message to current list of messages
-  addMessages(messageMap){
-    chatRoomCollection.doc(chatRoomId)
-        .collection("messages") // creates "messages" collection if it does not already exist
-        .add(messageMap)
-        .catchError((e){
-          print(e.toString());
+  Future addMessages(messageMap) async {
+    return await chatRoomCollection.doc(chatRoomId)
+      .collection("messages") // creates "messages" collection if it does not already exist
+      .add(messageMap)
+      .catchError((e){
+        print(e.toString());
     });
   }
 
-  // get requester and responder uid
-  Future<List<String>> getUid () async {
-    DocumentSnapshot doc = await chatRoomCollection.doc(chatRoomId).get();
-    List<String> uids = doc.get('users');
-  }
-
   // messageData from snapshot
-  List<MessageData> _messageDataFromSnapshot(QuerySnapshot snapshot){
-    return snapshot.docs.map((doc){
+  List<MessageData> _messageDataFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
       return MessageData(
         message: doc.get("message") ?? null,
         sendBy: doc.get("sendBy") ?? null,
@@ -230,11 +202,11 @@ class DatabaseService {
   }
 
   // get message stream
-  Stream<List<MessageData>> get messageData{
+  Stream<List<MessageData>> get messageData {
     return chatRoomCollection
-        .doc(chatRoomId)
-        .collection("messages") // nested collection
-        .snapshots() // get individual documents
-        .map(_messageDataFromSnapshot); // invoke function on individual documents
+      .doc(chatRoomId)
+      .collection("messages") // nested collection
+      .snapshots() // get individual documents
+      .map(_messageDataFromSnapshot); // invoke function on individual documents
   }
 }

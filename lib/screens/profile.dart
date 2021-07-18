@@ -33,9 +33,10 @@ class _ProfileState extends State<Profile> {
             ),
             child: Column(
               children: <Widget>[
-                CircleAvatar(
-                  radius: 0.1 * size.height,
-                  backgroundColor: Colors.grey,
+                Image.asset(
+                  'assets/icons/logo.png',
+                  color: Colors.grey[200],
+                  height: 0.2 * size.height,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -61,9 +62,6 @@ class _ProfileState extends State<Profile> {
                       )
                   ),
                 ),
-                // SizedBox(
-                //   height: 0.002 * size.height,
-                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/my_responses');
@@ -82,7 +80,6 @@ class _ProfileState extends State<Profile> {
                 TextButton(
                   onPressed: () async {
                     await _auth.signOut();
-                    print(FirebaseAuth.instance.currentUser);
                   },
                   child: Text(
                       'LOGOUT',

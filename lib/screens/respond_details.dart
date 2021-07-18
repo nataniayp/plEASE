@@ -1,16 +1,15 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:please/components/customised_app_bar.dart';
-import 'package:please/components/request_card.dart';
 import 'package:please/components/screen_header.dart';
-import 'package:intl/intl.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
 import 'package:please/shared/loading.dart';
+import 'package:please/controller/respond_details_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:please/models/request_item.dart';
 
 class RespondDetails extends StatefulWidget {
   const RespondDetails({Key key}) : super(key: key);
@@ -20,54 +19,18 @@ class RespondDetails extends StatefulWidget {
 }
 
 class _RespondDetailsState extends State<RespondDetails> {
-  String convertTimeOfDayToString(TimeOfDay t) {
-    String hour = t.hourOfPeriod.toString();
-    String min = t.minute < 10 ? '0' + t.minute.toString() : t.minute.toString();
-    int period = t.period.index;
-
-    if (period == 0) {
-      return hour + ':' + min + ' AM';
-    } else {
-      return hour + ':' + min + ' PM';
-    }
-  }
-
-  Future<Response> sendNotification(List<String> tokenIdList, String contents, String heading) async {
-    return await post(
-      Uri.parse('https://onesignal.com/api/v1/notifications'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>
-      {
-        "app_id": '729732d6-6359-40bb-8847-ca6e0c987d25',//kAppId is the App Id that one get from the OneSignal When the application is registered.
-
-        "include_player_ids": tokenIdList,//tokenIdList Is the List of All the Token Id to to Whom notification must be sent.
-
-        // android_accent_color represent the color of the heading text in the notification
-        "android_accent_color":"FF9976D2",
-
-        "small_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
-
-        "large_icon":"https://i.ibb.co/S5FHpXF/pl-EASE-1028.png",
-
-        "headings": {"en": heading},
-
-        "contents": {"en": contents},
 
 
-      }),
-    );
-  }
   
   @override
   Widget build(BuildContext context) {
+    RespondDetailsController con = RespondDetailsController();
     Size size = MediaQuery.of(context).size;
-    RequestCard rc = ModalRoute.of(context).settings.arguments;
+    RequestItem req = ModalRoute.of(context).settings.arguments;
     final user = Provider.of<UserData>(context);
 
-    List<String> users = [rc.uid, user.uid];
-    String chatRoomId = "${rc.uid}_${user.uid}";
+    List<String> users = [req.uid, user.uid];
+    String chatRoomId = "${req.uid}_${user.uid}";
     Map<String, dynamic> chatRoomMap = {
       "users": users,
       "chatRoomId": chatRoomId
@@ -85,60 +48,86 @@ class _RespondDetailsState extends State<RespondDetails> {
                 children: <Widget>[
                   CustomisedAppBar(withBackArrow: true,),
                   ScreenHeader(name: 'Respond Details'),
-                  Text('Category: ${rc.category}'),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('Item: ${rc.itemName}',),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('Quantity: ${rc.quantity}',),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('by ${DateFormat('EEE, d/M/y,').format(rc.selectedDate)} ${convertTimeOfDayToString(rc.selectedTime)}'),
-                  // Text('by ${DateFormat('EEE, d/M/y,').format(rc.selectedDate)} ${rc.selectedTime.format(context)}'),
-                  SizedBox(height: 0.02 * size.height),
-                  Text('Requested by: ${rc.userName}'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        'assets/icons/${req.category}.png',
+                        color: Colors.teal[900],
+                        height: 0.1 * size.height,
+                      ),
+                      SizedBox(width: 0.05 * size.width),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            '${req.itemName.toUpperCase()}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 18,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            'quantity: ${req.quantity}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            'requested by ${req.userName}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            'to be ready by',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                          Text(
+                            '${req.getDateInStringWithDay()} ${req.getTimeInString()}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 15,
+                              height: 1.5,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                   SizedBox(height: 0.02 * size.height),
                   StreamBuilder<List<String>>(
-                      stream: DatabaseService(uid: user.uid).getTokenIds(rc.uid),
+                      stream: DatabaseService(uid: user.uid).getTokenIds(req.uid),
                       builder: (context, snapshotToken) {
-                        print(snapshotToken);
                         if (snapshotToken.hasData) {
                           return Padding(
                             padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
                             child: FlatButton(
                               // TODO change routing to chatroom
-                              onPressed: user.uid == rc.uid? null: () async {
-                                print(snapshotToken.data);
-                                rc.reqAccepted(snapshot.data.name, snapshot.data.uid);
-                                sendNotification(snapshotToken.data, 'Your request has been accepted!', 'plEASE');
-                                await DatabaseService(uid: user.uid).deleteAcceptedReq(
-                                  rc.uid,
-                                  rc.userName,
-                                  rc.category,
-                                  rc.itemName,
-                                  rc.quantity,
-                                  DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                                  convertTimeOfDayToString(rc.selectedTime),
+                              onPressed: user.uid == req.uid? null: () async {
+                                await con.acceptRequest(
+                                  req,
+                                  user.uid,
+                                  snapshot.data.name,
+                                  snapshot.data.uid,
+                                  snapshotToken.data,
+                                  chatRoomId,
+                                  chatRoomMap
                                 );
-                                await DatabaseService(uid: user.uid).addAcceptedReq(
-                                  rc.uid,
-                                  rc.userName,
-                                  rc.category,
-                                  rc.itemName,
-                                  rc.quantity,
-                                  DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                                  convertTimeOfDayToString(rc.selectedTime),
-                                  rc.acceptedBy,
-                                );
-                                await DatabaseService(uid: user.uid).addResponse(
-                                  rc.uid,
-                                  rc.userName,
-                                  rc.category,
-                                  rc.itemName,
-                                  rc.quantity,
-                                  DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                                  convertTimeOfDayToString(rc.selectedTime),
-                                  rc.acceptedBy,
-                                );
-                                await DatabaseService(chatRoomId: chatRoomId).createChatRoom(chatRoomMap);
                                 await Navigator.pushReplacementNamed(context, '/my_responses');
                               },
                               color: Colors.white,
@@ -147,7 +136,7 @@ class _RespondDetailsState extends State<RespondDetails> {
                               child: Text(
                                 'ACCEPT',
                                 style: TextStyle(
-                                  color: user.uid == rc.uid ? Colors.grey[500]: Colors.teal[900],
+                                  color: user.uid == req.uid ? Colors.grey[500]: Colors.teal[900],
                                   letterSpacing: 1.7,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -157,23 +146,13 @@ class _RespondDetailsState extends State<RespondDetails> {
                         }
                         return Loading();
                       }
-
                   ),
 
-                  (user.uid == rc.uid)
+                  (user.uid == req.uid)
                     ? FlatButton(
                       onPressed: () async {
-                        await DatabaseService(uid: user.uid).deleteAcceptedReq(
-                          rc.uid,
-                          rc.userName,
-                          rc.category,
-                          rc.itemName,
-                          rc.quantity,
-                          DateFormat('yyyy-MM-dd').format(rc.selectedDate),
-                          convertTimeOfDayToString(rc.selectedTime),
-                        );
-                        await Navigator.pop(context);
-                        // await Navigator.pushReplacementNamed(context, '/my_requests');
+                        await con.deleteRequest(req, user.uid);
+                        Navigator.pop(context);
                       },
                       height: 50.0,
                       minWidth: 200.0,

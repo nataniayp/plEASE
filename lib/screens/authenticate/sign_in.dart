@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:please/controller/sign_in_controller.dart';
 import 'package:please/screens/authenticate/reset.dart';
+import 'package:please/screens/wrapper.dart';
 import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
@@ -27,7 +29,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  final AuthService _auth = AuthService();
+  SignInController con = SignInController();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
@@ -106,7 +108,7 @@ class _SignInState extends State<SignIn> {
                         validator: FieldValidator.emailValidator,
                         onChanged: (val) {
                           String suffix = '@u.nus.edu';
-                          setState(() => email = val + suffix);
+                          email = val + suffix;
                         },
                       ),
                       SizedBox(
@@ -127,7 +129,7 @@ class _SignInState extends State<SignIn> {
                         ),
                         validator: FieldValidator.passwordValidator,
                         onChanged: (val) {
-                          setState(() => password = val);
+                          password = val;
                         },
                       ),
                       SizedBox(
@@ -138,20 +140,22 @@ class _SignInState extends State<SignIn> {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             try {
-                              dynamic result =
-                              await _auth.signInWithEmailAndPassword(
-                                  email,
-                                  password
-                              );
+                              dynamic result = await con.signIn(email, password);
+
+                              if (result != null) {
+                                setState(() => loading = false);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
+                              }
+
                               if (result == null) {
+                                error = 'Incorrect email/password';
                                 setState(() {
-                                  error = 'Incorrect email/password';
                                   loading = false;
                                 });
                               }
                             } catch (e) {
+                              error = e.toString().split("] ")[1];
                               setState(() {
-                                error = e.toString().split("] ")[1];
                                 loading = false;
                               });
                             }

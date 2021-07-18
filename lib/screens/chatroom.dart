@@ -26,9 +26,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
 
     ChatRoomData doc = ModalRoute.of(context).settings.arguments;
-
     Size size = MediaQuery.of(context).size;
-
     final user = Provider.of<UserData>(context);
 
     Widget messageDisplay(){
@@ -82,8 +80,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
     sendMessage() {
       if (messageEditingController.text.isNotEmpty) {
-        // DateTime current = DateTime.now();
-
         Map<String, dynamic> messageMap = {
           "sendBy": user.uid,
           "message": messageEditingController.text,
