@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class chatBubble extends StatefulWidget {
-  const chatBubble({
+class ChatBubble extends StatefulWidget {
+  const ChatBubble({
     Key key,
     @required this.message,
     @required this.isSentByUser,
@@ -16,10 +16,10 @@ class chatBubble extends StatefulWidget {
   final bool showDate;
 
   @override
-  _chatBubbleState createState() => _chatBubbleState();
+  _ChatBubbleState createState() => _ChatBubbleState();
 }
 
-class _chatBubbleState extends State<chatBubble> {
+class _ChatBubbleState extends State<ChatBubble> {
   @override
   Widget build(BuildContext context) {
 

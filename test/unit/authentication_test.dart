@@ -1,15 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:please/main.dart';
-import 'package:please/models/user_data.dart';
-import 'package:please/screens/authenticate/authenticate.dart';
 import 'package:please/screens/authenticate/sign_in.dart';
-import 'package:please/screens/wrapper.dart';
-import '../mock_services/mock_authentication.dart';
-import 'dart:io' as io;
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

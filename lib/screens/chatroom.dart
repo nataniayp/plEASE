@@ -52,14 +52,14 @@ class _ChatRoomState extends State<ChatRoom> {
                 String formattedDate = DateFormat('dd/MM/yy').format(messages[index].sendTime);
                 if (currentDate == null || currentDate != formattedDate) {
                   currentDate = formattedDate;
-                  return chatBubble(
+                  return ChatBubble(
                     message: messages[index].message,
                     isSentByUser: messages[index].sendBy == user.uid,
                     sendTime: messages[index].sendTime,
                     showDate: true,
                   );
                 } else {
-                  return chatBubble(
+                  return ChatBubble(
                     message: messages[index].message,
                     isSentByUser: messages[index].sendBy == user.uid,
                     sendTime: messages[index].sendTime,
@@ -110,7 +110,7 @@ class _ChatRoomState extends State<ChatRoom> {
             body: SafeArea(
               child: Column(
                 children: [
-                  chatRoomAppBar(name: snapshot.data.name == doc.requesterName? doc.responderName: doc.requesterName),
+                  ChatRoomAppBar(name: snapshot.data.name == doc.requesterName? doc.responderName: doc.requesterName),
                   Expanded(
                     child: Column(
                       children: [

@@ -5,8 +5,8 @@ import 'package:please/services/database.dart';
 import 'package:please/models/user_credentials.dart';
 import 'package:please/shared/loading.dart';
 
-class chatRoomAppBar extends StatefulWidget {
-  const chatRoomAppBar({
+class ChatRoomAppBar extends StatefulWidget {
+  const ChatRoomAppBar({
     Key key,
     @required this.name,
   }) : super(key: key);
@@ -14,10 +14,10 @@ class chatRoomAppBar extends StatefulWidget {
   final String name;
 
   @override
-  _chatRoomAppBarState createState() => _chatRoomAppBarState();
+  _ChatRoomAppBarState createState() => _ChatRoomAppBarState();
 }
 
-class _chatRoomAppBarState extends State<chatRoomAppBar> {
+class _ChatRoomAppBarState extends State<ChatRoomAppBar> {
   @override
   Widget build(BuildContext context) {
 

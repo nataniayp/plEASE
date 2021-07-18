@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:please/main.dart';
 import 'package:please/screens/my_responses.dart';
+import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 
 void main() {
-  // setUpAll(() async {
-  //   WidgetsFlutterBinding.ensureInitialized();
-  //   await Firebase.initializeApp();
-  // });
-
   // sign in page displayed
   testWidgets('sign in displayed initially', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+    final firestore = FakeFirebaseFirestore();
+    await tester.pumpWidget(MyResponses());
     expect(find.text('My Responses'), findsOneWidget);
   });
 
