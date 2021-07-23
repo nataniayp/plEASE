@@ -2,29 +2,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:please/models/user_data.dart';
 import 'package:please/services/database.dart';
 
+
 class AuthService {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final FirebaseAuth auth;
+
+  AuthService({this.auth});
 
   UserData _userFromFirebase(User user) {
     return user != null ? UserData(uid: user.uid) : null;
   }
 
   Stream<UserData> get user {
-    return _auth.authStateChanges().map((User user) => _userFromFirebase(user));
+    return auth.authStateChanges().map((User user) => _userFromFirebase(user));
   }
 
   // sign in with email & password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
       UserCredential result =
-      await _auth.signInWithEmailAndPassword(
+      await auth.signInWithEmailAndPassword(
           email: email,
           password: password);
+      // return 'Sign in successful';
       User user = result.user;
       await DatabaseService(uid: user.uid).addTokenId();
       return _userFromFirebase(user);
-    } catch(e) {
+    } on FirebaseAuthException catch(e) {
+      // return e.message;
       print(e.toString());
       throw e;
     }
@@ -34,16 +41,19 @@ class AuthService {
   Future registerWithEmailAndPassword(String userName, String email, String password) async {
     try {
       UserCredential result =
-        await _auth.createUserWithEmailAndPassword(
-            email: email,
-            password: password);
+      await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password);
       User user = result.user;
 
       // create a new doc for the user with the uid
       await DatabaseService(uid: user.uid).updateUserData(userName);
 
       return _userFromFirebase(user);
-    } catch(e) {
+      // return 'Registration successful';
+    } on FirebaseAuthException catch(e) {
+      // return e.message;
+
       print(e.toString());
       throw e;
     }
@@ -52,9 +62,9 @@ class AuthService {
   // sign out
   Future signOut() async {
     try {
-      User user = _auth.currentUser;
+      User user = auth.currentUser;
       await DatabaseService(uid: user.uid).deleteTokenId();
-      return await _auth.signOut();
+      return await auth.signOut();
     } catch(e) {
       return null;
     }
