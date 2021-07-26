@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:please/components/request_card.dart';
 
 int compareTOD(TimeOfDay a, TimeOfDay b) {
   double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
@@ -85,6 +86,21 @@ class RequestItem {
     } else {
       return this.compareReqTOD(other);
     }
+  }
+
+  int getDurationFromNow() {
+    DateTime newDate = date.add(new Duration(hours: time.hour, seconds: time.minute));
+    return newDate.difference(DateTime.now()).inMinutes;
+  }
+
+  // score for feed ranking
+  int getScore(List<RequestCard> userX, List<RequestCard> userY) {
+    int A = userX.where((item) => item.rq.uid == this.uid).length;
+    int B = userX.where((item) => item.rq.category == this.category).length;
+    int C = userY.length;
+    int D = ((1/this.getDurationFromNow())*100000).ceil();
+    int score = 3*A + 2*B + 2*C + D;
+    return score;
   }
 
   // for UI

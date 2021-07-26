@@ -34,6 +34,15 @@ List<RequestCard> convertList(List<dynamic> l) {
   )).toList();
 }
 
+// ignore: missing_return
+List<RequestCard> userRequestList(List<UserCredentials> l, String uid) {
+  for (UserCredentials user in l) {
+    if (user.uid == uid) {
+      return convertList(user.resList);
+    } 
+  }
+}
+
 List<RequestCard> filterList(List<RequestCard> l, String s) {
   List<RequestCard> notAcceptedAndNotExpired = l.where((item) {
     return !item.rq.accepted && !item.rq.isExpired();
@@ -62,8 +71,6 @@ class Respond extends StatefulWidget {
   _RespondState createState() => _RespondState();
 }
 
-
-
 class _RespondState extends State<Respond> {
 
   @override
@@ -85,7 +92,10 @@ class _RespondState extends State<Respond> {
               List<RequestCard> finalList = filterList(flatMap(
                   userData.map((item) => convertList(item.reqList).toList()).toList()), currentCat);
 
-              finalList.sort((a, b) => a.rq.compareReq(b.rq));
+              // finalList.sort((a, b) => a.rq.compareReq(b.rq));
+              finalList.sort((a, b) =>
+                  b.rq.getScore(userRequestList(userData, user.uid), userRequestList(userData, b.rq.uid))
+                      - a.rq.getScore(userRequestList(userData, user.uid), userRequestList(userData, a.rq.uid)));
 
               return Container(
                   child: Column(
