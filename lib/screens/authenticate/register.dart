@@ -4,6 +4,20 @@ import 'package:please/screens/wrapper.dart';
 import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
+class FieldValidator {
+  static String nameValidator(String val) {
+    return val.isEmpty? 'Enter a name': null;
+  }
+
+  static String emailValidator(String val) {
+    return val.isEmpty ? 'Enter an email' : null;
+  }
+
+  static String passwordValidator(String val) {
+    return val.length < 6 ? 'Enter a password with 6+ characters' : null;
+  }
+}
+
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({ this.toggleView });
@@ -87,9 +101,7 @@ class _RegisterState extends State<Register> {
                                 borderSide: BorderSide(color: Colors.white,)
                             ),
                           ),
-                          validator: (val) => val.isEmpty
-                              ? 'Enter a name'
-                              : null,
+                          validator: FieldValidator.nameValidator,
                           onChanged: (val) {
                             setState(() => userName = val);
                           },
@@ -110,9 +122,7 @@ class _RegisterState extends State<Register> {
                                 borderSide: BorderSide(color: Colors.white,)
                             ),
                           ),
-                          validator: (val) => val.isEmpty
-                              ? 'Enter an email'
-                              : null,
+                          validator: FieldValidator.emailValidator,
                           onChanged: (val) {
                             String suffix = '@u.nus.edu';
                             email = val + suffix;
@@ -134,9 +144,7 @@ class _RegisterState extends State<Register> {
                                 borderSide: BorderSide(color: Colors.white,)
                             ),
                           ),
-                          validator: (val) => val.length < 6
-                              ? 'Enter a password with 6+ characters'
-                              : null,
+                          validator: FieldValidator.passwordValidator,
                           onChanged: (val) {
                             password = val;
                           },

@@ -6,32 +6,33 @@ import 'package:please/screens/authenticate/sign_in.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // login
+  // email validation
   group('Email validation upon login:', () {
-    test('email is in correct format', () {
+    test('email input is valid', () {
       var result = FieldValidator.emailValidator('test');
       expect(result, null);
     });
 
-    test('email should not be empty', () {
+    test('email input is empty', () {
       var result = FieldValidator.emailValidator('');
       expect(result, 'Enter an email');
     });
 
-    test('email is registered', () {
-      var result = FieldValidator.emailValidator('yovela');
+  });
+
+  // password validation
+  group('Password validation upon login:', () {
+    test('password input is valid', () {
+      var result = FieldValidator.passwordValidator('password');
       expect(result, null);
     });
 
-  });
-
-  group('Password validation upon login:', () {
-    test('password should have at least 6 chars', () {
+    test('password input has less than 6 characters', () {
       var result = FieldValidator.passwordValidator('test');
       expect(result, 'Enter a password with 6+ characters');
     });
 
-    test('password should not be empty', () {
+    test('password input is empty', () {
       var result = FieldValidator.passwordValidator('');
       expect(result, 'Enter a password with 6+ characters');
     });

@@ -5,11 +5,11 @@ import 'package:please/services/database.dart';
 
 class AuthService {
 
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-  final FirebaseAuth auth;
-
-  AuthService({this.auth});
+  // final FirebaseAuth auth;
+  //
+  // AuthService({this.auth});
 
   UserData _userFromFirebase(User user) {
     return user != null ? UserData(uid: user.uid) : null;

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:please/controller/sign_in_controller.dart';
 import 'package:please/screens/authenticate/reset.dart';
 import 'package:please/screens/wrapper.dart';
-import 'package:please/services/auth.dart';
 import 'package:please/shared/loading.dart';
 
 class FieldValidator {

@@ -93,17 +93,4 @@ void main() {
       expect(find.text('16:30'), findsOneWidget);
     });
   });
-
-  group('Customised app bar test', (){
-    Widget testCustomisedAppBar = new MediaQuery(
-        data: new MediaQueryData(),
-        child: new MaterialApp(home: new CustomisedAppBar(withBackArrow: true,))
-    );
-
-    // customised app bar text
-    testWidgets('Customised app bar text', (WidgetTester tester) async {
-      await tester.pumpWidget(testCustomisedAppBar);
-      expect(find.text('Hello, Kenneth'), findsOneWidget);
-    });
-  });
 }
