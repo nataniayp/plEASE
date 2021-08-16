@@ -25,6 +25,7 @@ class _ScreenHeaderState extends State<ScreenHeader> {
           Text(
             widget.name,
             style: TextStyle(
+              color: Color(0xff3a4a51),
               fontWeight: FontWeight.bold,
               fontSize: 0.02 * size.height,
               letterSpacing: 1.0,

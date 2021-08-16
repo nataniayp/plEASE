@@ -9,7 +9,11 @@ class Loading extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.teal[900],
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            colors: [const Color(0xff4a675a), const Color(0xff3a4a51)]
+        ),
+      ),
       child: Center(
         child: SpinKitPulse(
           color: Colors.white,

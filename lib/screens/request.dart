@@ -29,21 +29,24 @@ class _RequestState extends State<Request> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.025),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row (
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container( // Food
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              blurRadius: 4,
-                              color: Colors.grey.withOpacity(0.4),
-                              offset: Offset(0, 8), // changes position of shadow
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
                             ),
-                          ]
+                          color: Color(0xfff0f0eb),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     blurRadius: 4,
+                          //     color: Colors.grey.withOpacity(0.4),
+                          //     offset: Offset(0, 8), // changes position of shadow
+                          //   ),
+                          // ]
                         ),
                         height: size.height * 0.22,
                         width: size.height * 0.22,
@@ -58,14 +61,14 @@ class _RequestState extends State<Request> {
                               children: [
                                 Image.asset(
                                   'assets/icons/food.png',
-                                  color: Colors.teal[900],
+                                  color: Color(0xff3a4a51),
                                   scale: 8,
                                 ),
                                 SizedBox(height: size.height * 0.03),
                                 Text(
                                   'Food',
                                   style: TextStyle(
-                                    color: Colors.teal[900],
+                                    color: Color(0xff3a4a51),
                                   ),
                                 ),
                               ],
@@ -76,15 +79,19 @@ class _RequestState extends State<Request> {
                       SizedBox(width: size.width * 0.04),
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 4,
-                                color: Colors.grey.withOpacity(0.4),
-                                offset: Offset(0, 8), // changes position of shadow
-                              ),
-                            ]
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+
+                            color: Color(0xfff0f0eb),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //     blurRadius: 4,
+                          //     color: Colors.grey.withOpacity(0.4),
+                          //     offset: Offset(0, 8), // changes position of shadow
+                          //   ),
+                          // ]
                         ),
                         height: size.height * 0.22,
                         width: size.height * 0.22,
@@ -99,14 +106,14 @@ class _RequestState extends State<Request> {
                               children: [
                                 Image.asset(
                                   'assets/icons/stationery.png',
-                                  color: Colors.teal[900],
+                                  color: Color(0xff3a4a51),
                                   scale: 8,
                                 ),
                                 SizedBox(height: size.height * 0.03),
                                 Text(
                                   'Stationery',
                                   style: TextStyle(
-                                    color: Colors.teal[900],
+                                    color: Color(0xff3a4a51),
                                   ),
                                 ),
                               ],
@@ -122,15 +129,18 @@ class _RequestState extends State<Request> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 4,
-                                color: Colors.grey.withOpacity(0.4),
-                                offset: Offset(0, 8), // changes position of shadow
-                              ),
-                            ]
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(30),
+                              bottomLeft: Radius.circular(30),
+                            ),
+                            color: Color(0xfff0f0eb),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     blurRadius: 4,
+                            //     color: Colors.grey.withOpacity(0.4),
+                            //     offset: Offset(0, 8), // changes position of shadow
+                            //   ),
+                            // ]
                         ),
                         height: size.height * 0.22,
                         width: size.height * 0.22,
@@ -145,14 +155,14 @@ class _RequestState extends State<Request> {
                               children: [
                                 Image.asset(
                                   'assets/icons/cleaning.png',
-                                  color: Colors.teal[900],
+                                  color: Color(0xff3a4a51),
                                   scale: 8,
                                 ),
                                 SizedBox(height: size.height * 0.03),
                                 Text(
                                   'Cleaning supplies',
                                   style: TextStyle(
-                                    color: Colors.teal[900],
+                                    color: Color(0xff3a4a51),
                                   ),
                                 ),
                               ],
@@ -163,15 +173,18 @@ class _RequestState extends State<Request> {
                       SizedBox(width: size.width * 0.04),
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 4,
-                                color: Colors.grey.withOpacity(0.4),
-                                offset: Offset(0, 8), // changes position of shadow
-                              ),
-                            ]
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(30),
+                            ),
+                            // color: Colors.white,
+                            color: Color(0xfff0f0eb),
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //     blurRadius: 4,
+                            //     color: Colors.grey.withOpacity(0.4),
+                            //     offset: Offset(0, 8), // changes position of shadow
+                            //   ),
+                            // ]
                         ),
                         height: size.height * 0.22,
                         width: size.height * 0.22,
@@ -186,14 +199,14 @@ class _RequestState extends State<Request> {
                               children: [
                                 Image.asset(
                                   'assets/icons/audio-jack.png',
-                                  color: Colors.teal[900],
+                                  color: Color(0xff3a4a51),
                                   scale: 8,
                                 ),
                                 SizedBox(height: size.height * 0.03),
                                 Text(
                                   'Others',
                                   style: TextStyle(
-                                    color: Colors.teal[900],
+                                    color: Color(0xff3a4a51),
                                   ),
                                 ),
                               ],

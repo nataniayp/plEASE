@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:please/components/customised_app_bar.dart';
 import 'package:please/components/screen_header.dart';
@@ -48,123 +49,142 @@ class _RespondDetailsState extends State<RespondDetails> {
                 children: <Widget>[
                   CustomisedAppBar(withBackArrow: true,),
                   ScreenHeader(name: 'Respond Details'),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      color: Color(0xfff0f0eb),
+                    ),
+                    padding: EdgeInsets.fromLTRB(size.width * 0.05, size.height * 0.05, size.width * 0.05, size.height * 0.05),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/icons/${req.category}.png',
+                          color: Color(0xff3a4a51),
+                          height: 0.1 * size.height,
+                        ),
+                        SizedBox(width: 0.05 * size.width),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              '${req.itemName.toUpperCase()}',
+                              style: TextStyle(
+                                color: Color(0xff4a675a),
+                                fontSize: 18,
+                                height: 1.5,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                            Text(
+                              'quantity: ${req.quantity}',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 15,
+                                height: 1.5,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                            Text(
+                              'requested by ${req.userName}',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 15,
+                                height: 1.5,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                            Text(
+                              'to be ready by',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 15,
+                                height: 1.5,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                            Text(
+                              '${req.getDateInStringWithDay()} ${req.getTimeInString()}',
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: 15,
+                                height: 1.5,
+                                fontWeight: FontWeight.bold,
+                              )
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 0.05 * size.height),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        'assets/icons/${req.category}.png',
-                        color: Colors.teal[900],
-                        height: 0.1 * size.height,
+                    children: [
+                      (user.uid == req.uid)
+                          ? FlatButton(
+                        onPressed: () async {
+                          await con.deleteRequest(req, user.uid);
+                          Navigator.pop(context);
+                        },
+                        minWidth: size.width * 0.3,
+                        child: Text(
+                          'Delete Request',
+                          style: TextStyle(
+                            color: Color(0xff3a4a51),
+                            letterSpacing: 1.7,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ) : Container(width: size.width * 0.3),
+                      SizedBox(width: size.width * 0.15),
+                      StreamBuilder<List<String>>(
+                          stream: DatabaseService(uid: user.uid).getTokenIds(req.uid),
+                          builder: (context, snapshotToken) {
+                            if (snapshotToken.hasData) {
+                              return Container(
+                                width: size.width * 0.3,
+                                decoration: BoxDecoration(
+                                  color: user.uid == req.uid ? Color(0xd9ACB5A0) : Color(0xff3a4a51),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                  ),
+                                ),
+                                child: FlatButton(
+                                  // TODO change routing to chatroom
+                                  onPressed: user.uid == req.uid ? null : () async {
+                                    await con.acceptRequest(
+                                        req,
+                                        user.uid,
+                                        snapshot.data.name,
+                                        snapshot.data.uid,
+                                        snapshotToken.data,
+                                        chatRoomId,
+                                        chatRoomMap
+                                    );
+                                    await Navigator.pushReplacementNamed(context, '/my_responses');
+                                  },
+                                  minWidth: size.width * 0.3,
+                                  child: Text(
+                                    'Accept',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: 1.7,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }
+                            return Loading();
+                          }
                       ),
-                      SizedBox(width: 0.05 * size.width),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            '${req.itemName.toUpperCase()}',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 18,
-                              height: 1.5,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
-                          Text(
-                            'quantity: ${req.quantity}',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 15,
-                              height: 1.5,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
-                          Text(
-                            'requested by ${req.userName}',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 15,
-                              height: 1.5,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
-                          Text(
-                            'to be ready by',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 15,
-                              height: 1.5,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
-                          Text(
-                            '${req.getDateInStringWithDay()} ${req.getTimeInString()}',
-                            style: TextStyle(
-                              color: Colors.grey[700],
-                              fontSize: 15,
-                              height: 1.5,
-                              fontWeight: FontWeight.bold,
-                            )
-                          ),
-                        ],
-                      )
+
                     ],
                   ),
-                  SizedBox(height: 0.02 * size.height),
-                  StreamBuilder<List<String>>(
-                      stream: DatabaseService(uid: user.uid).getTokenIds(req.uid),
-                      builder: (context, snapshotToken) {
-                        if (snapshotToken.hasData) {
-                          return Padding(
-                            padding: EdgeInsets.fromLTRB(0, size.height * 0.02, 0, 0),
-                            child: FlatButton(
-                              // TODO change routing to chatroom
-                              onPressed: user.uid == req.uid? null: () async {
-                                await con.acceptRequest(
-                                  req,
-                                  user.uid,
-                                  snapshot.data.name,
-                                  snapshot.data.uid,
-                                  snapshotToken.data,
-                                  chatRoomId,
-                                  chatRoomMap
-                                );
-                                await Navigator.pushReplacementNamed(context, '/my_responses');
-                              },
-                              color: Colors.white,
-                              height: 50.0,
-                              minWidth: 200.0,
-                              child: Text(
-                                'ACCEPT',
-                                style: TextStyle(
-                                  color: user.uid == req.uid ? Colors.grey[500]: Colors.teal[900],
-                                  letterSpacing: 1.7,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                        return Loading();
-                      }
-                  ),
-
-                  (user.uid == req.uid)
-                    ? FlatButton(
-                      onPressed: () async {
-                        await con.deleteRequest(req, user.uid);
-                        Navigator.pop(context);
-                      },
-                      height: 50.0,
-                      minWidth: 200.0,
-                      child: Text(
-                        'DELETE',
-                        style: TextStyle(
-                          color: Colors.teal[900],
-                          letterSpacing: 1.7,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ) : Container()
                 ],
               );
             } else {

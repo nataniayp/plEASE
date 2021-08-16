@@ -36,7 +36,8 @@ class _CustomisedAppBarState extends State<CustomisedAppBar> {
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                        colors: [Colors.teal[900], Colors.grey[600]]
+                        // colors: [Colors.teal[900], Colors.grey[600]]
+                      colors: [const Color(0xff4a675a), const Color(0xff3a4a51)],
                     ),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(50),

@@ -51,7 +51,9 @@ class _RequestCardState extends State<RequestCard> {
         height: 0.105 * size.height,
         decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: BorderRadius.only(
+              bottomRight: Radius.circular(20),
+            ),
             boxShadow: [
               BoxShadow(
                 offset: Offset(0, 4),
@@ -90,7 +92,7 @@ class _RequestCardState extends State<RequestCard> {
                   padding: EdgeInsets.all(0.01 * size.height),
                   child: Image.asset(
                     'assets/icons/${widget.rq.category}.png',
-                    color: Colors.teal[900],
+                    color: Color(0xff3a4a51),
                   ),
                 ),
                 // child: Icon(

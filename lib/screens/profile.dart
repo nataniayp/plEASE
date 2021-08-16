@@ -23,15 +23,16 @@ class _ProfileState extends State<Profile> {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.teal[900], Colors.grey[600]]
+              colors: [const Color(0xff4a675a), const Color(0xff3a4a51)]
             ),
           ),
           child: Padding(
             padding: EdgeInsets.only(
-                top: 0.25 * size.height,
+                top: 0.2 * size.height,
                 // bottom: 0.1 * size.height,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
                   'assets/icons/logo.png',
@@ -75,18 +76,29 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 SizedBox(
-                  height: 0.1 * size.height,
+                  height: 0.04 * size.height,
                 ),
-                TextButton(
-                  onPressed: () async {
-                    await _auth.signOut();
-                  },
-                  child: Text(
-                      'LOGOUT',
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                        letterSpacing: 1.7,
-                      )
+                Container(
+                  width: size.width * 0.3,
+                  decoration: BoxDecoration(
+                    // color: Colors.grey[500],
+                    color: const Color(0xd9ACB5A0),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: TextButton(
+                    onPressed: () async {
+                      await _auth.signOut();
+                    },
+                    child: Text(
+                        'Logout',
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: 1.7,
+                        )
+                    ),
                   ),
                 ),
               ]
